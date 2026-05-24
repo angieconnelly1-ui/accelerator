@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nonprofit Marketing Accelerator — Master Tool Suite</title>
+<title>Accelerator — Free Tools for Orgs That Deserve Better</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 :root {
@@ -154,7 +154,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 </head>
 <body>
 <nav class="top-nav">
-  <div class="nav-logo">Nonprofit <span>Accelerator</span></div>
+  <div class="nav-logo">Accelerator</div>
   <button class="nav-tab active" onclick="sw('hub')"><i class="ti ti-home" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Hub</button>
   <button class="nav-tab" onclick="sw('audit')"><i class="ti ti-clipboard-data" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Audit</button>
   <button class="nav-tab" onclick="sw('content')"><i class="ti ti-pencil" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Content</button>
@@ -168,7 +168,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <div class="tool-panel active" id="panel-hub">
   <div class="screen active" id="hub-setup">
     <div style="padding-top:1rem">
-      <div class="wordmark">Nonprofit accelerator — <span style="color:var(--blue)">hub</span></div>
+      <div class="wordmark">Accelerator Hub</div>
       <h1>Welcome to the accelerator</h1>
       <p class="sub">Enter your organization once — every tool remembers you. No re-entering URLs, no starting from scratch.</p>
       <div class="lbl">Organization name</div><input type="text" id="h-name" placeholder="e.g. Henrico Humane Society">
@@ -244,7 +244,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <!-- AUDIT -->
 <div class="tool-panel" id="panel-audit">
   <div style="padding-top:1rem">
-    <div class="wordmark">Marketing audit — <span style="color:var(--purple)">nonprofit accelerator</span></div>
+    <div class="wordmark">Growth Intelligence</div>
     <h1>Free marketing audit</h1>
     <p class="sub">Full audit across SEO, AEO, GEO, technical health, content, social, backlinks, brand, UX, and SWOT — scored report with role-specific action plans.</p>
     <div class="lbl">Organization name</div><input type="text" id="a-name" placeholder="e.g. Henrico Humane Society">
@@ -285,7 +285,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <!-- CONTENT STUDIO -->
 <div class="tool-panel" id="panel-content">
   <div style="padding-top:1rem">
-    <div class="wordmark">Content studio — <span style="color:var(--teal)">nonprofit accelerator</span></div>
+    <div class="wordmark">Content Accelerator</div>
     <h1>Content creation studio</h1>
     <p class="sub">SEO, AEO, and GEO-optimized content with keyword strategy, competitor gap analysis, internal linking, metadata, and schema — all in one run.</p>
     <div class="lbl">Organization name</div><input type="text" id="cs-name" placeholder="e.g. Henrico Humane Society">
@@ -329,7 +329,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <!-- DEVELOPER -->
 <div class="tool-panel" id="panel-dev">
   <div style="padding-top:1rem">
-    <div class="wordmark">Developer workbench — <span style="color:var(--coral)">nonprofit accelerator</span></div>
+    <div class="wordmark">Tech Accelerator</div>
     <h1>Developer workbench</h1>
     <p class="sub">Prioritized technical fix queue with copy-paste-ready code. Every task includes plain-English explanation and specific implementation instructions.</p>
     <div class="lbl">Organization name</div><input type="text" id="dv-name" placeholder="e.g. Henrico Humane Society">
@@ -356,7 +356,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <!-- DESIGNER -->
 <div class="tool-panel" id="panel-design">
   <div style="padding-top:1rem">
-    <div class="wordmark">Designer toolkit — <span style="color:var(--pink)">nonprofit accelerator</span></div>
+    <div class="wordmark">Design Accelerator</div>
     <h1>Designer toolkit</h1>
     <p class="sub">UX audit, brand brief, CTA optimization, mobile review, and conversion flags — specific, actionable, ready to hand to your designer.</p>
     <div class="lbl">Organization name</div><input type="text" id="ds-name" placeholder="e.g. Henrico Humane Society">
@@ -384,7 +384,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <div class="tool-panel" id="panel-revops">
   <div class="screen active" id="ro-intro">
     <div style="padding-top:1rem">
-      <div class="wordmark">RevOps intelligence — <span style="color:var(--blue)">nonprofit accelerator</span></div>
+      <div class="wordmark">Operations Accelerator</div>
       <h1>Operations intelligence</h1>
       <p class="sub">The invisible infrastructure behind everything that works — or doesn't. CRM health, data hygiene, email ops, privacy compliance, GTM audit, and goal-based architecture — all in plain English.</p>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem">
@@ -496,7 +496,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
 <div class="tool-panel" id="panel-grants">
   <div class="screen active" id="gr-intake">
     <div style="padding-top:1rem">
-      <div class="wordmark">Grant intelligence — <span style="color:var(--amber)">nonprofit accelerator</span></div>
+      <div class="wordmark">Funding Accelerator</div>
       <h1>Grant intelligence</h1>
       <p class="sub">Find grants you're likely to win, generate draft application language, frame your impact for funders, and track your pipeline.</p>
       <div class="lbl">Organization name & location</div>
@@ -720,7 +720,7 @@ function renderContent(d){
   const links=(d.internalLinks||[]).map(l=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-link" style="font-size:13px;color:var(--teal);margin-top:2px;flex-shrink:0"></i><div><div style="font-size:13px;font-weight:500">${l.fromPage} → <span style="color:var(--blue)">${l.toPage}</span></div><div style="font-size:11px;color:var(--text3);font-style:italic">Anchor: "${l.anchorText}"</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${l.reason}</div></div></div>`).join('');
   const meta=(d.metadata||[]).map((m,i)=>`<div class="xcard"><div class="xhead" onclick="toggleX('mb-${i}')"><span class="xtitle">${m.page}</span><button class="copy-btn" onclick="event.stopPropagation();copyText('Title: '+${JSON.stringify(m.title||'')}+'\nDescription: '+${JSON.stringify(m.description||'')})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="xbody" id="mb-${i}"><div style="font-size:12px;margin-bottom:6px"><span style="color:var(--text3);font-size:11px">Title tag</span><br>${m.title}</div><div style="font-size:12px"><span style="color:var(--text3);font-size:11px">Meta description</span><br>${m.description}</div></div></div>`).join('');
   document.getElementById('cs-out').innerHTML=`
-    <div style="margin-bottom:1.25rem"><div class="wordmark">Content studio — <span style="color:var(--teal)">${d.orgName}</span></div><div style="font-size:13px;color:var(--text2);line-height:1.5">${d.strategyNote}</div></div>
+    <div style="margin-bottom:1.25rem"><div class="wordmark">Content Accelerator — <span style="color:var(--teal)">${d.orgName}</span></div><div style="font-size:13px;color:var(--text2);line-height:1.5">${d.strategyNote}</div></div>
     <div id="cs-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('cs-tabs','cs-kw',this)">Keywords</button><button class="otab" onclick="switchTab('cs-tabs','cs-gaps',this)">Competitor gaps</button><button class="otab" onclick="switchTab('cs-tabs','cs-content',this)">Content</button><button class="otab" onclick="switchTab('cs-tabs','cs-links',this)">Internal links</button><button class="otab" onclick="switchTab('cs-tabs','cs-meta',this)">Metadata</button><button class="otab" onclick="switchTab('cs-tabs','cs-schema',this)">Schema</button></div>
     <div class="tab-panel active" id="cs-kw"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Keyword</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Intent</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Difficulty</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Opportunity</th></tr></thead><tbody>${kwRows}</tbody></table></div>
     <div class="tab-panel" id="cs-gaps">${gaps}</div>
@@ -755,7 +755,7 @@ function renderDev(d){
   function rTasks(tasks){return (tasks||[]).map((t,i)=>`<div class="xcard"><div class="xhead" onclick="toggleX('dt-${t.id}')"><span class="xtitle">${t.title}</span><div style="display:flex;align-items:center;gap:6px"><span class="badge ${t.priority==='high'?'bh':t.priority==='medium'?'bm':'bl'}">${t.priority}</span><span class="eb">${t.effort}</span><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="dt-${t.id}"><p><strong>Problem:</strong> ${t.problem}</p><p><strong>Solution:</strong> ${t.solution}</p>${t.code?`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em">Code / instructions</span><button class="copy-btn" onclick="event.stopPropagation();copyText(${JSON.stringify(t.code)})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="code-block">${t.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`:''}<div style="font-size:11px;color:var(--text3)">Impact: <strong style="color:var(--text)">${t.impact}</strong></div></div></div>`).join('');}
   const high=(d.tasks||[]).filter(t=>t.priority==='high'),med=(d.tasks||[]).filter(t=>t.priority==='medium'),low=(d.tasks||[]).filter(t=>t.priority==='low');
   const checks=(d.checks||[]).map(c=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ${c.status==='pass'?'ti-circle-check':c.status==='fail'?'ti-circle-x':'ti-alert-circle'}" style="font-size:14px;color:${c.status==='pass'?'#0F6E56':c.status==='fail'?'#A32D2D':'#854F0B'};margin-top:1px;flex-shrink:0"></i><div style="font-size:13px;color:var(--text2)"><strong style="color:var(--text)">${c.label}</strong> — ${c.detail}</div></div>`).join('');
-  document.getElementById('dv-out').innerHTML=`<div class="wordmark">Developer workbench — <span style="color:var(--coral)">${d.orgName}</span></div>
+  document.getElementById('dv-out').innerHTML=`<div class="wordmark">Tech Accelerator — <span style="color:var(--coral)">${d.orgName}</span></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">${d.cms} site · ${(d.tasks||[]).length} tasks · ${high.length} high priority</p>
     <div class="sc-grid">${sc}</div>
     <div id="dv-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('dv-tabs','dv-high',this)">High priority (${high.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-med',this)">Medium (${med.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-low',this)">Low (${low.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-checks',this)">Health checks</button></div>
@@ -788,7 +788,7 @@ function renderDesign(d){
   const bb=d.brandBrief||{};
   const bHtml=`<div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:4px">Tagline</div><div style="font-size:14px;font-style:italic;border-left:2px solid var(--pink);padding-left:10px">${bb.tagline||''}</div></div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:4px">Voice</div><div style="font-size:13px;color:var(--text2);line-height:1.6">${bb.voice||''}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem"><div><div class="lbl" style="margin-bottom:6px;color:#085041">Do</div>${(bb.dos||[]).map(x=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-check" style="font-size:13px;color:#0F6E56;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${x}</span></div>`).join('')}</div><div><div class="lbl" style="margin-bottom:6px;color:#791F1F">Don't</div>${(bb.donts||[]).map(x=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-x" style="font-size:13px;color:var(--pink);flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${x}</span></div>`).join('')}</div></div><div style="margin-bottom:.75rem"><div class="lbl" style="margin-bottom:4px">Color notes</div><div style="font-size:13px;color:var(--text2)">${bb.colorNotes||''}</div></div><div><div class="lbl" style="margin-bottom:4px">Typography notes</div><div style="font-size:13px;color:var(--text2)">${bb.typographyNotes||''}</div></div>`;
   function rItems(items){return (items||[]).map((t,i)=>{const badge=t.priority?(t.priority==='high'?'bh':t.priority==='medium'?'bm':'bl'):(t.severity==='critical'?'bh':t.severity==='warning'?'bm':'bi');const label=t.priority||t.severity||t.status||'';const icon=t.status?(t.status==='pass'?'ti-circle-check':t.status==='fail'?'ti-circle-x':'ti-alert-circle'):'ti-chevron-down';return `<div class="xcard"><div class="xhead" onclick="toggleX('di-${i}-${badge}')"><span class="xtitle">${t.title||t.item||t.issue||''}</span><div style="display:flex;align-items:center;gap:6px"><span class="badge ${badge}">${label}</span>${t.effort?`<span class="eb">${t.effort}</span>`:''}<i class="ti ${icon}" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="di-${i}-${badge}">${t.problem||t.issue?`<p><strong>${t.problem?'Problem':'Issue'}:</strong> ${t.problem||t.issue}</p>`:''} ${t.detail?`<p>${t.detail}</p>`:''} ${t.fix?`<p><strong>Fix:</strong> ${t.fix}</p>`:''} ${t.desc?`<p>${t.desc}</p>`:''} ${t.impact?`<p><strong>Impact:</strong> ${t.impact}</p>`:''}</div></div>`;}).join('');}
-  document.getElementById('ds-out').innerHTML=`<div class="wordmark">Designer toolkit — <span style="color:var(--pink)">${d.orgName}</span></div><div class="sc-grid">${sc}</div>
+  document.getElementById('ds-out').innerHTML=`<div class="wordmark">Design Accelerator — <span style="color:var(--pink)">${d.orgName}</span></div><div class="sc-grid">${sc}</div>
     <div id="ds-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('ds-tabs','ds-brand',this)">Brand brief</button><button class="otab" onclick="switchTab('ds-tabs','ds-cta',this)">CTA tasks</button><button class="otab" onclick="switchTab('ds-tabs','ds-ux',this)">UX flags</button><button class="otab" onclick="switchTab('ds-tabs','ds-mobile',this)">Mobile</button><button class="otab" onclick="switchTab('ds-tabs','ds-conv',this)">Conversion</button></div>
     <div class="tab-panel active" id="ds-brand">${bHtml}</div><div class="tab-panel" id="ds-cta">${rItems(d.ctaTasks)}</div><div class="tab-panel" id="ds-ux">${rItems(d.uxFlags)}</div><div class="tab-panel" id="ds-mobile">${rItems(d.mobileChecklist)}</div><div class="tab-panel" id="ds-conv">${rItems(d.conversionFixes)}</div></div>`;
 }
@@ -825,7 +825,7 @@ function renderRevOps(d){
   const arch=d.architecture||{};
   const archL=(arch.layers||[]).map(layer=>`<div class="arch-layer"><div class="arch-head"><i class="ti ${layer.icon||'ti-layers'}" style="font-size:16px;color:var(--text2)"></i><span style="font-size:13px;font-weight:500">${layer.name}</span></div><div class="arch-body">${(layer.items||[]).map(item=>`<div class="arch-item"><span class="${item.status==='good'?'as-good':item.status==='gap'?'as-gap':'as-rec'}">${item.status==='good'?'In place':item.status==='gap'?'Gap':'Recommended'}</span><div><div style="font-size:12px;font-weight:500;margin-bottom:2px">${item.label}</div><div style="font-size:11px;color:var(--text3);line-height:1.4">${item.plain}</div></div></div>`).join('')}</div></div>`).join('');
   const gtm=(d.gtmAudit||[]).map(g=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ${g.status==='good'?'ti-circle-check':g.status==='gap'?'ti-circle-x':'ti-bulb'}" style="font-size:14px;color:${g.status==='good'?'#0F6E56':g.status==='gap'?'#A32D2D':'#854F0B'};flex-shrink:0;margin-top:1px"></i><div style="font-size:13px;color:var(--text2)"><strong style="color:var(--text)">${g.item}</strong><br><span style="font-size:12px">${g.plain}</span>${g.technical?`<div style="font-size:11px;color:var(--text3);margin-top:3px">${g.technical}</div>`:''}</div></div>`).join('');
-  return `<div class="wordmark">RevOps intelligence — <span style="color:var(--blue)">${d.orgName}</span></div>
+  return `<div class="wordmark">Operations Accelerator — <span style="color:var(--blue)">${d.orgName}</span></div>
     <div style="background:var(--bg2);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;border:0.5px solid var(--border)"><div style="font-size:13px;color:var(--text2);line-height:1.6">${d.execSummary||''}</div></div>
     <div class="sc-grid">${sc}</div>
     <div id="ro-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('ro-tabs','ro-arch',this)">Architecture</button><button class="otab" onclick="switchTab('ro-tabs','ro-hygiene',this)">Data hygiene</button><button class="otab" onclick="switchTab('ro-tabs','ro-crm',this)">CRM tasks</button><button class="otab" onclick="switchTab('ro-tabs','ro-email',this)">Email ops</button><button class="otab" onclick="switchTab('ro-tabs','ro-privacy',this)">Privacy</button><button class="otab" onclick="switchTab('ro-tabs','ro-gtm',this)">GTM audit</button></div>
@@ -873,7 +873,7 @@ function renderGrants(d){
   const rd=d.readiness||{};
   const readiness=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="font-size:28px;font-weight:500;color:var(--amber)">${Math.round(rd.score||0)}<span style="font-size:14px;color:var(--text3)">/100</span></div><div style="font-size:13px;color:var(--text2)">Grant readiness score</div></div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:6px;color:#085041">Strengths</div>${(rd.strengths||[]).map(s=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-circle-check" style="font-size:13px;color:#0F6E56;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${s}</span></div>`).join('')}</div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:6px;color:#791F1F">Gaps to address</div>${(rd.gaps||[]).map(g=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-alert-circle" style="font-size:13px;color:#A32D2D;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${g}</span></div>`).join('')}</div><div class="lbl" style="margin-bottom:6px">Application calendar</div>${(rd.calendar||[]).map(c=>`<div style="display:flex;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:11px;font-weight:500;color:var(--amber);min-width:90px;flex-shrink:0">${c.month}</span><span style="font-size:13px;color:var(--text2)">${c.action}</span></div>`).join('')}`;
   const tracker=(d.trackerItems||[]).map(t=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--border)"><div><div style="font-size:13px;font-weight:500">${t.name}</div><div style="font-size:11px;color:var(--text3)">${t.funder} · ${t.amount}</div></div><span class="badge ${t.status==='awarded'?'bl':t.status==='submitted'?'bp':t.status==='draft'?'bm':t.status==='declined'?'bg':'bi'}">${t.status}</span></div>`).join('');
-  return `<div class="wordmark">Grant intelligence — <span style="color:var(--amber)">${d.orgName}</span></div>
+  return `<div class="wordmark">Funding Accelerator — <span style="color:var(--amber)">${d.orgName}</span></div>
     <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem">${(d.opportunities||[]).length} opportunities found · Readiness: ${Math.round((d.readiness||{}).score||0)}/100</p>
     <div id="gr-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('gr-tabs','gr-opps',this)">Opportunities</button><button class="otab" onclick="switchTab('gr-tabs','gr-draft',this)">Draft language</button><button class="otab" onclick="switchTab('gr-tabs','gr-impact',this)">Impact stats</button><button class="otab" onclick="switchTab('gr-tabs','gr-ready',this)">Readiness</button><button class="otab" onclick="switchTab('gr-tabs','gr-tracker',this)">Tracker</button></div>
     <div class="tab-panel active" id="gr-opps">${opps}</div><div class="tab-panel" id="gr-draft">${dHtml}</div><div class="tab-panel" id="gr-impact">${impact}</div><div class="tab-panel" id="gr-ready">${readiness}</div><div class="tab-panel" id="gr-tracker">${tracker}</div></div>
