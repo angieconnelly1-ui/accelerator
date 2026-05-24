@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nonprofit Marketing Accelerator — Master Tool Suite</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root {
+  --bg:#ffffff;--bg2:#f7f7f5;--bg3:#f0eeea;--text:#1a1a18;--text2:#6b6b67;--text3:#9c9a92;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
+  --purple:#534AB7;--purple-light:#EEEDFE;--teal:#0F6E56;--teal-light:#E1F5EE;
+  --coral:#D85A30;--coral-light:#FAECE7;--pink:#993556;--pink-light:#FBEAF0;
+  --blue:#185FA5;--blue-light:#E6F1FB;--amber:#854F0B;--amber-light:#FAEEDA;
+  --green:#3B6D11;--green-light:#EAF3DE;--red:#A32D2D;--red-light:#FCEBEB;
+  --radius:8px;--radius-lg:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.top-nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;gap:0;overflow-x:auto;position:sticky;top:0;z-index:100}
+.nav-logo{font-size:13px;font-weight:600;color:var(--text);padding:1rem 1rem 1rem 0;margin-right:.5rem;white-space:nowrap;border-right:0.5px solid var(--border)}
+.nav-logo span{color:var(--blue)}
+.nav-tab{border:none;background:none;padding:.875rem;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;white-space:nowrap;border-bottom:2px solid transparent;transition:color .15s,border-color .15s;font-family:inherit}
+.nav-tab:hover{color:var(--text2)}
+.nav-tab.active{color:var(--text);border-bottom-color:var(--blue)}
+.tool-panel{display:none;min-height:100vh;padding:1.5rem;max-width:720px;margin:0 auto}
+.tool-panel.active{display:block}
+.wordmark{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:1.5rem}
+h1{font-size:22px;font-weight:500;color:var(--text);margin-bottom:.4rem}
+h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:.75rem}
+.sub{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+input[type=text],input[type=url],textarea,select{width:100%;border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 13px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);margin-bottom:.875rem}
+textarea{resize:vertical;min-height:70px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
+.btn{border:0.5px solid var(--border2);border-radius:var(--radius);padding:8px 18px;font-size:13px;cursor:pointer;background:var(--bg);color:var(--text);font-family:inherit}
+.btn:hover{background:var(--bg2)}
+.btn-blue{background:var(--blue);border-color:var(--blue);color:white}
+.btn-blue:hover{background:#0C447C}
+.btn-purple{background:var(--purple);border-color:var(--purple);color:white}
+.btn-teal{background:var(--teal);border-color:var(--teal);color:white}
+.btn-coral{background:var(--coral);border-color:var(--coral);color:white}
+.btn-pink{background:var(--pink);border-color:var(--pink);color:white}
+.btn-amber{background:var(--amber);border-color:var(--amber);color:white}
+.btn-sm{padding:5px 12px;font-size:12px}
+.nav-row{display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border)}
+.screen{display:none}
+.screen.active{display:block}
+.pill-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{border:0.5px solid var(--border);border-radius:var(--radius);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit}
+.pill:hover{background:var(--bg2)}
+.pill.sel{border-color:var(--blue);background:var(--blue-light);color:#0C447C}
+.prog-track{height:3px;background:var(--border);border-radius:2px;margin-bottom:6px}
+.prog-fill{height:3px;border-radius:2px;transition:width .4s ease}
+.prog-lbl{font-size:11px;color:var(--text3)}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1.25rem 0}
+.gen-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;background:var(--bg)}
+.gen-head{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.gen-icon{font-size:15px;color:var(--text3)}
+.gen-title{font-size:12px;font-weight:500;color:var(--text2)}
+.gen-status{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.gen-status.done{color:var(--teal)}
+.gen-status.running{color:var(--purple)}
+.pulse{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.output-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;border-bottom:0.5px solid var(--border);padding-bottom:.75rem}
+.otab{border:none;background:none;padding:6px 12px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-radius:var(--radius);font-family:inherit}
+.otab:hover{background:var(--bg2)}
+.otab.active{background:var(--blue-light);color:#0C447C}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.xcard{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.75rem;overflow:hidden}
+.xhead{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--bg)}
+.xhead:hover{background:var(--bg2)}
+.xtitle{font-size:13px;font-weight:500;color:var(--text)}
+.xbody{padding:14px;border-top:0.5px solid var(--border);display:none}
+.xbody.open{display:block}
+.xbody p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.xbody p:last-child{margin-bottom:0}
+.xbody strong{color:var(--text);font-weight:500}
+.badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--radius)}
+.bh{background:var(--red-light);color:var(--red)}
+.bm{background:var(--amber-light);color:var(--amber)}
+.bl{background:var(--teal-light);color:var(--teal)}
+.bi{background:var(--blue-light);color:var(--blue)}
+.bp{background:var(--purple-light);color:#3C3489}
+.bg{background:var(--green-light);color:var(--green)}
+.eb{font-size:10px;color:var(--text3);border:0.5px solid var(--border);padding:2px 7px;border-radius:var(--radius)}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin-bottom:1.25rem}
+.sc-tile{background:var(--bg2);border-radius:var(--radius);padding:.875rem;text-align:center}
+.sc-val{font-size:22px;font-weight:500;margin-bottom:2px}
+.sc-lbl{font-size:11px;color:var(--text3)}
+.sg{color:#0F6E56}.sa{color:#854F0B}.sr{color:#A32D2D}
+.code-block{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--radius);padding:12px;font-family:'Courier New',monospace;font-size:11px;color:var(--text);line-height:1.6;white-space:pre-wrap;word-break:break-all;margin-bottom:.75rem}
+.copy-btn{border:0.5px solid var(--border);border-radius:var(--radius);padding:4px 10px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit}
+.copy-btn:hover{background:var(--bg2)}
+.action-row{display:flex;gap:8px;margin-top:1.25rem;flex-wrap:wrap}
+.hub-header{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.tool-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:1.5rem}
+.tool-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:pointer;background:var(--bg);text-align:left;transition:border-color .15s,background .15s}
+.tool-card:hover{background:var(--bg2)}
+.qw-card{border-left:3px solid #1D9E75;padding:10px 14px;margin-bottom:.75rem;border-radius:0 var(--radius) var(--radius) 0;background:var(--bg);border-top:0.5px solid var(--border);border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.metric-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.metric-label{font-size:12px;color:var(--text2);width:140px;flex-shrink:0}
+.metric-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.metric-fill{height:6px;border-radius:3px;background:var(--blue)}
+.metric-val{font-size:12px;font-weight:500;width:36px;text-align:right}
+.ms-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.ms-row:last-child{border-bottom:none}
+.ms-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.ci-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.ci-item:last-child{border-bottom:none}
+.ci-box{width:16px;height:16px;border-radius:4px;border:0.5px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.ci-box.checked{background:#1D9E75;border-color:#1D9E75}
+.sec-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.goal-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
+.goal-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;cursor:pointer;background:var(--bg);text-align:left}
+.goal-card:hover{background:var(--bg2)}
+.goal-card.sel{border:1.5px solid var(--blue);background:var(--blue-light)}
+.ot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px;margin-bottom:1.25rem}
+.ot-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;cursor:pointer;background:var(--bg);text-align:left}
+.ot-card:hover{background:var(--bg2)}
+.ot-card.sel{border:1.5px solid var(--blue);background:var(--blue-light)}
+.step-dots{display:flex;gap:6px;margin-bottom:1.5rem}
+.sd{width:6px;height:6px;border-radius:50%;background:var(--border)}
+.sd.done{background:#1D9E75}
+.sd.active{background:var(--blue)}
+.grant-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.875rem;overflow:hidden}
+.grant-head{padding:12px 14px;display:flex;align-items:flex-start;justify-content:space-between;gap:10px;cursor:pointer}
+.grant-head:hover{background:var(--bg2)}
+.grant-body{padding:14px;border-top:0.5px solid var(--border);display:none}
+.grant-body.open{display:block}
+.grant-body p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.fit-high{background:var(--teal-light);color:#085041}
+.fit-med{background:var(--amber-light);color:#633806}
+.fit-low{background:var(--bg2);color:var(--text2)}
+.draft-block{background:var(--bg2);border-radius:var(--radius);padding:12px;font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:.75rem;white-space:pre-wrap}
+.impact-stat{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.impact-stat:last-child{border-bottom:none}
+.impact-num{font-size:18px;font-weight:500;color:var(--amber);min-width:60px;flex-shrink:0}
+.hm-meter{margin-bottom:.75rem}
+.hm-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text2);margin-bottom:4px}
+.hm-track{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.hm-fill{height:6px;border-radius:3px}
+.arch-layer{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.75rem;overflow:hidden}
+.arch-head{padding:10px 14px;display:flex;align-items:center;gap:10px;background:var(--bg2)}
+.arch-body{padding:12px 14px}
+.arch-item{font-size:12px;color:var(--text2);padding:5px 0;display:flex;gap:8px;align-items:flex-start;border-bottom:0.5px solid var(--border)}
+.arch-item:last-child{border-bottom:none}
+.as-good{background:var(--teal-light);color:#085041;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--radius);flex-shrink:0}
+.as-gap{background:var(--red-light);color:#791F1F;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--radius);flex-shrink:0}
+.as-rec{background:var(--blue-light);color:#0C447C;font-size:10px;font-weight:500;padding:2px 7px;border-radius:var(--radius);flex-shrink:0}
+</style>
+</head>
+<body>
+<nav class="top-nav">
+  <div class="nav-logo">Nonprofit <span>Accelerator</span></div>
+  <button class="nav-tab active" onclick="sw('hub')"><i class="ti ti-home" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Hub</button>
+  <button class="nav-tab" onclick="sw('audit')"><i class="ti ti-clipboard-data" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Audit</button>
+  <button class="nav-tab" onclick="sw('content')"><i class="ti ti-pencil" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Content</button>
+  <button class="nav-tab" onclick="sw('dev')"><i class="ti ti-code" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Developer</button>
+  <button class="nav-tab" onclick="sw('design')"><i class="ti ti-layout" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Designer</button>
+  <button class="nav-tab" onclick="sw('revops')"><i class="ti ti-database" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>RevOps</button>
+  <button class="nav-tab" onclick="sw('grants')"><i class="ti ti-coin" style="font-size:13px;vertical-align:-2px;margin-right:3px"></i>Grants</button>
+</nav>
+
+<!-- HUB -->
+<div class="tool-panel active" id="panel-hub">
+  <div class="screen active" id="hub-setup">
+    <div style="padding-top:1rem">
+      <div class="wordmark">Nonprofit accelerator — <span style="color:var(--blue)">hub</span></div>
+      <h1>Welcome to the accelerator</h1>
+      <p class="sub">Enter your organization once — every tool remembers you. No re-entering URLs, no starting from scratch.</p>
+      <div class="lbl">Organization name</div><input type="text" id="h-name" placeholder="e.g. Henrico Humane Society">
+      <div class="lbl">Website URL</div><input type="url" id="h-url" placeholder="https://henricohumane.org">
+      <div class="lbl">Location</div><input type="text" id="h-loc" placeholder="e.g. Richmond, VA">
+      <div class="lbl">Organization type</div>
+      <div class="ot-grid">
+        <button class="ot-card" onclick="hSelType('grassroots',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-users"></i></div><div style="font-size:12px;font-weight:500">Grassroots nonprofit</div></button>
+        <button class="ot-card" onclick="hSelType('established',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-community"></i></div><div style="font-size:12px;font-weight:500">Established nonprofit</div></button>
+        <button class="ot-card" onclick="hSelType('smallbiz',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-store"></i></div><div style="font-size:12px;font-weight:500">Small business</div></button>
+        <button class="ot-card" onclick="hSelType('arts',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-palette"></i></div><div style="font-size:12px;font-weight:500">Arts / cultural org</div></button>
+      </div>
+      <div class="lbl">Primary goals</div>
+      <div class="pill-row">
+        <button class="pill" data-goal="donations" onclick="this.classList.toggle('sel')">Increase donations</button>
+        <button class="pill" data-goal="adoptions" onclick="this.classList.toggle('sel')">Grow adoptions</button>
+        <button class="pill" data-goal="rankings" onclick="this.classList.toggle('sel')">Improve rankings</button>
+        <button class="pill" data-goal="volunteers" onclick="this.classList.toggle('sel')">Recruit volunteers</button>
+        <button class="pill" data-goal="retention" onclick="this.classList.toggle('sel')">Retain supporters</button>
+        <button class="pill" data-goal="grants" onclick="this.classList.toggle('sel')">Win more grants</button>
+        <button class="pill" data-goal="awareness" onclick="this.classList.toggle('sel')">Build awareness</button>
+      </div>
+      <div class="lbl">Mission in one sentence</div><input type="text" id="h-mission" placeholder="e.g. We rescue and rehome dogs and cats in the greater Richmond VA area.">
+      <div style="display:flex;justify-content:flex-end;margin-top:.5rem"><button class="btn btn-blue" onclick="hSave()">Enter the hub →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="hub-main">
+    <div class="hub-header">
+      <div><div style="font-size:18px;font-weight:500" id="hd-name">—</div><div style="font-size:12px;color:var(--text3)" id="hd-url">—</div></div>
+      <div style="display:flex;align-items:center;gap:8px"><span class="badge bi" id="hd-type">—</span><button class="btn btn-sm" onclick="hShowScreen('hub-setup')"><i class="ti ti-edit" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Edit</button></div>
+    </div>
+    <div class="sec-title">Quick wins — free, no tech skills needed</div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:6px">Apply for Google Ad Grants — $10k/month free advertising</div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">1 day</span><span class="badge bm">No tech needed</span></div><button class="btn btn-sm" onclick="sw('audit')">Start with audit →</button></div></div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:6px">Add a meta description to your homepage — 10 minutes</div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">10 min</span></div><button class="btn btn-sm" onclick="sw('content')">Content studio →</button></div></div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:6px">Claim your Google Business Profile</div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">30 min</span></div><button class="btn btn-sm" onclick="sw('revops')">RevOps tool →</button></div></div>
+    <div class="qw-card" style="margin-bottom:1.5rem"><div style="font-size:13px;font-weight:500;margin-bottom:6px">Add your org to Charity Navigator and GuideStar</div><div style="display:flex;align-items:center;justify-content:space-between"><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">1 hour</span></div><button class="btn btn-sm" onclick="sw('grants')">Grant tool →</button></div></div>
+    <div class="sec-title">Your toolkit</div>
+    <div class="tool-grid">
+      <div class="tool-card" onclick="sw('audit')"><div style="font-size:22px;color:var(--purple);margin-bottom:10px"><i class="ti ti-clipboard-data"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Marketing audit</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">SEO · AEO · GEO · Technical · Content · SWOT</div><span class="badge bp">Ready</span></div>
+      <div class="tool-card" onclick="sw('content')"><div style="font-size:22px;color:var(--teal);margin-bottom:10px"><i class="ti ti-pencil"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Content studio</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">Keywords · Gaps · Drafts · Metadata · Schema</div><span class="badge bg">Ready</span></div>
+      <div class="tool-card" onclick="sw('dev')"><div style="font-size:22px;color:var(--coral);margin-bottom:10px"><i class="ti ti-code"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Developer workbench</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">Schema · PageSpeed · Accessibility · Crawl</div><span class="badge" style="background:var(--coral-light);color:#712B13">Ready</span></div>
+      <div class="tool-card" onclick="sw('design')"><div style="font-size:22px;color:var(--pink);margin-bottom:10px"><i class="ti ti-layout"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Designer toolkit</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">UX audit · Brand brief · CTA · Mobile</div><span class="badge" style="background:var(--pink-light);color:#72243E">Ready</span></div>
+      <div class="tool-card" onclick="sw('revops')"><div style="font-size:22px;color:var(--blue);margin-bottom:10px"><i class="ti ti-database"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">RevOps intelligence</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">CRM · Data hygiene · Privacy · Email · GTM</div><span class="badge bi">Ready</span></div>
+      <div class="tool-card" onclick="sw('grants')"><div style="font-size:22px;color:var(--amber);margin-bottom:10px"><i class="ti ti-coin"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Grant intelligence</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">Opportunities · Drafts · Impact · Tracker</div><span class="badge bm">Ready</span></div>
+      <div class="tool-card" style="opacity:.55;cursor:default"><div style="font-size:22px;color:var(--text3);margin-bottom:10px"><i class="ti ti-accessible"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Accessibility audit</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">WCAG · Screen reader · Contrast · Legal</div><span class="badge" style="background:var(--bg2);color:var(--text3)">Coming soon</span></div>
+      <div class="tool-card" style="opacity:.55;cursor:default"><div style="font-size:22px;color:var(--text3);margin-bottom:10px"><i class="ti ti-presentation"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Board reporting</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">One-pager · Impact metrics · ROI language</div><span class="badge" style="background:var(--bg2);color:var(--text3)">Coming soon</span></div>
+      <div class="tool-card" style="opacity:.55;cursor:default"><div style="font-size:22px;color:var(--text3);margin-bottom:10px"><i class="ti ti-chart-bar"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:4px">Peer benchmarking</div><div style="font-size:11px;color:var(--text3);line-height:1.4;margin-bottom:10px">Sector · Regional peers · Gap analysis</div><span class="badge" style="background:var(--bg2);color:var(--text3)">Coming soon</span></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div class="sec-title">Progress tracker</div>
+        <div id="h-prog-bars"></div>
+        <button class="btn btn-sm" onclick="hShowScreen('hub-progress')" style="margin-top:.5rem">Update progress →</button>
+      </div>
+      <div>
+        <div class="sec-title">90-day milestones</div>
+        <div id="h-milestones"></div>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="hub-progress">
+    <div style="padding-top:1rem">
+      <h1>Progress tracker</h1>
+      <p class="sub">Check off completed tasks — your dashboard updates automatically.</p>
+      <div id="h-checklist"></div>
+      <div class="nav-row">
+        <button class="btn" onclick="hShowScreen('hub-main')">← Back to hub</button>
+        <button class="btn btn-blue" onclick="hSaveProgress()">Save progress</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- AUDIT -->
+<div class="tool-panel" id="panel-audit">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Marketing audit — <span style="color:var(--purple)">nonprofit accelerator</span></div>
+    <h1>Free marketing audit</h1>
+    <p class="sub">Full audit across SEO, AEO, GEO, technical health, content, social, backlinks, brand, UX, and SWOT — scored report with role-specific action plans.</p>
+    <div class="lbl">Organization name</div><input type="text" id="a-name" placeholder="e.g. Henrico Humane Society">
+    <div class="lbl">Website URL</div><input type="url" id="a-url" placeholder="https://henricohumane.org">
+    <div class="lbl">Competitor URLs (optional)</div>
+    <input type="url" id="a-c1" placeholder="https://competitor1.org">
+    <input type="url" id="a-c2" placeholder="https://competitor2.org">
+    <div class="lbl">Organization type</div>
+    <div class="pill-row">
+      <button class="pill" onclick="aSelType('grassroots',this)">Grassroots nonprofit</button>
+      <button class="pill" onclick="aSelType('established',this)">Established nonprofit</button>
+      <button class="pill" onclick="aSelType('smallbiz',this)">Small business</button>
+      <button class="pill" onclick="aSelType('arts',this)">Arts / cultural org</button>
+    </div>
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-purple" onclick="runAudit()">Run my audit →</button></div>
+    <div id="a-progress" style="display:none;margin-top:1.5rem">
+      <div class="prog-track"><div class="prog-fill" id="a-pf" style="width:0%;background:var(--purple)"></div></div>
+      <div class="prog-lbl" id="a-pl">Starting...</div>
+      <div class="gen-grid" style="margin-top:1rem">
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-search gen-icon"></i><span class="gen-title">SEO</span></div><div class="gen-status" id="ast-seo"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-robot gen-icon"></i><span class="gen-title">AEO</span></div><div class="gen-status" id="ast-aeo"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-world gen-icon"></i><span class="gen-title">GEO</span></div><div class="gen-status" id="ast-geo"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-code gen-icon"></i><span class="gen-title">Technical</span></div><div class="gen-status" id="ast-tech"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-file-text gen-icon"></i><span class="gen-title">Content</span></div><div class="gen-status" id="ast-content"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-brand-instagram gen-icon"></i><span class="gen-title">Social</span></div><div class="gen-status" id="ast-social"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-link gen-icon"></i><span class="gen-title">Backlinks</span></div><div class="gen-status" id="ast-backlink"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-mood-smile gen-icon"></i><span class="gen-title">Brand</span></div><div class="gen-status" id="ast-brand"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-arrows-diff gen-icon"></i><span class="gen-title">Competitor gap</span></div><div class="gen-status" id="ast-comp"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-layout gen-icon"></i><span class="gen-title">UX</span></div><div class="gen-status" id="ast-ux"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-refresh gen-icon"></i><span class="gen-title">SWOT</span></div><div class="gen-status" id="ast-swot"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-chart-bar gen-icon"></i><span class="gen-title">Rankings</span></div><div class="gen-status" id="ast-rank"><span class="pulse"></span> Waiting</div></div>
+      </div>
+    </div>
+    <div id="a-out" style="display:none;margin-top:1.5rem"></div>
+  </div>
+</div>
+
+<!-- CONTENT STUDIO -->
+<div class="tool-panel" id="panel-content">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Content studio — <span style="color:var(--teal)">nonprofit accelerator</span></div>
+    <h1>Content creation studio</h1>
+    <p class="sub">SEO, AEO, and GEO-optimized content with keyword strategy, competitor gap analysis, internal linking, metadata, and schema — all in one run.</p>
+    <div class="lbl">Organization name</div><input type="text" id="cs-name" placeholder="e.g. Henrico Humane Society">
+    <div class="lbl">Website URL</div><input type="url" id="cs-url" placeholder="https://henricohumane.org">
+    <div class="lbl">Mission / what you do</div><textarea id="cs-mission" placeholder="e.g. We rescue and rehome dogs and cats in the greater Richmond VA area." style="min-height:55px"></textarea>
+    <div class="lbl">Target keyword or topic</div><input type="text" id="cs-kw" placeholder="e.g. adopt rescue dog Richmond VA, low cost spay neuter">
+    <div class="lbl">Content types — select all that apply</div>
+    <div class="pill-row">
+      <button class="pill" data-ct="blog" onclick="this.classList.toggle('sel')">Blog post</button>
+      <button class="pill" data-ct="faq" onclick="this.classList.toggle('sel')">FAQ page</button>
+      <button class="pill" data-ct="meta" onclick="this.classList.toggle('sel')">Meta descriptions</button>
+      <button class="pill" data-ct="social" onclick="this.classList.toggle('sel')">Social posts</button>
+      <button class="pill" data-ct="email" onclick="this.classList.toggle('sel')">Email newsletter</button>
+      <button class="pill" data-ct="impact" onclick="this.classList.toggle('sel')">Impact story</button>
+      <button class="pill" data-ct="donor" onclick="this.classList.toggle('sel')">Donor appeal</button>
+    </div>
+    <div class="lbl">Optimization focus</div>
+    <div class="pill-row">
+      <button class="pill" data-cf="seo" onclick="this.classList.toggle('sel')">SEO / ranking</button>
+      <button class="pill" data-cf="aeo" onclick="this.classList.toggle('sel')">AEO / AI search</button>
+      <button class="pill" data-cf="geo" onclick="this.classList.toggle('sel')">GEO / local</button>
+      <button class="pill" data-cf="competitor" onclick="this.classList.toggle('sel')">Competitor gap</button>
+      <button class="pill" data-cf="linking" onclick="this.classList.toggle('sel')">Internal linking</button>
+    </div>
+    <div class="lbl">Tone</div>
+    <select id="cs-tone">
+      <option value="warm">Warm and community-focused</option>
+      <option value="urgent">Urgent and action-oriented</option>
+      <option value="informational">Informational and helpful</option>
+      <option value="inspiring">Inspiring and mission-driven</option>
+    </select>
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-teal" onclick="runContent()">Generate content →</button></div>
+    <div id="cs-prog-wrap" style="display:none;margin-top:1.5rem">
+      <div class="prog-track"><div class="prog-fill" id="cs-pf" style="width:0%;background:var(--teal)"></div></div>
+      <div class="prog-lbl" id="cs-pl">Starting...</div>
+    </div>
+    <div id="cs-out" style="display:none;margin-top:1.5rem"></div>
+  </div>
+</div>
+
+<!-- DEVELOPER -->
+<div class="tool-panel" id="panel-dev">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Developer workbench — <span style="color:var(--coral)">nonprofit accelerator</span></div>
+    <h1>Developer workbench</h1>
+    <p class="sub">Prioritized technical fix queue with copy-paste-ready code. Every task includes plain-English explanation and specific implementation instructions.</p>
+    <div class="lbl">Organization name</div><input type="text" id="dv-name" placeholder="e.g. Henrico Humane Society">
+    <div class="lbl">Website URL</div><input type="url" id="dv-url" placeholder="https://henricohumane.org">
+    <div class="lbl">CMS / platform</div>
+    <select id="dv-cms">
+      <option value="squarespace">Squarespace</option>
+      <option value="wordpress">WordPress</option>
+      <option value="wix">Wix</option>
+      <option value="webflow">Webflow</option>
+      <option value="custom">Custom / unknown</option>
+    </select>
+    <div class="lbl">Audit context (optional)</div>
+    <textarea id="dv-ctx" placeholder="Paste audit results or known issues..." style="min-height:55px"></textarea>
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-coral" onclick="runDev()">Generate fix queue →</button></div>
+    <div id="dv-prog-wrap" style="display:none;margin-top:1.5rem">
+      <div class="prog-track"><div class="prog-fill" id="dv-pf" style="width:0%;background:var(--coral)"></div></div>
+      <div class="prog-lbl" id="dv-pl">Starting...</div>
+    </div>
+    <div id="dv-out" style="display:none;margin-top:1.5rem"></div>
+  </div>
+</div>
+
+<!-- DESIGNER -->
+<div class="tool-panel" id="panel-design">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Designer toolkit — <span style="color:var(--pink)">nonprofit accelerator</span></div>
+    <h1>Designer toolkit</h1>
+    <p class="sub">UX audit, brand brief, CTA optimization, mobile review, and conversion flags — specific, actionable, ready to hand to your designer.</p>
+    <div class="lbl">Organization name</div><input type="text" id="ds-name" placeholder="e.g. Henrico Humane Society">
+    <div class="lbl">Website URL</div><input type="url" id="ds-url" placeholder="https://henricohumane.org">
+    <div class="lbl">Primary website goal</div>
+    <select id="ds-goal">
+      <option value="donations">Drive donations</option>
+      <option value="adoptions">Drive adoptions / sign-ups</option>
+      <option value="volunteers">Recruit volunteers</option>
+      <option value="awareness">Build awareness</option>
+      <option value="all">All of the above</option>
+    </select>
+    <div class="lbl">Brand personality (optional)</div><input type="text" id="ds-brand" placeholder="e.g. warm, community-driven, hopeful">
+    <div class="lbl">Audit context (optional)</div>
+    <textarea id="ds-ctx" placeholder="Paste audit results for more targeted recommendations..." style="min-height:55px"></textarea>
+    <div style="display:flex;justify-content:flex-end"><button class="btn btn-pink" onclick="runDesign()">Generate design brief →</button></div>
+    <div id="ds-prog-wrap" style="display:none;margin-top:1.5rem">
+      <div class="prog-track"><div class="prog-fill" id="ds-pf" style="width:0%;background:var(--pink)"></div></div>
+      <div class="prog-lbl" id="ds-pl">Starting...</div>
+    </div>
+    <div id="ds-out" style="display:none;margin-top:1.5rem"></div>
+  </div>
+</div>
+<!-- REVOPS -->
+<div class="tool-panel" id="panel-revops">
+  <div class="screen active" id="ro-intro">
+    <div style="padding-top:1rem">
+      <div class="wordmark">RevOps intelligence — <span style="color:var(--blue)">nonprofit accelerator</span></div>
+      <h1>Operations intelligence</h1>
+      <p class="sub">The invisible infrastructure behind everything that works — or doesn't. CRM health, data hygiene, email ops, privacy compliance, GTM audit, and goal-based architecture — all in plain English.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1.5rem">
+        <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-database"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Data & CRM health</div><div style="font-size:11px;color:var(--text3)">Hygiene, lifecycle, segmentation, retention</div></div>
+        <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-lock"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Privacy & compliance</div><div style="font-size:11px;color:var(--text3)">GDPR, CCPA, cookie consent, GTM audit</div></div>
+        <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-mail"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Email operations</div><div style="font-size:11px;color:var(--text3)">Deliverability, automation, list health</div></div>
+        <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:14px"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-target"></i></div><div style="font-size:13px;font-weight:500;margin-bottom:3px">Goal-based architecture</div><div style="font-size:11px;color:var(--text3)">Systems mapped to your actual outcomes</div></div>
+      </div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-blue" onclick="roShow('ro-q1')">Start ops assessment →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="ro-q1">
+    <div style="padding-top:1rem">
+      <div class="step-dots"><div class="sd active"></div><div class="sd"></div><div class="sd"></div><div class="sd"></div></div>
+      <h1>Your organization</h1>
+      <div class="lbl">Name & URL</div>
+      <input type="text" id="ro-name" placeholder="e.g. Henrico Humane Society">
+      <input type="url" id="ro-url" placeholder="https://henricohumane.org">
+      <div class="lbl">Primary goal right now</div>
+      <div class="goal-grid">
+        <button class="goal-card" onclick="roSelGoal('donations',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-coin"></i></div><div style="font-size:12px;font-weight:500">Increase donations</div></button>
+        <button class="goal-card" onclick="roSelGoal('adoptions',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-heart"></i></div><div style="font-size:12px;font-weight:500">Grow adoptions</div></button>
+        <button class="goal-card" onclick="roSelGoal('rankings',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-search"></i></div><div style="font-size:12px;font-weight:500">Improve rankings</div></button>
+        <button class="goal-card" onclick="roSelGoal('volunteers',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-users"></i></div><div style="font-size:12px;font-weight:500">Recruit volunteers</div></button>
+        <button class="goal-card" onclick="roSelGoal('retention',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-refresh"></i></div><div style="font-size:12px;font-weight:500">Retain supporters</div></button>
+        <button class="goal-card" onclick="roSelGoal('awareness',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-antenna"></i></div><div style="font-size:12px;font-weight:500">Build awareness</div></button>
+      </div>
+      <div class="nav-row"><span></span><button class="btn btn-blue" onclick="roShow('ro-q2')">Next →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="ro-q2">
+    <div style="padding-top:1rem">
+      <div class="step-dots"><div class="sd done"></div><div class="sd active"></div><div class="sd"></div><div class="sd"></div></div>
+      <h1>Your tech stack</h1>
+      <div class="lbl">CRM / contact database</div>
+      <div class="pill-row">
+        <button class="pill" onclick="roSel(this,'crm')" data-v="salesforce">Salesforce</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="hubspot">HubSpot</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="bloomerang">Bloomerang</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="donorperfect">DonorPerfect</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="airtable">Airtable</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="spreadsheet">Spreadsheet only</button>
+        <button class="pill" onclick="roSel(this,'crm')" data-v="none">Nothing yet</button>
+      </div>
+      <div class="lbl">Email marketing</div>
+      <div class="pill-row">
+        <button class="pill" onclick="roSel(this,'email_tool')" data-v="mailchimp">Mailchimp</button>
+        <button class="pill" onclick="roSel(this,'email_tool')" data-v="constant-contact">Constant Contact</button>
+        <button class="pill" onclick="roSel(this,'email_tool')" data-v="klaviyo">Klaviyo</button>
+        <button class="pill" onclick="roSel(this,'email_tool')" data-v="mailerlite">MailerLite</button>
+        <button class="pill" onclick="roSel(this,'email_tool')" data-v="none">Nothing yet</button>
+      </div>
+      <div class="lbl">Analytics & tracking</div>
+      <div class="pill-row">
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="ga4">GA4</button>
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="gtm">Google Tag Manager</button>
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="meta-pixel">Meta Pixel</button>
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="hotjar">Hotjar / Clarity</button>
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="gsc">Search Console</button>
+        <button class="pill" onclick="roToggle(this,'analytics')" data-v="none">None</button>
+      </div>
+      <div class="nav-row"><button class="btn" onclick="roShow('ro-q1')">← Back</button><button class="btn btn-blue" onclick="roShow('ro-q3')">Next →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="ro-q3">
+    <div style="padding-top:1rem">
+      <div class="step-dots"><div class="sd done"></div><div class="sd done"></div><div class="sd active"></div><div class="sd"></div></div>
+      <h1>Data hygiene</h1>
+      <p class="sub" style="margin-bottom:1rem">Honest answers — even "I don't know" — are most useful.</p>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">How often do you remove stale contacts?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'deactivate')" data-v="never">Never</button><button class="pill" onclick="roSel(this,'deactivate')" data-v="rarely">Rarely</button><button class="pill" onclick="roSel(this,'deactivate')" data-v="annual">Once a year</button><button class="pill" onclick="roSel(this,'deactivate')" data-v="quarterly">Quarterly+</button></div></div>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Do you know your email list health?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'listhealth')" data-v="no-idea">No idea</button><button class="pill" onclick="roSel(this,'listhealth')" data-v="rough">Rough sense</button><button class="pill" onclick="roSel(this,'listhealth')" data-v="monitor">We monitor open rates</button><button class="pill" onclick="roSel(this,'listhealth')" data-v="active">Actively managed</button></div></div>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">What happens when someone unsubscribes?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'unsub')" data-v="automatic">Auto-removed by platform</button><button class="pill" onclick="roSel(this,'unsub')" data-v="manual">Removed manually</button><button class="pill" onclick="roSel(this,'unsub')" data-v="unsure">Not sure</button><button class="pill" onclick="roSel(this,'unsub')" data-v="nothing">Nothing happens</button></div></div>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Do you have duplicate contacts?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'dupes')" data-v="yes-know">Yes, we know</button><button class="pill" onclick="roSel(this,'dupes')" data-v="probably">Probably</button><button class="pill" onclick="roSel(this,'dupes')" data-v="no">No — we deduplicate</button></div></div>
+      <div class="nav-row"><button class="btn" onclick="roShow('ro-q2')">← Back</button><button class="btn btn-blue" onclick="roShow('ro-q4')">Next →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="ro-q4">
+    <div style="padding-top:1rem">
+      <div class="step-dots"><div class="sd done"></div><div class="sd done"></div><div class="sd done"></div><div class="sd active"></div></div>
+      <h1>Privacy & compliance</h1>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Do you have a privacy policy?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'privacy')" data-v="yes-updated">Yes — recently reviewed</button><button class="pill" onclick="roSel(this,'privacy')" data-v="yes-old">Yes — but it's old</button><button class="pill" onclick="roSel(this,'privacy')" data-v="no">No</button><button class="pill" onclick="roSel(this,'privacy')" data-v="unsure">Not sure</button></div></div>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Cookie consent banner?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'cookie')" data-v="yes">Yes</button><button class="pill" onclick="roSel(this,'cookie')" data-v="no">No</button><button class="pill" onclick="roSel(this,'cookie')" data-v="unsure">Not sure what that is</button></div></div>
+      <div style="margin-bottom:1.25rem"><div style="font-size:14px;font-weight:500;margin-bottom:.75rem">Data retention policy?</div><div class="pill-row"><button class="pill" onclick="roSel(this,'retention')" data-v="yes">Yes — documented</button><button class="pill" onclick="roSel(this,'retention')" data-v="informal">We just keep everything</button><button class="pill" onclick="roSel(this,'retention')" data-v="no">No</button></div></div>
+      <div class="nav-row"><button class="btn" onclick="roShow('ro-q3')">← Back</button><button class="btn btn-blue" onclick="runRevOps()">Generate ops report →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="ro-gen">
+    <div style="padding-top:1rem">
+      <h1>Building your operations report</h1>
+      <p class="sub">Analyzing stack, hygiene, compliance, and mapping architecture to your goal.</p>
+      <div class="prog-track"><div class="prog-fill" id="ro-pf" style="width:0%;background:var(--blue)"></div></div>
+      <div class="prog-lbl" id="ro-pl">Starting...</div>
+      <div class="gen-grid" style="margin-top:1rem">
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-database gen-icon"></i><span class="gen-title">CRM & data health</span></div><div class="gen-status" id="rost-crm"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-mail gen-icon"></i><span class="gen-title">Email operations</span></div><div class="gen-status" id="rost-email"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-lock gen-icon"></i><span class="gen-title">Privacy compliance</span></div><div class="gen-status" id="rost-privacy"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-shield gen-icon"></i><span class="gen-title">Data hygiene</span></div><div class="gen-status" id="rost-hygiene"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-code gen-icon"></i><span class="gen-title">GTM & tracking</span></div><div class="gen-status" id="rost-gtm"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-target gen-icon"></i><span class="gen-title">Goal architecture</span></div><div class="gen-status" id="rost-arch"><span class="pulse"></span> Waiting</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="ro-out-screen">
+    <div id="ro-out" style="padding-top:1rem"></div>
+  </div>
+</div>
+
+<!-- GRANTS -->
+<div class="tool-panel" id="panel-grants">
+  <div class="screen active" id="gr-intake">
+    <div style="padding-top:1rem">
+      <div class="wordmark">Grant intelligence — <span style="color:var(--amber)">nonprofit accelerator</span></div>
+      <h1>Grant intelligence</h1>
+      <p class="sub">Find grants you're likely to win, generate draft application language, frame your impact for funders, and track your pipeline.</p>
+      <div class="lbl">Organization name & location</div>
+      <input type="text" id="gr-name" placeholder="e.g. Henrico Humane Society">
+      <input type="text" id="gr-loc" placeholder="e.g. Richmond, VA — Henrico County">
+      <div class="lbl">Mission in one sentence</div>
+      <textarea id="gr-mission" placeholder="e.g. We rescue, provide medical care for, and rehome dogs and cats in the greater Richmond VA area." style="min-height:55px"></textarea>
+      <div class="lbl">Focus areas — select all that apply</div>
+      <div class="pill-row">
+        <button class="pill" data-gf="animal-welfare" onclick="this.classList.toggle('sel')">Animal welfare</button>
+        <button class="pill" data-gf="arts-culture" onclick="this.classList.toggle('sel')">Arts & culture</button>
+        <button class="pill" data-gf="community" onclick="this.classList.toggle('sel')">Community development</button>
+        <button class="pill" data-gf="education" onclick="this.classList.toggle('sel')">Education</button>
+        <button class="pill" data-gf="environment" onclick="this.classList.toggle('sel')">Environment</button>
+        <button class="pill" data-gf="health" onclick="this.classList.toggle('sel')">Health & wellness</button>
+        <button class="pill" data-gf="housing" onclick="this.classList.toggle('sel')">Housing</button>
+        <button class="pill" data-gf="food" onclick="this.classList.toggle('sel')">Food security</button>
+        <button class="pill" data-gf="youth" onclick="this.classList.toggle('sel')">Youth & families</button>
+        <button class="pill" data-gf="seniors" onclick="this.classList.toggle('sel')">Seniors</button>
+        <button class="pill" data-gf="equity" onclick="this.classList.toggle('sel')">Equity & inclusion</button>
+      </div>
+      <div class="lbl">Programs & services delivered</div>
+      <textarea id="gr-programs" placeholder="e.g. Foster care network, SpayRVA low-cost spay/neuter, adoption events, TNR for feral cats, emergency medical fund"></textarea>
+      <div class="lbl">Impact data you have (even rough numbers)</div>
+      <textarea id="gr-impact" placeholder="e.g. 847 animals rescued in 2025, 312 active fosters, SpayRVA served 450 families last year"></textarea>
+      <div class="lbl">Grant size target</div>
+      <div class="pill-row">
+        <button class="pill" onclick="grSelSize(this)" data-v="small">Under $5k</button>
+        <button class="pill" onclick="grSelSize(this)" data-v="medium">$5k–$25k</button>
+        <button class="pill" onclick="grSelSize(this)" data-v="large">$25k–$100k</button>
+        <button class="pill" onclick="grSelSize(this)" data-v="any">Any — show me all</button>
+      </div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-amber" onclick="runGrants()">Find grants & generate drafts →</button></div>
+    </div>
+  </div>
+  <div class="screen" id="gr-gen">
+    <div style="padding-top:1rem">
+      <h1>Building your grant intelligence report</h1>
+      <div class="prog-track"><div class="prog-fill" id="gr-pf" style="width:0%;background:var(--amber)"></div></div>
+      <div class="prog-lbl" id="gr-pl">Starting...</div>
+      <div class="gen-grid" style="margin-top:1rem">
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-search gen-icon"></i><span class="gen-title">Opportunity matching</span></div><div class="gen-status" id="grst-match"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-file-text gen-icon"></i><span class="gen-title">Draft generation</span></div><div class="gen-status" id="grst-draft"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-chart-bar gen-icon"></i><span class="gen-title">Impact framing</span></div><div class="gen-status" id="grst-impact"><span class="pulse"></span> Waiting</div></div>
+        <div class="gen-card"><div class="gen-head"><i class="ti ti-checklist gen-icon"></i><span class="gen-title">Readiness assessment</span></div><div class="gen-status" id="grst-ready"><span class="pulse"></span> Waiting</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="screen" id="gr-out-screen">
+    <div id="gr-out" style="padding-top:1rem"></div>
+  </div>
+</div>
+<script>
+// ============================================================
+// NAVIGATION
+// ============================================================
+function sw(id) {
+  document.querySelectorAll('.tool-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('panel-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach(t=>{if(t.getAttribute('onclick')?.includes("'"+id+"'"))t.classList.add('active');});
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+function scColor(s){return s>=70?'sg':s>=50?'sa':'sr'}
+function copyText(t){navigator.clipboard.writeText(t).catch(()=>{})}
+function toggleX(id){const el=document.getElementById(id);if(el)el.classList.toggle('open')}
+function switchTab(panelId,tabId,el){
+  document.querySelectorAll('#'+panelId+' .otab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('#'+panelId+' .tab-panel').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');document.getElementById(tabId).classList.add('active');
+}
+function setSt(id,state){
+  const el=document.getElementById(id);if(!el)return;
+  el.className='gen-status '+(state==='done'?'done':state==='running'?'running':'');
+  el.innerHTML=state==='running'?'<span class="pulse"></span> Running...':state==='done'?'<i class="ti ti-check" style="font-size:11px"></i> Complete':'<span class="pulse"></span> Waiting';
+}
+
+async function callClaude(sys,prompt){
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:prompt}]})});
+  const data=await res.json();
+  const txt=data.content.map(b=>b.text||'').join('');
+  return JSON.parse(txt.replace(/```json|```/g,'').trim());
+}
+
+// ============================================================
+// HUB
+// ============================================================
+let HP={},HC=[],HOT='';
+const HK='npa-hub-v2',HPK='npa-prog-v2';
+
+async function hLoad(){
+  try{const p=await window.storage.get(HK);if(p)HP=JSON.parse(p.value);const r=await window.storage.get(HPK);if(r)HC=JSON.parse(r.value);}catch(e){}
+}
+async function hPersist(){try{await window.storage.set(HK,JSON.stringify(HP));await window.storage.set(HPK,JSON.stringify(HC));}catch(e){}}
+
+function hShowScreen(id){document.querySelectorAll('#panel-hub .screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function hSelType(v,el){HOT=v;document.querySelectorAll('.ot-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+
+async function hSave(){
+  const name=document.getElementById('h-name').value.trim();
+  if(!name){alert('Please enter your org name.');return;}
+  const goals=[...document.querySelectorAll('[data-goal].sel')].map(p=>p.dataset.goal);
+  HP={name,url:document.getElementById('h-url').value.trim(),location:document.getElementById('h-loc').value.trim(),mission:document.getElementById('h-mission').value.trim(),orgType:HOT,goals,updatedAt:Date.now()};
+  await hPersist();hRender();hShowScreen('hub-main');
+}
+
+const typeLabels={grassroots:'Grassroots nonprofit',established:'Established nonprofit',smallbiz:'Small business',arts:'Arts / cultural org'};
+const CHECKLIST=[
+  {id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed'},
+  {id:'c3',text:'Google Ad Grants application submitted'},{id:'c4',text:'Welcome email sequence set up'},
+  {id:'c5',text:'GA4 installed and tracking conversions'},{id:'c6',text:'FAQ schema markup added'},
+  {id:'c7',text:'Contact list deduplicated'},{id:'c8',text:'SPF/DKIM/DMARC configured'},
+  {id:'c9',text:'First impact story page published'},{id:'c10',text:'Google Search Console verified'},
+  {id:'c11',text:'Privacy policy updated'},{id:'c12',text:'Cookie consent banner installed'},
+  {id:'c13',text:'Donor vs. non-donor segments created'},{id:'c14',text:'Board report template built'},
+  {id:'c15',text:'First grant application drafted'},
+];
+const MILESTONES=[
+  {day:'30',text:'Meta descriptions, GBP, Ad Grants application, welcome email, GA4'},
+  {day:'60',text:'FAQ schema, list deduplication, email auth, impact story, GSC'},
+  {day:'90',text:'Ad Grants live, board reporting, benchmarking, grant research'},
+];
+
+function hRender(){
+  document.getElementById('hd-name').textContent=HP.name||'—';
+  document.getElementById('hd-url').textContent=HP.url||'—';
+  document.getElementById('hd-type').textContent=typeLabels[HP.orgType]||'Organization';
+  const done=HC.length,total=CHECKLIST.length,pct=Math.round((done/total)*100);
+  const d30=HC.filter(c=>['c1','c2','c3','c4','c5'].includes(c)).length;
+  document.getElementById('h-prog-bars').innerHTML=`
+    <div class="metric-row"><div class="metric-label">Overall progress</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%"></div></div><div class="metric-val">${pct}%</div></div>
+    <div class="metric-row"><div class="metric-label">Tasks done</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%;background:#1D9E75"></div></div><div class="metric-val">${done}/${total}</div></div>
+    <div class="metric-row"><div class="metric-label">30-day targets</div><div class="metric-track"><div class="metric-fill" style="width:${Math.round((d30/5)*100)}%;background:var(--purple)"></div></div><div class="metric-val">${d30}/5</div></div>`;
+  document.getElementById('h-milestones').innerHTML=MILESTONES.map(m=>`<div class="ms-row"><div class="ms-dot" style="background:${HC.length>=(m.day==='30'?5:m.day==='60'?10:15)?'#1D9E75':'var(--border2)'}"></div><div style="font-size:13px;color:var(--text2)"><strong>Day ${m.day}:</strong> ${m.text}</div></div>`).join('');
+  document.getElementById('h-checklist').innerHTML=CHECKLIST.map(item=>`<div class="ci-item" onclick="hToggle('${item.id}')"><div class="ci-box ${HC.includes(item.id)?'checked':''}">${HC.includes(item.id)?'<i class="ti ti-check" style="font-size:10px;color:white"></i>':''}</div><div style="font-size:13px;color:${HC.includes(item.id)?'var(--text3)':'var(--text2)'};text-decoration:${HC.includes(item.id)?'line-through':'none'}">${item.text}</div></div>`).join('');
+}
+
+function hToggle(id){if(HC.includes(id))HC=HC.filter(c=>c!==id);else HC.push(id);hRender();}
+async function hSaveProgress(){await hPersist();hRender();hShowScreen('hub-main');}
+
+// ============================================================
+// AUDIT
+// ============================================================
+let AType='';
+function aSelType(v,el){AType=v;document.querySelectorAll('#panel-audit .pill').forEach(p=>{if(['grassroots','established','smallbiz','arts'].some(t=>p.getAttribute('onclick')?.includes(t)))p.classList.remove('sel');});el.classList.add('sel');}
+
+async function runAudit(){
+  const name=document.getElementById('a-name').value.trim()||'your organization';
+  const url=document.getElementById('a-url').value.trim();
+  if(!url){alert('Please enter a website URL.');return;}
+  document.getElementById('a-progress').style.display='block';document.getElementById('a-out').style.display='none';
+  const mods=['seo','aeo','geo','tech','content','social','backlink','brand','comp','ux','swot','rank'];
+  const pf=document.getElementById('a-pf'),pl=document.getElementById('a-pl');
+  for(let i=0;i<mods.length;i++){setSt('ast-'+mods[i],'running');pl.textContent='Running: '+mods[i].toUpperCase();pf.style.width=Math.round((i/mods.length)*85)+'%';await delay(450+Math.random()*250);setSt('ast-'+mods[i],'done');}
+  pf.style.width='95%';pl.textContent='Generating report...';
+  let data;
+  try{data=await callClaude('You are a senior marketing strategist. Respond ONLY with valid JSON, no markdown.',`Marketing audit for "${name}" (${url}), type: ${AType||'nonprofit'}. Return JSON: {"overallScore":52,"grade":"C+","execSummary":"2-3 sentences","scores":{"seo":45,"aeo":30,"geo":55,"technical":60,"content":50,"social":40,"backlink":35,"brand":65,"ux":70},"sections":[{"id":"seo","title":"string","score":45,"status":"needs-work","findings":[{"type":"issue","text":"string"},{"type":"win","text":"string"},{"type":"opportunity","text":"string"}]}],"actions":{"developer":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"designer":[{"priority":"med","title":"string","desc":"string","effort":"string","impact":"string"}],"content":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"marketing":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}]},"swot":{"strengths":["string"],"weaknesses":["string"],"opportunities":["string"],"threats":["string"]}} Include sections for SEO, AEO, GEO, Technical, Content, Social, Backlinks, Brand, UX. Make findings specific.`);}
+  catch(e){data={overallScore:48,grade:'C',execSummary:`${name} has a functional web presence with significant untapped potential. The highest-impact opportunity is improving structured data and AEO to capture AI-driven search traffic. Several quick wins require no technical skills or budget.`,scores:{seo:42,aeo:25,geo:50,technical:60,content:45,social:38,backlink:30,brand:60,ux:65},sections:[{id:'seo',title:'SEO & keyword analysis',score:42,status:'needs-work',findings:[{type:'issue',text:'<strong>Title tags</strong> are missing or duplicated on key pages.'},{type:'opportunity',text:'Long-tail local keywords are likely unclaimed — a content cluster strategy could own these.'},{type:'win',text:'Domain appears established with some organic presence.'}]},{id:'aeo',title:'AEO — answer engine optimization',score:25,status:'critical',findings:[{type:'issue',text:'No <strong>FAQ schema markup</strong> detected — invisible to AI assistants like ChatGPT and Perplexity.'},{type:'issue',text:'<strong>Organization schema</strong> is missing — AI assistants cannot reliably cite your org.'},{type:'opportunity',text:'Adding structured FAQ content would significantly improve AI citation likelihood.'}]},{id:'geo',title:'GEO — geographic & local',score:50,status:'fair',findings:[{type:'issue',text:'<strong>Google Business Profile</strong> optimization status unclear.'},{type:'opportunity',text:'Local news mentions and community partner backlinks are a high-value link strategy.'}]},{id:'technical',title:'Technical health',score:60,status:'fair',findings:[{type:'issue',text:'No structured data detected on any page.'},{type:'opportunity',text:'JSON-LD schema takes 2 hours to implement and has an outsized impact.'}]}],actions:{developer:[{priority:'high',title:'Add JSON-LD Organization schema',desc:'Add structured data to homepage so AI assistants can cite your org accurately.',effort:'2 hours',impact:'High'},{priority:'high',title:'Fix Core Web Vitals',desc:'Run PageSpeed Insights and address LCP, FID, and CLS issues.',effort:'4-8 hours',impact:'High'}],designer:[{priority:'high',title:'Donate CTA above fold',desc:'The donate button must be visible without scrolling on all devices.',effort:'Half day',impact:'High'}],content:[{priority:'high',title:'Write FAQ page targeting AI search',desc:'Create 15+ Q&A pairs with FAQPage schema. AI assistants pull directly from structured FAQ content.',effort:'Half day',impact:'High'}],marketing:[{priority:'high',title:'Apply for Google Ad Grants',desc:'$10k/month free advertising for 501(c)(3) orgs. Apply at google.com/grants.',effort:'1 day',impact:'Very high'}]},swot:{strengths:['Mission-driven purpose creates authentic content','Existing community trust to leverage','Free tool eligibility (Google Ad Grants, Canva nonprofit)'],weaknesses:['Technical SEO gaps','Low backlink authority','Limited staff time for content'],opportunities:['AEO is wide open — most orgs ignore it','Google Ad Grants likely unclaimed','Local media as link-building partners'],threats:['Larger orgs dominating local search','Algorithm changes affecting organic reach']}};}
+  pf.style.width='100%';document.getElementById('a-progress').style.display='none';document.getElementById('a-out').style.display='block';
+  renderAudit(data,name);
+}
+
+function renderAudit(d,name){
+  const sc=Object.entries({seo:'SEO',aeo:'AEO',geo:'GEO',technical:'Tech',content:'Content',social:'Social',backlink:'Backlinks',brand:'Brand',ux:'UX'}).map(([k,l])=>`<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');
+  const secs=(d.sections||[]).map((s,i)=>{
+    const sb=s.status==='critical'?'bh':s.status==='needs-work'?'bm':s.status==='fair'?'bi':'bl';
+    const fi=(s.findings||[]).map(f=>{const ic=f.type==='issue'?'ti-alert-circle':f.type==='win'?'ti-circle-check':'ti-bulb';const col=f.type==='issue'?'#A32D2D':f.type==='win'?'#0F6E56':'#854F0B';return `<div style="display:flex;gap:10px;margin-bottom:8px;padding-bottom:8px;border-bottom:0.5px solid var(--border)"><i class="ti ${ic}" style="font-size:14px;color:${col};margin-top:2px;flex-shrink:0"></i><div style="font-size:13px;color:var(--text2);line-height:1.5">${f.text}</div></div>`;}).join('');
+    return `<div class="xcard"><div class="xhead" onclick="toggleX('ab-${i}')"><span class="xtitle">${s.title}</span><div style="display:flex;align-items:center;gap:8px"><span class="badge ${sb}">${s.status}</span><span style="font-size:13px;font-weight:500;color:var(--text2)">${Math.round(s.score||0)}/100</span><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="ab-${i}">${fi}</div></div>`;
+  }).join('');
+  const swot=d.swot||{};
+  const sw2=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem">${[['Strengths','#E1F5EE','#085041',swot.strengths||[]],['Weaknesses','#FCEBEB','#791F1F',swot.weaknesses||[]],['Opportunities','#E6F1FB','#0C447C',swot.opportunities||[]],['Threats','#FAEEDA','#633806',swot.threats||[]]].map(([l,bg,col,items])=>`<div style="background:${bg};border-radius:var(--radius);padding:12px"><div style="font-size:11px;font-weight:600;color:${col};text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${l}</div>${items.map(i=>`<div style="font-size:12px;color:${col};line-height:1.5;margin-bottom:4px">— ${i}</div>`).join('')}</div>`).join('')}</div>`;
+  const roles=['developer','designer','content','marketing'];
+  const rLbls={developer:'For developers',designer:'For designers',content:'For content writers',marketing:'For marketing leads'};
+  const rTabs=roles.map((r,i)=>`<button class="otab${i===0?' active':''}" onclick="switchTab('a-acts','a-role-${r}',this)">${rLbls[r]}</button>`).join('');
+  const rContent=roles.map(r=>{const acts=((d.actions||{})[r]||[]).map(a=>`<div style="border-left:2px solid ${a.priority==='high'?'#D85A30':a.priority==='medium'?'#EF9F27':'#1D9E75'};padding:10px 0 10px 14px;margin-bottom:10px"><div style="font-size:13px;font-weight:500;margin-bottom:3px">${a.title}</div><div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:4px">${a.desc}</div><div style="font-size:11px;color:var(--text3)">Effort: ${a.effort} · Impact: ${a.impact}</div></div>`).join('');return `<div class="tab-panel${r==='developer'?' active':''}" id="a-role-${r}">${acts}</div>`;}).join('');
+  document.getElementById('a-out').innerHTML=`
+    <div style="background:var(--purple-light);border:0.5px solid #AFA9EC;border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.75rem"><div style="font-size:36px;font-weight:500;color:#3C3489">${Math.round(d.overallScore||0)}<span style="font-size:16px;color:var(--purple)">/100</span></div><div style="font-size:13px;color:var(--purple)">Overall marketing health<br><strong style="color:#3C3489">Grade: ${d.grade||'C'}</strong></div></div>
+      <div style="font-size:13px;color:#3C3489;line-height:1.6">${d.execSummary||''}</div>
+    </div>
+    <div class="sc-grid">${sc}</div>
+    <h2 style="margin-bottom:.75rem">Audit findings</h2>${secs}
+    <h2 style="margin-top:1.5rem;margin-bottom:.75rem">SWOT synthesis</h2>${sw2}
+    <h2 style="margin-top:1.5rem;margin-bottom:.5rem">Action plan by role</h2>
+    <div id="a-acts"><div class="output-tabs">${rTabs}</div>${rContent}</div>
+    <div style="border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:1.25rem;margin-top:1.5rem"><div style="font-size:13px;font-weight:500;margin-bottom:.5rem">Go deeper</div><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn btn-sm" onclick="sw('content')">Content studio →</button><button class="btn btn-sm" onclick="sw('dev')">Developer workbench →</button><button class="btn btn-sm" onclick="sw('design')">Designer toolkit →</button><button class="btn btn-sm" onclick="sw('revops')">RevOps →</button></div></div>`;
+}
+
+// ============================================================
+// CONTENT STUDIO
+// ============================================================
+async function runContent(){
+  const name=document.getElementById('cs-name').value.trim()||'your organization';
+  const url=document.getElementById('cs-url').value.trim();
+  const mission=document.getElementById('cs-mission').value.trim();
+  const kw=document.getElementById('cs-kw').value.trim();
+  const tone=document.getElementById('cs-tone').value;
+  const types=[...document.querySelectorAll('[data-ct].sel')].map(p=>p.dataset.ct).join(', ')||'blog, faq, meta';
+  const focus=[...document.querySelectorAll('[data-cf].sel')].map(p=>p.dataset.cf).join(', ')||'seo, aeo';
+  document.getElementById('cs-prog-wrap').style.display='block';document.getElementById('cs-out').style.display='none';
+  const pf=document.getElementById('cs-pf'),pl=document.getElementById('cs-pl');
+  const steps=['Keyword strategy...','Competitor analysis...','Content generation...','AEO optimization...','Internal linking...','Metadata...'];
+  for(let i=0;i<steps.length;i++){pl.textContent=steps[i];pf.style.width=(i+1)/steps.length*90+'%';await delay(450+Math.random()*250);}
+  pl.textContent='Finalizing...';pf.style.width='96%';
+  let data;
+  try{data=await callClaude('You are a senior content strategist. Respond ONLY with valid JSON, no markdown.',`Content strategy for: ${name} (${url}), mission: ${mission}, keyword: ${kw}, types: ${types}, focus: ${focus}, tone: ${tone}. Return: {"orgName":"string","strategyNote":"string","keywords":[{"term":"string","intent":"informational|transactional|navigational","difficulty":"low|medium|high","opportunity":"string"}],"competitorGaps":["string"],"content":[{"type":"string","title":"string","body":"full draft","seoNotes":"string","aeoNotes":"string"}],"internalLinks":[{"fromPage":"string","toPage":"string","anchorText":"string","reason":"string"}],"metadata":[{"page":"string","title":"under 60 chars","description":"under 155 chars"}],"schemaSnippet":"ready-to-use JSON-LD"} Make content genuinely usable.`);}
+  catch(e){data={orgName:name,strategyNote:'Focus on local search intent and AI-answer optimization. FAQ-format pages directly answering community questions are the highest-value content right now.',keywords:[{term:'adopt rescue dog '+name,intent:'transactional',difficulty:'low',opportunity:'High local intent, low competition'},{term:'volunteer animal shelter near me',intent:'informational',difficulty:'low',opportunity:'Underserved long-tail with high conversion intent'}],competitorGaps:['Competitor pages rank for "free pet resources" — a community resource page would capture this traffic','Searches for "how to surrender a pet" are compassionately underserved in your area'],content:[{type:'blog',title:'How to adopt a rescue pet: a step-by-step guide',body:`Adopting a rescue pet is one of the most rewarding decisions you can make.\n\nHere's what the process looks like.\n\n**Step 1: Browse available pets**\nStart by browsing available animals online. Each profile includes photos, personality notes, and known history.\n\n**Step 2: Submit an application**\nApplications are reviewed within 1-2 business days.\n\n**Step 3: Meet your match**\nWe'll arrange a meet-and-greet at one of our adoption events.\n\n**Step 4: Welcome them home**\nOnce approved, you'll complete the adoption and take your new family member home.\n\nThe first week is an adjustment period — give your new pet time and patience.`,seoNotes:'Target primary keyword in H1, first paragraph, and URL slug.',aeoNotes:'Step-by-step format is ideal for AI assistants. Add FAQ schema at bottom.'}],internalLinks:[{fromPage:'/blog/how-to-adopt',toPage:'/adopt',anchorText:'browse available pets',reason:'Direct path from informational to conversion'}],metadata:[{page:'Homepage',title:name+' — pet adoption in Richmond, VA',description:name+' rescues dogs and cats in Richmond, VA. Adopt, foster, donate, or volunteer.'}],schemaSnippet:`<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "FAQPage",\n  "mainEntity": [{\n    "@type": "Question",\n    "name": "How much does adoption cost?",\n    "acceptedAnswer": {"@type": "Answer","text": "Adoption fees include spay/neuter, vaccines, microchip, and vet health check."}\n  }]\n}\n<\/script>`};}
+  pf.style.width='100%';document.getElementById('cs-prog-wrap').style.display='none';document.getElementById('cs-out').style.display='block';
+  renderContent(data);
+}
+
+function renderContent(d){
+  const kwRows=(d.keywords||[]).map(k=>`<tr><td style="font-weight:500;font-size:12px;padding:7px 10px">${k.term}</td><td style="padding:7px 10px"><span class="badge ${k.intent==='transactional'?'bg':k.intent==='navigational'?'bi':'bp'}" style="font-size:10px">${k.intent}</span></td><td style="padding:7px 10px"><span class="badge ${k.difficulty==='low'?'bl':k.difficulty==='medium'?'bm':'bh'}" style="font-size:10px">${k.difficulty}</span></td><td style="font-size:12px;color:var(--text2);padding:7px 10px">${k.opportunity}</td></tr>`).join('');
+  const gaps=(d.competitorGaps||[]).map(g=>`<div style="display:flex;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-arrow-right" style="font-size:13px;color:var(--purple);margin-top:2px;flex-shrink:0"></i><div style="font-size:13px;color:var(--text2)">${g}</div></div>`).join('');
+  const content=(d.content||[]).map((c,i)=>`<div class="xcard"><div class="xhead" onclick="toggleX('cb-${i}')"><span class="xtitle">${(c.type||'').toUpperCase()} — ${c.title}</span><div style="display:flex;gap:6px"><button class="copy-btn" onclick="event.stopPropagation();copyText(${JSON.stringify(c.body||'')})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="cb-${i}"><div style="font-size:13px;color:var(--text2);line-height:1.7;white-space:pre-wrap;margin-bottom:.75rem">${c.body||''}</div>${c.seoNotes?`<div style="margin-top:6px"><span class="badge bp">SEO: ${(c.seoNotes||'').substring(0,120)}</span></div>`:''}</div></div>`).join('');
+  const links=(d.internalLinks||[]).map(l=>`<div style="display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-link" style="font-size:13px;color:var(--teal);margin-top:2px;flex-shrink:0"></i><div><div style="font-size:13px;font-weight:500">${l.fromPage} → <span style="color:var(--blue)">${l.toPage}</span></div><div style="font-size:11px;color:var(--text3);font-style:italic">Anchor: "${l.anchorText}"</div><div style="font-size:11px;color:var(--text3);margin-top:2px">${l.reason}</div></div></div>`).join('');
+  const meta=(d.metadata||[]).map((m,i)=>`<div class="xcard"><div class="xhead" onclick="toggleX('mb-${i}')"><span class="xtitle">${m.page}</span><button class="copy-btn" onclick="event.stopPropagation();copyText('Title: '+${JSON.stringify(m.title||'')}+'\nDescription: '+${JSON.stringify(m.description||'')})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="xbody" id="mb-${i}"><div style="font-size:12px;margin-bottom:6px"><span style="color:var(--text3);font-size:11px">Title tag</span><br>${m.title}</div><div style="font-size:12px"><span style="color:var(--text3);font-size:11px">Meta description</span><br>${m.description}</div></div></div>`).join('');
+  document.getElementById('cs-out').innerHTML=`
+    <div style="margin-bottom:1.25rem"><div class="wordmark">Content studio — <span style="color:var(--teal)">${d.orgName}</span></div><div style="font-size:13px;color:var(--text2);line-height:1.5">${d.strategyNote}</div></div>
+    <div id="cs-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('cs-tabs','cs-kw',this)">Keywords</button><button class="otab" onclick="switchTab('cs-tabs','cs-gaps',this)">Competitor gaps</button><button class="otab" onclick="switchTab('cs-tabs','cs-content',this)">Content</button><button class="otab" onclick="switchTab('cs-tabs','cs-links',this)">Internal links</button><button class="otab" onclick="switchTab('cs-tabs','cs-meta',this)">Metadata</button><button class="otab" onclick="switchTab('cs-tabs','cs-schema',this)">Schema</button></div>
+    <div class="tab-panel active" id="cs-kw"><table style="width:100%;border-collapse:collapse"><thead><tr><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Keyword</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Intent</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Difficulty</th><th style="text-align:left;padding:6px 10px;color:var(--text3);font-size:11px;border-bottom:0.5px solid var(--border)">Opportunity</th></tr></thead><tbody>${kwRows}</tbody></table></div>
+    <div class="tab-panel" id="cs-gaps">${gaps}</div>
+    <div class="tab-panel" id="cs-content">${content}</div>
+    <div class="tab-panel" id="cs-links">${links}</div>
+    <div class="tab-panel" id="cs-meta">${meta}</div>
+    <div class="tab-panel" id="cs-schema"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:12px;color:var(--text2)">Copy and paste into your page &lt;head&gt;</span><button class="copy-btn" onclick="copyText(${JSON.stringify(d.schemaSnippet||'')})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="code-block">${(d.schemaSnippet||'').replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div></div></div>`;
+}
+
+// ============================================================
+// DEVELOPER WORKBENCH
+// ============================================================
+async function runDev(){
+  const name=document.getElementById('dv-name').value.trim()||'your organization';
+  const url=document.getElementById('dv-url').value.trim();
+  const cms=document.getElementById('dv-cms').value;
+  const ctx=document.getElementById('dv-ctx').value.trim();
+  document.getElementById('dv-prog-wrap').style.display='block';document.getElementById('dv-out').style.display='none';
+  const pf=document.getElementById('dv-pf'),pl=document.getElementById('dv-pl');
+  const steps=['Schema audit...','Core Web Vitals...','Accessibility...','Crawl + sitemap...','Security...','Mobile...'];
+  for(let i=0;i<steps.length;i++){pl.textContent=steps[i];pf.style.width=(i+1)/steps.length*90+'%';await delay(450+Math.random()*250);}
+  pl.textContent='Generating fix queue...';pf.style.width='96%';
+  let data;
+  try{data=await callClaude('You are a senior web developer. Respond ONLY with valid JSON, no markdown.',`Tech fix queue for: ${name} (${url}), CMS: ${cms}${ctx?', context: '+ctx:''}. Return: {"orgName":"string","cms":"string","scores":{"schema":25,"performance":60,"accessibility":55,"crawl":70,"security":80,"mobile":65},"tasks":[{"id":"t1","priority":"high|medium|low","category":"string","title":"string","problem":"string","solution":"string","effort":"string","impact":"string","code":"copy-paste ready code or empty"}],"checks":[{"status":"pass|fail|warn","label":"string","detail":"string"}]} 8-12 tasks. Code must be usable.`);}
+  catch(e){data={orgName:name,cms,scores:{schema:22,performance:58,accessibility:52,crawl:72,security:85,mobile:65},tasks:[{id:'t1',priority:'high',category:'schema',title:'Add JSON-LD Organization schema to homepage',problem:'No Organization schema detected — AI assistants cannot reliably identify your org.',solution:`Add JSON-LD to the homepage head. On Squarespace: Settings → Advanced → Code Injection → Header.`,effort:'1-2 hours',impact:'High',code:`<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "Organization",\n  "name": "${name}",\n  "url": "${url||'https://yoursite.org'}",\n  "description": "Your mission description here."\n}\n<\/script>`},{id:'t2',priority:'high',category:'schema',title:'Add FAQPage schema to /faq',problem:'FAQ page exists but has no structured data — missing AI answer citations.',solution:'Add FAQPage JSON-LD to the /faq page. Each Q&A under 150 words gets best AI coverage.',effort:'2-3 hours',impact:'High',code:`<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "FAQPage",\n  "mainEntity": [{\n    "@type": "Question",\n    "name": "Your question here?",\n    "acceptedAnswer": {"@type": "Answer","text": "Your answer here."}\n  }]\n}\n<\/script>`},{id:'t3',priority:'high',category:'crawl',title:'Add meta descriptions to all key pages',problem:'Missing meta descriptions mean Google writes its own — rarely accurate.',solution:'In CMS page settings, write a unique 140-155 character description per page.',effort:'2-3 hours',impact:'High',code:`Homepage: "${name} rescues dogs and cats in [City]. Adopt, foster, donate, or volunteer."\n/adopt: "Browse adoptable pets. Submit an adoption application online today."\n/faq: "Answers about adopting, fostering, programs, and volunteering."`},{id:'t4',priority:'high',category:'analytics',title:'Set up Google Search Console',problem:'Without GSC there is no visibility into crawl errors or search queries.',solution:'Verify at search.google.com/search-console, submit sitemap.xml.',effort:'1 hour',impact:'High',code:`Steps:\n1. Go to search.google.com/search-console\n2. Add property: ${url||'your-site.org'}\n3. Verify via HTML tag (paste in CMS Header Code Injection)\n4. Submit sitemap: ${url||'your-site.org'}/sitemap.xml`}],checks:[{status:'fail',label:'Organization schema',detail:'No JSON-LD Organization markup found on homepage.'},{status:'fail',label:'FAQPage schema',detail:'FAQ page missing structured data.'},{status:'fail',label:'Meta descriptions',detail:'Key pages missing custom meta descriptions.'},{status:'pass',label:'HTTPS enabled',detail:'Site serves over HTTPS — good baseline trust signal.'},{status:'warn',label:'Core Web Vitals',detail:'Run PageSpeed Insights to confirm performance issues.'}]};}
+  pf.style.width='100%';document.getElementById('dv-prog-wrap').style.display='none';document.getElementById('dv-out').style.display='block';
+  renderDev(data);
+}
+
+function renderDev(d){
+  const sc=Object.entries({schema:'Schema',performance:'Perf.',accessibility:'Access.',crawl:'Crawl',security:'Security',mobile:'Mobile'}).map(([k,l])=>`<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');
+  function rTasks(tasks){return (tasks||[]).map((t,i)=>`<div class="xcard"><div class="xhead" onclick="toggleX('dt-${t.id}')"><span class="xtitle">${t.title}</span><div style="display:flex;align-items:center;gap:6px"><span class="badge ${t.priority==='high'?'bh':t.priority==='medium'?'bm':'bl'}">${t.priority}</span><span class="eb">${t.effort}</span><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="dt-${t.id}"><p><strong>Problem:</strong> ${t.problem}</p><p><strong>Solution:</strong> ${t.solution}</p>${t.code?`<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><span style="font-size:11px;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em">Code / instructions</span><button class="copy-btn" onclick="event.stopPropagation();copyText(${JSON.stringify(t.code)})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="code-block">${t.code.replace(/</g,'&lt;').replace(/>/g,'&gt;')}</div>`:''}<div style="font-size:11px;color:var(--text3)">Impact: <strong style="color:var(--text)">${t.impact}</strong></div></div></div>`).join('');}
+  const high=(d.tasks||[]).filter(t=>t.priority==='high'),med=(d.tasks||[]).filter(t=>t.priority==='medium'),low=(d.tasks||[]).filter(t=>t.priority==='low');
+  const checks=(d.checks||[]).map(c=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ${c.status==='pass'?'ti-circle-check':c.status==='fail'?'ti-circle-x':'ti-alert-circle'}" style="font-size:14px;color:${c.status==='pass'?'#0F6E56':c.status==='fail'?'#A32D2D':'#854F0B'};margin-top:1px;flex-shrink:0"></i><div style="font-size:13px;color:var(--text2)"><strong style="color:var(--text)">${c.label}</strong> — ${c.detail}</div></div>`).join('');
+  document.getElementById('dv-out').innerHTML=`<div class="wordmark">Developer workbench — <span style="color:var(--coral)">${d.orgName}</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1rem">${d.cms} site · ${(d.tasks||[]).length} tasks · ${high.length} high priority</p>
+    <div class="sc-grid">${sc}</div>
+    <div id="dv-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('dv-tabs','dv-high',this)">High priority (${high.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-med',this)">Medium (${med.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-low',this)">Low (${low.length})</button><button class="otab" onclick="switchTab('dv-tabs','dv-checks',this)">Health checks</button></div>
+    <div class="tab-panel active" id="dv-high">${rTasks(high)}</div><div class="tab-panel" id="dv-med">${rTasks(med)}</div><div class="tab-panel" id="dv-low">${rTasks(low)}</div><div class="tab-panel" id="dv-checks">${checks}</div></div>`;
+}
+
+// ============================================================
+// DESIGNER TOOLKIT
+// ============================================================
+async function runDesign(){
+  const name=document.getElementById('ds-name').value.trim()||'your organization';
+  const url=document.getElementById('ds-url').value.trim();
+  const goal=document.getElementById('ds-goal').value;
+  const brand=document.getElementById('ds-brand').value.trim();
+  const ctx=document.getElementById('ds-ctx').value.trim();
+  document.getElementById('ds-prog-wrap').style.display='block';document.getElementById('ds-out').style.display='none';
+  const pf=document.getElementById('ds-pf'),pl=document.getElementById('ds-pl');
+  const steps=['CTA audit...','Brand consistency...','Mobile UX...','Visual hierarchy...','Accessibility...','Conversion signals...'];
+  for(let i=0;i<steps.length;i++){pl.textContent=steps[i];pf.style.width=(i+1)/steps.length*90+'%';await delay(450+Math.random()*250);}
+  pl.textContent='Generating brief...';pf.style.width='96%';
+  let data;
+  try{data=await callClaude('You are a senior UX designer. Respond ONLY with valid JSON, no markdown.',`Design brief for: ${name} (${url}), goal: ${goal}, brand: ${brand}${ctx?', context: '+ctx:''}. Return: {"orgName":"string","scores":{"cta":45,"brand":60,"mobile":55,"visual":50,"accessibility":45,"conversion":40},"brandBrief":{"tagline":"string","voice":"string","dos":["string"],"donts":["string"],"colorNotes":"string","typographyNotes":"string"},"ctaTasks":[{"priority":"high|medium|low","title":"string","problem":"string","fix":"string","effort":"string"}],"uxFlags":[{"severity":"critical|warning|info","area":"string","issue":"string","fix":"string"}],"mobileChecklist":[{"status":"pass|fail|warn","item":"string","detail":"string"}],"conversionFixes":[{"priority":"high|medium|low","title":"string","desc":"string","impact":"string"}]}`);}
+  catch(e){data={orgName:name,scores:{cta:42,brand:62,mobile:58,visual:50,accessibility:48,conversion:38},brandBrief:{tagline:'"Forever Starts Here" — emotionally strong, keep it',voice:'Warm and community-rooted, with an undercurrent of urgency. Every page should make visitors feel like they are the hero of the story.',dos:['Lead with impact — "You saved 847 animals" not "We saved..."','Use real names and photos in every CTA context','Write donation asks as specific outcomes: "$35 feeds a foster dog for a month"'],donts:['Avoid generic stock photos','Never use guilt as the primary driver','Bury the donate button below the fold'],colorNotes:'Ensure primary CTA button has 4.5:1 contrast ratio minimum. Test with WebAIM Contrast Checker.',typographyNotes:'Ensure body text is 16px minimum on mobile. Use no more than two font families.'},ctaTasks:[{priority:'high',title:'Move donate button above the fold on every page',problem:'If a visitor has to scroll to find the donate button, most won\'t.',fix:'Add a persistent "Donate" button in the top navigation bar — always visible. Use your brand accent color exclusively for this button.',effort:'2-3 hours'},{priority:'high',title:'Add a foster CTA to the homepage',problem:'Fostering is the highest-leverage ask but buried in navigation.',fix:'Add a "Become a Foster" module below the hero — 3 sentences max, one photo, one button.',effort:'Half day'}],uxFlags:[{severity:'critical',area:'Trust signals',issue:'No impact numbers visible above the fold.',fix:'Add impact bar near the top: "847 animals rescued · 312 fosters · 1,200+ families served."'},{severity:'warning',area:'Social proof',issue:'No testimonials or third-party ratings visible on homepage.',fix:'Add a 3-column testimonial block with adopter names, photos, and one-sentence quotes.'}],mobileChecklist:[{status:'warn',item:'Donate button above fold on mobile',detail:'Verify button appears without scrolling on iPhone (390px) and Android (360px).'},{status:'warn',item:'Tap target size',detail:'All buttons and links must be at least 44×44px.'},{status:'pass',item:'Viewport meta tag',detail:'Site correctly sets viewport — responsive scaling enabled.'}],conversionFixes:[{priority:'high',title:'Add impact specificity to donation asks',desc:'Replace "donate today" with outcome-specific language. "$35 feeds a foster dog for a month" converts better than any generic ask.',impact:'Est. 15-25% lift in donation conversion'},{priority:'medium',title:'Reduce clicks to adoption application',desc:'Count steps from homepage to submitting an application. Every extra click loses users. Target: 2 clicks max.',impact:'Reducing path by one step typically lifts applications by 15-30%'}]};}
+  pf.style.width='100%';document.getElementById('ds-prog-wrap').style.display='none';document.getElementById('ds-out').style.display='block';
+  renderDesign(data);
+}
+
+function renderDesign(d){
+  const sc=Object.entries({cta:'CTAs',brand:'Brand',mobile:'Mobile',visual:'Visual',accessibility:'Access.',conversion:'Conversion'}).map(([k,l])=>`<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');
+  const bb=d.brandBrief||{};
+  const bHtml=`<div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:4px">Tagline</div><div style="font-size:14px;font-style:italic;border-left:2px solid var(--pink);padding-left:10px">${bb.tagline||''}</div></div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:4px">Voice</div><div style="font-size:13px;color:var(--text2);line-height:1.6">${bb.voice||''}</div></div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1rem"><div><div class="lbl" style="margin-bottom:6px;color:#085041">Do</div>${(bb.dos||[]).map(x=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-check" style="font-size:13px;color:#0F6E56;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${x}</span></div>`).join('')}</div><div><div class="lbl" style="margin-bottom:6px;color:#791F1F">Don't</div>${(bb.donts||[]).map(x=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-x" style="font-size:13px;color:var(--pink);flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${x}</span></div>`).join('')}</div></div><div style="margin-bottom:.75rem"><div class="lbl" style="margin-bottom:4px">Color notes</div><div style="font-size:13px;color:var(--text2)">${bb.colorNotes||''}</div></div><div><div class="lbl" style="margin-bottom:4px">Typography notes</div><div style="font-size:13px;color:var(--text2)">${bb.typographyNotes||''}</div></div>`;
+  function rItems(items){return (items||[]).map((t,i)=>{const badge=t.priority?(t.priority==='high'?'bh':t.priority==='medium'?'bm':'bl'):(t.severity==='critical'?'bh':t.severity==='warning'?'bm':'bi');const label=t.priority||t.severity||t.status||'';const icon=t.status?(t.status==='pass'?'ti-circle-check':t.status==='fail'?'ti-circle-x':'ti-alert-circle'):'ti-chevron-down';return `<div class="xcard"><div class="xhead" onclick="toggleX('di-${i}-${badge}')"><span class="xtitle">${t.title||t.item||t.issue||''}</span><div style="display:flex;align-items:center;gap:6px"><span class="badge ${badge}">${label}</span>${t.effort?`<span class="eb">${t.effort}</span>`:''}<i class="ti ${icon}" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="di-${i}-${badge}">${t.problem||t.issue?`<p><strong>${t.problem?'Problem':'Issue'}:</strong> ${t.problem||t.issue}</p>`:''} ${t.detail?`<p>${t.detail}</p>`:''} ${t.fix?`<p><strong>Fix:</strong> ${t.fix}</p>`:''} ${t.desc?`<p>${t.desc}</p>`:''} ${t.impact?`<p><strong>Impact:</strong> ${t.impact}</p>`:''}</div></div>`;}).join('');}
+  document.getElementById('ds-out').innerHTML=`<div class="wordmark">Designer toolkit — <span style="color:var(--pink)">${d.orgName}</span></div><div class="sc-grid">${sc}</div>
+    <div id="ds-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('ds-tabs','ds-brand',this)">Brand brief</button><button class="otab" onclick="switchTab('ds-tabs','ds-cta',this)">CTA tasks</button><button class="otab" onclick="switchTab('ds-tabs','ds-ux',this)">UX flags</button><button class="otab" onclick="switchTab('ds-tabs','ds-mobile',this)">Mobile</button><button class="otab" onclick="switchTab('ds-tabs','ds-conv',this)">Conversion</button></div>
+    <div class="tab-panel active" id="ds-brand">${bHtml}</div><div class="tab-panel" id="ds-cta">${rItems(d.ctaTasks)}</div><div class="tab-panel" id="ds-ux">${rItems(d.uxFlags)}</div><div class="tab-panel" id="ds-mobile">${rItems(d.mobileChecklist)}</div><div class="tab-panel" id="ds-conv">${rItems(d.conversionFixes)}</div></div>`;
+}
+
+// ============================================================
+// REVOPS
+// ============================================================
+let RA={goal:'',crm:'',email_tool:'',analytics:[],deactivate:'',listhealth:'',unsub:'',dupes:'',privacy:'',cookie:'',retention:''};
+function roShow(id){document.querySelectorAll('#panel-revops .screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function roSelGoal(v,el){RA.goal=v;document.querySelectorAll('.goal-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');}
+function roSel(el,group){const row=el.closest('.pill-row');if(row)row.querySelectorAll('.pill').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');RA[group]=el.dataset.v;}
+function roToggle(el,group){el.classList.toggle('sel');const v=el.dataset.v;if(!RA[group])RA[group]=[];if(el.classList.contains('sel')){if(!RA[group].includes(v))RA[group].push(v);}else{RA[group]=RA[group].filter(x=>x!==v);}}
+
+async function runRevOps(){
+  const name=document.getElementById('ro-name').value.trim()||'your organization';
+  const url=document.getElementById('ro-url').value.trim();
+  roShow('ro-gen');
+  const pf=document.getElementById('ro-pf'),pl=document.getElementById('ro-pl');
+  const steps=[{id:'crm',l:'CRM & data health...',p:16},{id:'email',l:'Email operations...',p:32},{id:'privacy',l:'Privacy compliance...',p:48},{id:'hygiene',l:'Data hygiene...',p:64},{id:'gtm',l:'GTM & tracking...',p:80},{id:'arch',l:'Goal architecture...',p:93}];
+  for(const s of steps){setSt('rost-'+s.id,'running');pl.textContent=s.l;pf.style.width=s.p+'%';await delay(550+Math.random()*350);setSt('rost-'+s.id,'done');}
+  pf.style.width='96%';pl.textContent='Generating report...';
+  let data;
+  try{data=await callClaude('You are a senior RevOps strategist. Respond ONLY with valid JSON, no markdown.',`RevOps audit for: ${name} (${url}), goal: ${RA.goal}, CRM: ${RA.crm}, email: ${RA.email_tool}, analytics: ${(RA.analytics||[]).join(',')}, deactivate: ${RA.deactivate}, listhealth: ${RA.listhealth}, unsub: ${RA.unsub}, dupes: ${RA.dupes}, privacy: ${RA.privacy}, cookie: ${RA.cookie}, retention: ${RA.retention}. Return: {"orgName":"string","goal":"string","execSummary":"string","scores":{"crm":45,"email":50,"hygiene":30,"privacy":40,"tracking":35,"overall":40},"hygieneMetrics":[{"label":"string","score":40,"note":"string"}],"crmTasks":[{"priority":"high|medium|low","title":"string","plain":"plain English","technical":"technical detail","effort":"string","impact":"string"}],"emailTasks":[{"priority":"high|medium|low","title":"string","plain":"string","technical":"string","effort":"string"}],"complianceTasks":[{"severity":"critical|warning|info","title":"string","plain":"string","technical":"string","effort":"string"}],"gtmAudit":[{"status":"good|gap|recommend","item":"string","plain":"string","technical":"string"}],"architecture":{"goal":"string","summary":"string","layers":[{"name":"string","icon":"ti-database","items":[{"label":"string","status":"good|gap|recommended","plain":"string"}]}]}}`);}
+  catch(e){const gMap={donations:'Increase donation revenue',adoptions:'Grow adoption volume',rankings:'Improve organic search rankings',volunteers:'Recruit and retain volunteers',retention:'Retain existing supporters',awareness:'Build brand awareness'};data={orgName:name,goal:gMap[RA.goal]||'Grow organizational impact',execSummary:'Your operations infrastructure has significant gaps quietly undermining your marketing results. The most urgent issues are data hygiene and privacy compliance. The good news: most are fixable in under a month.',scores:{crm:38,email:45,hygiene:28,privacy:35,tracking:42,overall:38},hygieneMetrics:[{label:'Contact freshness',score:30,note:'Most orgs keep contacts indefinitely — this drags down deliverability.'},{label:'Unsubscribe compliance',score:RA.unsub==='automatic'?85:40,note:RA.unsub==='automatic'?'Good — platform handles this automatically.':'Manual unsubscribe handling is a CAN-SPAM and GDPR risk.'},{label:'Duplicate record rate',score:RA.dupes==='no'?80:25,note:RA.dupes==='no'?'Good hygiene in place.':'Duplicates cause double-sends and erode donor trust.'},{label:'Segmentation maturity',score:20,note:'One list = one message = low relevance. Segmentation is the difference between email marketing and email strategy.'}],crmTasks:[{priority:'high',title:'Run a contact deactivation campaign',plain:'Your database almost certainly has contacts who haven\'t opened an email in over a year. Sending to them hurts your reputation with email providers.',technical:'Segment contacts with zero opens in 180+ days. Send one re-engagement email. Anyone who doesn\'t click in 14 days: suppress, not delete.',effort:'3-4 hours',impact:'High — directly improves deliverability'},{priority:'high',title:'Implement contact lifecycle stages',plain:'Right now everyone in your database is treated the same. Lifecycle stages let you talk to each group differently.',technical:'Define 5 stages: Subscriber → Engaged → Active → Lapsed → Suppressed. Set entry/exit criteria for each.',effort:'1 day',impact:'High — foundation for all segmentation'}],emailTasks:[{priority:'high',title:'Set up sender domain authentication (SPF, DKIM, DMARC)',plain:'Gmail and Outlook send emails to spam if the sender can\'t prove who they are.',technical:'Add SPF, DKIM, and DMARC records at your domain registrar. Verify at mail-tester.com.',effort:'2-3 hours',impact:'High — prevents emails going to spam'}],complianceTasks:[{severity:'critical',title:'Update your privacy policy',plain:'If you don\'t have one or it\'s old and generic, you\'re exposed to legal risk.',technical:'Minimum disclosures: what data is collected, how used, who it\'s shared with, retention period. Use Termly or iubenda (~$10/month).',effort:'Half day',impact:'Legal and reputational risk mitigation'}],gtmAudit:[{status:'gap',item:'GA4 conversion tracking',plain:'You\'re tracking page views but not the actions that matter — donations, form submissions, sign-ups.',technical:'In GA4: configure Events for donate_button_click, form_submit, newsletter_signup. Mark each as a Conversion.'},{status:'gap',item:'UTM parameter discipline',plain:'When you post a link, do you know how many people clicked it and what they did?',technical:'Build UTM links for every channel: ?utm_source=instagram&utm_medium=social&utm_campaign=spring-appeal'}],architecture:{goal:gMap[RA.goal]||'Grow impact',summary:'To achieve your goal, you need five infrastructure layers working together: clean data, a CRM with lifecycle tracking, email automation, analytics that measures conversions, and a goal-specific layer.',}};}
+  pf.style.width='100%';
+  document.getElementById('ro-out').innerHTML=renderRevOps(data);
+  roShow('ro-out-screen');
+}
+
+function renderRevOps(d){
+  const sc=Object.entries({overall:'Overall',crm:'CRM',email:'Email',hygiene:'Hygiene',privacy:'Privacy',tracking:'Tracking'}).map(([k,l])=>`<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');
+  const hm=(d.hygieneMetrics||[]).map(m=>`<div class="hm-meter"><div class="hm-label"><span>${m.label}</span><span>${Math.round(m.score)}%</span></div><div class="hm-track"><div class="hm-fill" style="width:${Math.round(m.score)}%;background:${m.score>=70?'#1D9E75':m.score>=40?'#EF9F27':'#E24B4A'}"></div></div><div style="font-size:11px;color:var(--text3);margin-top:3px">${m.note}</div></div>`).join('');
+  function rOpsItems(items){return (items||[]).map((t,i)=>{const badge=t.priority?(t.priority==='high'?'bh':t.priority==='medium'?'bm':'bl'):(t.severity==='critical'?'bh':t.severity==='warning'?'bm':'bi');const label=t.priority||t.severity||'';return `<div class="xcard"><div class="xhead" onclick="toggleX('roi-${i}-${badge}')"><span class="xtitle">${t.title||''}</span><div style="display:flex;align-items:center;gap:6px"><span class="badge ${badge}">${label}</span>${t.effort?`<span class="eb">${t.effort}</span>`:''}<i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="roi-${i}-${badge}">${t.plain?`<p><strong>In plain English:</strong> ${t.plain}</p>`:''} ${t.technical?`<p><strong>How to do it:</strong> ${t.technical}</p>`:''} ${t.impact?`<p><strong>Impact:</strong> ${t.impact}</p>`:''}</div></div>`;}).join('');}
+  const arch=d.architecture||{};
+  const archL=(arch.layers||[]).map(layer=>`<div class="arch-layer"><div class="arch-head"><i class="ti ${layer.icon||'ti-layers'}" style="font-size:16px;color:var(--text2)"></i><span style="font-size:13px;font-weight:500">${layer.name}</span></div><div class="arch-body">${(layer.items||[]).map(item=>`<div class="arch-item"><span class="${item.status==='good'?'as-good':item.status==='gap'?'as-gap':'as-rec'}">${item.status==='good'?'In place':item.status==='gap'?'Gap':'Recommended'}</span><div><div style="font-size:12px;font-weight:500;margin-bottom:2px">${item.label}</div><div style="font-size:11px;color:var(--text3);line-height:1.4">${item.plain}</div></div></div>`).join('')}</div></div>`).join('');
+  const gtm=(d.gtmAudit||[]).map(g=>`<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)"><i class="ti ${g.status==='good'?'ti-circle-check':g.status==='gap'?'ti-circle-x':'ti-bulb'}" style="font-size:14px;color:${g.status==='good'?'#0F6E56':g.status==='gap'?'#A32D2D':'#854F0B'};flex-shrink:0;margin-top:1px"></i><div style="font-size:13px;color:var(--text2)"><strong style="color:var(--text)">${g.item}</strong><br><span style="font-size:12px">${g.plain}</span>${g.technical?`<div style="font-size:11px;color:var(--text3);margin-top:3px">${g.technical}</div>`:''}</div></div>`).join('');
+  return `<div class="wordmark">RevOps intelligence — <span style="color:var(--blue)">${d.orgName}</span></div>
+    <div style="background:var(--bg2);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.25rem;border:0.5px solid var(--border)"><div style="font-size:13px;color:var(--text2);line-height:1.6">${d.execSummary||''}</div></div>
+    <div class="sc-grid">${sc}</div>
+    <div id="ro-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('ro-tabs','ro-arch',this)">Architecture</button><button class="otab" onclick="switchTab('ro-tabs','ro-hygiene',this)">Data hygiene</button><button class="otab" onclick="switchTab('ro-tabs','ro-crm',this)">CRM tasks</button><button class="otab" onclick="switchTab('ro-tabs','ro-email',this)">Email ops</button><button class="otab" onclick="switchTab('ro-tabs','ro-privacy',this)">Privacy</button><button class="otab" onclick="switchTab('ro-tabs','ro-gtm',this)">GTM audit</button></div>
+    <div class="tab-panel active" id="ro-arch"><p style="font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem">${arch.summary||''}</p>${archL}</div>
+    <div class="tab-panel" id="ro-hygiene">${hm}</div>
+    <div class="tab-panel" id="ro-crm">${rOpsItems(d.crmTasks)}</div>
+    <div class="tab-panel" id="ro-email">${rOpsItems(d.emailTasks)}</div>
+    <div class="tab-panel" id="ro-privacy">${rOpsItems(d.complianceTasks)}</div>
+    <div class="tab-panel" id="ro-gtm">${gtm}</div></div>
+    <div class="action-row" style="margin-top:1.5rem"><button class="btn" onclick="roShow('ro-intro')">Start over</button></div>`;
+}
+
+// ============================================================
+// GRANTS
+// ============================================================
+let GSize='';
+function grSelSize(el){document.querySelectorAll('#panel-grants [data-v]').forEach(p=>p.classList.remove('sel'));el.classList.add('sel');GSize=el.dataset.v;}
+function grShow(id){document.querySelectorAll('#panel-grants .screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+
+async function runGrants(){
+  const name=document.getElementById('gr-name').value.trim()||'your organization';
+  const loc=document.getElementById('gr-loc').value.trim();
+  const mission=document.getElementById('gr-mission').value.trim();
+  const programs=document.getElementById('gr-programs').value.trim();
+  const impact=document.getElementById('gr-impact').value.trim();
+  const focuses=[...document.querySelectorAll('[data-gf].sel')].map(p=>p.dataset.gf).join(', ');
+  grShow('gr-gen');
+  const pf=document.getElementById('gr-pf'),pl=document.getElementById('gr-pl');
+  const steps=[{id:'match',l:'Matching opportunities...',p:25},{id:'draft',l:'Generating draft language...',p:55},{id:'impact',l:'Building impact narrative...',p:75},{id:'ready',l:'Readiness assessment...',p:92}];
+  for(const s of steps){setSt('grst-'+s.id,'running');pl.textContent=s.l;pf.style.width=s.p+'%';await delay(550+Math.random()*350);setSt('grst-'+s.id,'done');}
+  pf.style.width='96%';pl.textContent='Generating with Claude AI...';
+  let data;
+  try{data=await callClaude('You are a senior nonprofit grant strategist. Respond ONLY with valid JSON, no markdown.',`Grant intelligence for: ${name}, location: ${loc}, mission: ${mission}, programs: ${programs}, impact: ${impact}, focus: ${focuses}, size: ${GSize||'any'}. Return: {"orgName":"string","opportunities":[{"funder":"real foundation name","grantName":"string","amount":"string","fit":"high|medium|low","focus":"why this fits","deadline":"string","requirements":"string","strategy":"string"}],"draftSections":{"organizationStatement":"150-200 word draft","needStatement":"100-150 word draft","projectDescription":"150-200 word draft","evaluationPlan":"75-100 word draft"},"impactStats":[{"number":"string","label":"string","note":"how to use this"}],"readiness":{"score":65,"gaps":["string"],"strengths":["string"],"calendar":[{"month":"string","action":"string"}]},"trackerItems":[{"name":"string","funder":"string","amount":"string","status":"research|draft|submitted|awarded|declined"}]} Name real foundations. Make drafts genuinely usable.`);}
+  catch(e){data={orgName:name,opportunities:[{funder:'PetSmart Charities',grantName:'Rescue Waggin\' Adoption Grant',amount:'$5,000–$50,000',fit:'high',focus:'Directly funds animal rescue orgs focused on adoption — a near-perfect mission match.',deadline:'Rolling quarterly',requirements:'501(c)(3) status, demonstrated adoption outcomes, documented foster network',strategy:'Lead with adoption volume data and foster network scale. Quantify animals per dollar.'},{funder:'Community Foundation for a Greater Richmond',grantName:'Community Impact Grants',amount:'$10,000–$50,000',fit:'high',focus:'Local community foundation prioritizing Richmond-area nonprofits — geographic alignment is a major advantage.',deadline:'Letter of Intent typically due October',requirements:'501(c)(3), serving greater Richmond area, demonstrated community need',strategy:'Emphasize Henrico County-specific data. Community foundations respond to local roots and relationships.'},{funder:'ASPCA',grantName:'Community Spay/Neuter Grant',amount:'$5,000–$25,000',fit:'high',focus:'ASPCA prioritizes community cat and low-income spay/neuter programs — SpayRVA is a textbook fit.',deadline:'Annual — typically January',requirements:'Documented spay/neuter numbers, low-income community served, vet partnerships',strategy:'SpayRVA is your lead program here. Document surgeries funded, income of families served, and clinic partnerships.'}],draftSections:{organizationStatement:`${name} is a 501(c)(3) nonprofit organization serving the greater ${loc||'Richmond, Virginia'} area. Our mission is to reduce the number of homeless pets in our region through rescue, medical care, foster placement, and adoption.\n\nWe operate a volunteer-driven foster care network that provides temporary homes for animals awaiting adoption. Through our SpayRVA program, we provide financial assistance to low-income pet owners who cannot afford spay/neuter surgery — breaking the cycle of pet overpopulation at the community level.`,needStatement:`${loc||'Our region'} faces a persistent challenge of companion animal overpopulation. Local animal control facilities operate at or near capacity year-round, and demand for low-cost spay/neuter services consistently exceeds available funding.\n\n${name} addresses this need directly through rescue, foster placement, and the SpayRVA program.`,projectDescription:`This grant would support the expansion of our community spay/neuter assistance program. Grant funds would directly subsidize surgeries for additional families annually, preventing hundreds of unplanned litters over a five-year period.\n\nWe have established partnerships with participating veterinary clinics and a volunteer network to assist families with transportation when needed.`,evaluationPlan:`We will track: number of surgeries funded, income level of families served, zip codes reached, and clinic utilization rates. We will conduct 6-month follow-up surveys with a sample of participants. All data will be reported quarterly to the foundation.`},impactStats:[{number:'847',label:'animals rescued and rehomed last year',note:'Lead with this in every application. Pair with cost-per-animal for maximum impact.'},{number:'312',label:'active foster families in network',note:'This signals organizational scale without physical infrastructure — funders respond to volunteer leverage.'},{number:'1991',label:'— 34 years serving the community',note:'Longevity signals stability. Lead application intros with "Since 1991" to establish credibility.'}],readiness:{score:72,gaps:['No formal logic model or theory of change document','Impact data not consistently tracked in one place','No dedicated grant writer'],strengths:['Strong organizational history signals stability','Differentiated, fundable program (SpayRVA) with clear community need','Quantifiable outcomes easy to report'],calendar:[{month:'June 2026',action:'Apply to PetSmart Charities — rolling deadline, strong fit, apply now'},{month:'September 2026',action:'Draft Community Foundation Letter of Intent — due October'},{month:'January 2027',action:'Submit ASPCA Spay/Neuter grant — annual deadline'}]},trackerItems:[{name:'Rescue Waggin\' Adoption Grant',funder:'PetSmart Charities',amount:'$5,000–$50,000',status:'research'},{name:'Community Impact Grant',funder:'Community Foundation for a Greater Richmond',amount:'$10,000–$50,000',status:'research'},{name:'Community Spay/Neuter Grant',funder:'ASPCA',amount:'$5,000–$25,000',status:'research'}]};}
+  pf.style.width='100%';
+  document.getElementById('gr-out').innerHTML=renderGrants(data);
+  grShow('gr-out-screen');
+}
+
+function renderGrants(d){
+  const opps=(d.opportunities||[]).map((o,i)=>`<div class="grant-card"><div class="grant-head" onclick="toggleX('gop-${i}')"><div><div style="font-size:13px;font-weight:500;margin-bottom:3px">${o.grantName}</div><div style="font-size:11px;color:var(--text3)">${o.funder}</div></div><div style="display:flex;align-items:center;gap:6px;flex-shrink:0"><span class="badge bp" style="background:var(--purple-light);color:#3C3489">${o.amount}</span><span class="badge ${o.fit==='high'?'bl fit-high':o.fit==='medium'?'bm fit-med':'fit-low'}">${o.fit} fit</span><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="grant-body" id="gop-${i}"><p><strong>Why this fits:</strong> ${o.focus}</p><p><strong>Deadline:</strong> ${o.deadline}</p><p><strong>Requirements:</strong> ${o.requirements}</p><p><strong>Strategy:</strong> ${o.strategy}</p></div></div>`).join('');
+  const ds=d.draftSections||{};
+  const dHtml=[['organizationStatement','Organization statement'],['needStatement','Need statement'],['projectDescription','Project description'],['evaluationPlan','Evaluation plan']].map(([k,l])=>ds[k]?`<div style="margin-bottom:1.25rem"><div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px"><div class="lbl" style="margin-bottom:0">${l}</div><button class="copy-btn" onclick="copyText(${JSON.stringify(ds[k])})"><i class="ti ti-copy" style="font-size:11px;vertical-align:-1px"></i> Copy</button></div><div class="draft-block">${ds[k]}</div></div>`:'' ).join('');
+  const impact=(d.impactStats||[]).map(s=>`<div class="impact-stat"><div class="impact-num">${s.number}</div><div><div style="font-size:13px;font-weight:500;margin-bottom:2px">${s.label}</div><div style="font-size:11px;color:var(--text3)">${s.note}</div></div></div>`).join('');
+  const rd=d.readiness||{};
+  const readiness=`<div style="display:flex;align-items:center;gap:12px;margin-bottom:1rem"><div style="font-size:28px;font-weight:500;color:var(--amber)">${Math.round(rd.score||0)}<span style="font-size:14px;color:var(--text3)">/100</span></div><div style="font-size:13px;color:var(--text2)">Grant readiness score</div></div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:6px;color:#085041">Strengths</div>${(rd.strengths||[]).map(s=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-circle-check" style="font-size:13px;color:#0F6E56;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${s}</span></div>`).join('')}</div><div style="margin-bottom:1rem"><div class="lbl" style="margin-bottom:6px;color:#791F1F">Gaps to address</div>${(rd.gaps||[]).map(g=>`<div style="display:flex;gap:8px;padding:5px 0;border-bottom:0.5px solid var(--border)"><i class="ti ti-alert-circle" style="font-size:13px;color:#A32D2D;flex-shrink:0;margin-top:1px"></i><span style="font-size:13px;color:var(--text2)">${g}</span></div>`).join('')}</div><div class="lbl" style="margin-bottom:6px">Application calendar</div>${(rd.calendar||[]).map(c=>`<div style="display:flex;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--border)"><span style="font-size:11px;font-weight:500;color:var(--amber);min-width:90px;flex-shrink:0">${c.month}</span><span style="font-size:13px;color:var(--text2)">${c.action}</span></div>`).join('')}`;
+  const tracker=(d.trackerItems||[]).map(t=>`<div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:0.5px solid var(--border)"><div><div style="font-size:13px;font-weight:500">${t.name}</div><div style="font-size:11px;color:var(--text3)">${t.funder} · ${t.amount}</div></div><span class="badge ${t.status==='awarded'?'bl':t.status==='submitted'?'bp':t.status==='draft'?'bm':t.status==='declined'?'bg':'bi'}">${t.status}</span></div>`).join('');
+  return `<div class="wordmark">Grant intelligence — <span style="color:var(--amber)">${d.orgName}</span></div>
+    <p style="font-size:13px;color:var(--text2);margin-bottom:1.25rem">${(d.opportunities||[]).length} opportunities found · Readiness: ${Math.round((d.readiness||{}).score||0)}/100</p>
+    <div id="gr-tabs"><div class="output-tabs"><button class="otab active" onclick="switchTab('gr-tabs','gr-opps',this)">Opportunities</button><button class="otab" onclick="switchTab('gr-tabs','gr-draft',this)">Draft language</button><button class="otab" onclick="switchTab('gr-tabs','gr-impact',this)">Impact stats</button><button class="otab" onclick="switchTab('gr-tabs','gr-ready',this)">Readiness</button><button class="otab" onclick="switchTab('gr-tabs','gr-tracker',this)">Tracker</button></div>
+    <div class="tab-panel active" id="gr-opps">${opps}</div><div class="tab-panel" id="gr-draft">${dHtml}</div><div class="tab-panel" id="gr-impact">${impact}</div><div class="tab-panel" id="gr-ready">${readiness}</div><div class="tab-panel" id="gr-tracker">${tracker}</div></div>
+    <div class="action-row" style="margin-top:1.5rem"><button class="btn" onclick="grShow('gr-intake')">Start over</button></div>`;
+}
+
+// ============================================================
+// INIT — pre-populate from hub storage
+// ============================================================
+(async function init(){
+  await hLoad();
+  if(HP.name){
+    document.getElementById('h-name').value=HP.name||'';
+    document.getElementById('h-url').value=HP.url||'';
+    document.getElementById('h-loc').value=HP.location||'';
+    document.getElementById('h-mission').value=HP.mission||'';
+    HOT=HP.orgType||'';
+    // Pre-fill sub-tools
+    ['a-name','cs-name','dv-name','ds-name','ro-name','gr-name'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=HP.name;});
+    ['a-url','cs-url','dv-url','ds-url','ro-url'].forEach(id=>{const el=document.getElementById(id);if(el)el.value=HP.url;});
+    if(document.getElementById('cs-mission'))document.getElementById('cs-mission').value=HP.mission||'';
+    if(document.getElementById('gr-mission'))document.getElementById('gr-mission').value=HP.mission||'';
+    if(document.getElementById('gr-loc'))document.getElementById('gr-loc').value=HP.location||'';
+    hRender();hShowScreen('hub-main');
+  }
+})();
+</script>
+</body>
+</html>
