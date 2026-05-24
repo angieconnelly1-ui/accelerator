@@ -201,7 +201,12 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
         <button class="pill" data-goal="launch" onclick="this.classList.toggle('sel')">Launch a program / product</button>
       </div>
       <div class="lbl">Mission in one sentence</div><input type="text" id="h-mission" placeholder="e.g. We provide free legal services to low-income families in our community.">
-      <div style="display:flex;justify-content:flex-end;margin-top:.5rem"><button class="btn btn-blue" onclick="hSave()">Enter the hub →</button></div>
+      <div style="border-top:0.5px solid var(--border);margin-top:1.25rem;padding-top:1.25rem">
+        <div class="lbl" style="display:flex;align-items:center;gap:6px"><i class="ti ti-key" style="font-size:13px"></i> Anthropic API key</div>
+        <input type="password" id="h-apikey" placeholder="sk-ant-..." style="margin-bottom:.4rem" oninput="localStorage.setItem('accel_api_key',this.value.trim())">
+        <div style="font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:1rem">Required to run the AI tools. Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue)">console.anthropic.com</a>. Your key is stored only in your browser and never sent anywhere except directly to Anthropic.</div>
+      </div>
+      <div style="display:flex;justify-content:flex-end"><button class="btn btn-blue" onclick="hSave()">Enter the hub →</button></div>
     </div>
   </div>
   <div class="screen" id="hub-main">
@@ -267,6 +272,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
       <button class="pill" onclick="aSelType('established',this)">Established nonprofit</button>
       <button class="pill" onclick="aSelType('smallbiz',this)">Small business</button>
       <button class="pill" onclick="aSelType('arts',this)">Arts / cultural org</button>
+      <button class="pill" onclick="aSelType('startup',this)">Startup / early-stage</button>
     </div>
     <div style="display:flex;justify-content:flex-end"><button class="btn btn-purple" onclick="runAudit()">Run my audit →</button></div>
     <div id="a-progress" style="display:none;margin-top:1.5rem">
@@ -604,11 +610,22 @@ function setSt(id,state){
   el.innerHTML=state==='running'?'<span class="pulse"></span> Running...':state==='done'?'<i class="ti ti-check" style="font-size:11px"></i> Complete':'<span class="pulse"></span> Waiting';
 }
 
+function errHtml(e,outId){
+  const noKey=e&&(e.message==='NO_KEY'||e.message?.includes('NO_KEY'));
+  const msg=noKey
+    ? `<strong>API key required.</strong> Add your Anthropic API key in the Hub to use this tool. <a href="#" onclick="sw('hub');return false;" style="color:var(--blue)">Go to Hub →</a>`
+    : `Unable to connect to the AI. Check your API key and connection, then try again.${e?.message?' <span style="color:var(--text3);font-size:11px">('+e.message+')</span>':''}`;
+  return `<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">${noKey?'🔑':'⚠'}</div><div style="font-size:14px;font-weight:500;margin-bottom:.5rem;color:var(--text)">${noKey?'API key needed':'Generation failed'}</div><div style="font-size:13px;line-height:1.6">${msg}</div></div>`;
+}
+
 async function callClaude(sys,prompt){
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:sys,messages:[{role:'user',content:prompt}]})});
+  const key=(localStorage.getItem('accel_api_key')||'').trim();
+  if(!key)throw new Error('NO_KEY');
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sys,messages:[{role:'user',content:prompt}]})});
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e?.error?.message||`API error ${res.status}`);}
   const data=await res.json();
   const txt=data.content.map(b=>b.text||'').join('');
-  return JSON.parse(txt.replace(/```json|```/g,'').trim());
+  return JSON.parse(txt.replace(/```json\n?|```/g,'').trim());
 }
 
 // ============================================================
@@ -633,7 +650,7 @@ async function hSave(){
   await hPersist();hRender();hShowScreen('hub-main');
 }
 
-const typeLabels={grassroots:'Grassroots nonprofit',established:'Established nonprofit',smallbiz:'Small business',arts:'Arts / cultural org'};
+const typeLabels={grassroots:'Grassroots nonprofit',established:'Established nonprofit',smallbiz:'Small business',arts:'Arts / cultural org',startup:'Startup / early-stage'};
 const CHECKLIST=[
   {id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed'},
   {id:'c3',text:'Google Ad Grants application submitted'},{id:'c4',text:'Welcome email sequence set up'},
@@ -684,7 +701,11 @@ async function runAudit(){
   pf.style.width='95%';pl.textContent='Generating report...';
   let data;
   try{data=await callClaude('You are a senior marketing strategist. Respond ONLY with valid JSON, no markdown.',`Marketing audit for "${name}" (${url}), type: ${AType||'nonprofit'}. Return JSON: {"overallScore":52,"grade":"C+","execSummary":"2-3 sentences","scores":{"seo":45,"aeo":30,"geo":55,"technical":60,"content":50,"social":40,"backlink":35,"brand":65,"ux":70},"sections":[{"id":"seo","title":"string","score":45,"status":"needs-work","findings":[{"type":"issue","text":"string"},{"type":"win","text":"string"},{"type":"opportunity","text":"string"}]}],"actions":{"developer":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"designer":[{"priority":"med","title":"string","desc":"string","effort":"string","impact":"string"}],"content":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"marketing":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}]},"swot":{"strengths":["string"],"weaknesses":["string"],"opportunities":["string"],"threats":["string"]}} Include sections for SEO, AEO, GEO, Technical, Content, Social, Backlinks, Brand, UX. Make findings specific.`);}
-  catch(e){data={overallScore:48,grade:'C',execSummary:`${name} has a functional web presence with significant untapped potential. The highest-impact opportunity is improving structured data and AEO to capture AI-driven search traffic. Several quick wins require no technical skills or budget.`,scores:{seo:42,aeo:25,geo:50,technical:60,content:45,social:38,backlink:30,brand:60,ux:65},sections:[{id:'seo',title:'SEO & keyword analysis',score:42,status:'needs-work',findings:[{type:'issue',text:'<strong>Title tags</strong> are missing or duplicated on key pages.'},{type:'opportunity',text:'Long-tail local keywords are likely unclaimed — a content cluster strategy could own these.'},{type:'win',text:'Domain appears established with some organic presence.'}]},{id:'aeo',title:'AEO — answer engine optimization',score:25,status:'critical',findings:[{type:'issue',text:'No <strong>FAQ schema markup</strong> detected — invisible to AI assistants like ChatGPT and Perplexity.'},{type:'issue',text:'<strong>Organization schema</strong> is missing — AI assistants cannot reliably cite your org.'},{type:'opportunity',text:'Adding structured FAQ content would significantly improve AI citation likelihood.'}]},{id:'geo',title:'GEO — geographic & local',score:50,status:'fair',findings:[{type:'issue',text:'<strong>Google Business Profile</strong> optimization status unclear.'},{type:'opportunity',text:'Local news mentions and community partner backlinks are a high-value link strategy.'}]},{id:'technical',title:'Technical health',score:60,status:'fair',findings:[{type:'issue',text:'No structured data detected on any page.'},{type:'opportunity',text:'JSON-LD schema takes 2 hours to implement and has an outsized impact.'}]}],actions:{developer:[{priority:'high',title:'Add JSON-LD Organization schema',desc:'Add structured data to homepage so AI assistants can cite your org accurately.',effort:'2 hours',impact:'High'},{priority:'high',title:'Fix Core Web Vitals',desc:'Run PageSpeed Insights and address LCP, FID, and CLS issues.',effort:'4-8 hours',impact:'High'}],designer:[{priority:'high',title:'Donate CTA above fold',desc:'The donate button must be visible without scrolling on all devices.',effort:'Half day',impact:'High'}],content:[{priority:'high',title:'Write FAQ page targeting AI search',desc:'Create 15+ Q&A pairs with FAQPage schema. AI assistants pull directly from structured FAQ content.',effort:'Half day',impact:'High'}],marketing:[{priority:'high',title:'Apply for Google Ad Grants',desc:'$10k/month free advertising for 501(c)(3) orgs. Apply at google.com/grants.',effort:'1 day',impact:'Very high'}]},swot:{strengths:['Mission-driven purpose creates authentic content','Existing community trust to leverage','Free tool eligibility (Google Ad Grants, Canva nonprofit)'],weaknesses:['Technical SEO gaps','Low backlink authority','Limited staff time for content'],opportunities:['AEO is wide open — most orgs ignore it','Google Ad Grants likely unclaimed','Local media as link-building partners'],threats:['Larger orgs dominating local search','Algorithm changes affecting organic reach']}};}
+  catch(e){
+    pf.style.width='100%';document.getElementById('a-progress').style.display='none';document.getElementById('a-out').style.display='block';
+    document.getElementById('a-out').innerHTML=errHtml(e);
+    return;
+  }
   pf.style.width='100%';document.getElementById('a-progress').style.display='none';document.getElementById('a-out').style.display='block';
   renderAudit(data,name);
 }
@@ -737,7 +758,7 @@ async function runContent(){
     pf.style.width='100%';
     document.getElementById('cs-prog-wrap').style.display='none';
     document.getElementById('cs-out').style.display='block';
-    document.getElementById('cs-out').innerHTML='<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">⚠</div><div style="font-size:14px;font-weight:500;margin-bottom:.4rem;color:var(--text)">Generation failed</div><div style="font-size:13px">Unable to connect to the AI. Please check your connection and try again.</div></div>';
+    document.getElementById('cs-out').innerHTML=errHtml(e);
     return;
   }
   pf.style.width='100%';document.getElementById('cs-prog-wrap').style.display='none';document.getElementById('cs-out').style.display='block';
@@ -776,7 +797,11 @@ async function runDev(){
   pl.textContent='Generating fix queue...';pf.style.width='96%';
   let data;
   try{data=await callClaude('You are a senior web developer. Respond ONLY with valid JSON, no markdown.',`Tech fix queue for: ${name} (${url}), CMS: ${cms}${ctx?', context: '+ctx:''}. Return: {"orgName":"string","cms":"string","scores":{"schema":25,"performance":60,"accessibility":55,"crawl":70,"security":80,"mobile":65},"tasks":[{"id":"t1","priority":"high|medium|low","category":"string","title":"string","problem":"string","solution":"string","effort":"string","impact":"string","code":"copy-paste ready code or empty"}],"checks":[{"status":"pass|fail|warn","label":"string","detail":"string"}]} 8-12 tasks. Code must be usable.`);}
-  catch(e){data={orgName:name,cms,scores:{schema:22,performance:58,accessibility:52,crawl:72,security:85,mobile:65},tasks:[{id:'t1',priority:'high',category:'schema',title:'Add JSON-LD Organization schema to homepage',problem:'No Organization schema detected — AI assistants cannot reliably identify your org.',solution:`Add JSON-LD to the homepage head. On Squarespace: Settings → Advanced → Code Injection → Header.`,effort:'1-2 hours',impact:'High',code:`<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "Organization",\n  "name": "${name}",\n  "url": "${url||'https://yoursite.org'}",\n  "description": "Your mission description here."\n}\n<\/script>`},{id:'t2',priority:'high',category:'schema',title:'Add FAQPage schema to /faq',problem:'FAQ page exists but has no structured data — missing AI answer citations.',solution:'Add FAQPage JSON-LD to the /faq page. Each Q&A under 150 words gets best AI coverage.',effort:'2-3 hours',impact:'High',code:`<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "FAQPage",\n  "mainEntity": [{\n    "@type": "Question",\n    "name": "Your question here?",\n    "acceptedAnswer": {"@type": "Answer","text": "Your answer here."}\n  }]\n}\n<\/script>`},{id:'t3',priority:'high',category:'crawl',title:'Add meta descriptions to all key pages',problem:'Missing meta descriptions mean Google writes its own — rarely accurate.',solution:'In CMS page settings, write a unique 140-155 character description per page.',effort:'2-3 hours',impact:'High',code:`Homepage: "${name} rescues dogs and cats in [City]. Adopt, foster, donate, or volunteer."\n/adopt: "Browse adoptable pets. Submit an adoption application online today."\n/faq: "Answers about adopting, fostering, programs, and volunteering."`},{id:'t4',priority:'high',category:'analytics',title:'Set up Google Search Console',problem:'Without GSC there is no visibility into crawl errors or search queries.',solution:'Verify at search.google.com/search-console, submit sitemap.xml.',effort:'1 hour',impact:'High',code:`Steps:\n1. Go to search.google.com/search-console\n2. Add property: ${url||'your-site.org'}\n3. Verify via HTML tag (paste in CMS Header Code Injection)\n4. Submit sitemap: ${url||'your-site.org'}/sitemap.xml`}],checks:[{status:'fail',label:'Organization schema',detail:'No JSON-LD Organization markup found on homepage.'},{status:'fail',label:'FAQPage schema',detail:'FAQ page missing structured data.'},{status:'fail',label:'Meta descriptions',detail:'Key pages missing custom meta descriptions.'},{status:'pass',label:'HTTPS enabled',detail:'Site serves over HTTPS — good baseline trust signal.'},{status:'warn',label:'Core Web Vitals',detail:'Run PageSpeed Insights to confirm performance issues.'}]};}
+  catch(e){
+    pf.style.width='100%';document.getElementById('dv-prog-wrap').style.display='none';document.getElementById('dv-out').style.display='block';
+    document.getElementById('dv-out').innerHTML=errHtml(e);
+    return;
+  }
   pf.style.width='100%';document.getElementById('dv-prog-wrap').style.display='none';document.getElementById('dv-out').style.display='block';
   renderDev(data);
 }
@@ -813,7 +838,7 @@ async function runDesign(){
     pf.style.width='100%';
     document.getElementById('ds-prog-wrap').style.display='none';
     document.getElementById('ds-out').style.display='block';
-    document.getElementById('ds-out').innerHTML='<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">⚠</div><div style="font-size:14px;font-weight:500;margin-bottom:.4rem;color:var(--text)">Generation failed</div><div style="font-size:13px">Unable to connect to the AI. Please check your connection and try again.</div></div>';
+    document.getElementById('ds-out').innerHTML=errHtml(e);
     return;
   }
   pf.style.width='100%';document.getElementById('ds-prog-wrap').style.display='none';document.getElementById('ds-out').style.display='block';
@@ -849,7 +874,12 @@ async function runRevOps(){
   pf.style.width='96%';pl.textContent='Generating report...';
   let data;
   try{data=await callClaude('You are a senior RevOps strategist. Respond ONLY with valid JSON, no markdown.',`RevOps audit for: ${name} (${url}), goal: ${RA.goal}, CRM: ${RA.crm}, email: ${RA.email_tool}, analytics: ${(RA.analytics||[]).join(',')}, deactivate: ${RA.deactivate}, listhealth: ${RA.listhealth}, unsub: ${RA.unsub}, dupes: ${RA.dupes}, privacy: ${RA.privacy}, cookie: ${RA.cookie}, retention: ${RA.retention}. Return: {"orgName":"string","goal":"string","execSummary":"string","scores":{"crm":45,"email":50,"hygiene":30,"privacy":40,"tracking":35,"overall":40},"hygieneMetrics":[{"label":"string","score":40,"note":"string"}],"crmTasks":[{"priority":"high|medium|low","title":"string","plain":"plain English","technical":"technical detail","effort":"string","impact":"string"}],"emailTasks":[{"priority":"high|medium|low","title":"string","plain":"string","technical":"string","effort":"string"}],"complianceTasks":[{"severity":"critical|warning|info","title":"string","plain":"string","technical":"string","effort":"string"}],"gtmAudit":[{"status":"good|gap|recommend","item":"string","plain":"string","technical":"string"}],"architecture":{"goal":"string","summary":"string","layers":[{"name":"string","icon":"ti-database","items":[{"label":"string","status":"good|gap|recommended","plain":"string"}]}]}}`);}
-  catch(e){const gMap={donations:'Increase donation revenue',adoptions:'Grow adoption volume',rankings:'Improve organic search rankings',volunteers:'Recruit and retain volunteers',retention:'Retain existing supporters',awareness:'Build brand awareness',leads:'Generate qualified leads',sales:'Drive sales and revenue growth',appointments:'Book more appointments and consultations',events:'Drive event attendance and ticket sales',membership:'Grow and retain membership',sponsors:'Attract corporate sponsors and partners',repeat:'Increase repeat customers and loyalty',launch:'Successfully launch a new program or product'};data={orgName:name,goal:gMap[RA.goal]||'Grow organizational impact',execSummary:'Your operations infrastructure has significant gaps quietly undermining your marketing results. The most urgent issues are data hygiene and privacy compliance. The good news: most are fixable in under a month.',scores:{crm:38,email:45,hygiene:28,privacy:35,tracking:42,overall:38},hygieneMetrics:[{label:'Contact freshness',score:30,note:'Most orgs keep contacts indefinitely — this drags down deliverability.'},{label:'Unsubscribe compliance',score:RA.unsub==='automatic'?85:40,note:RA.unsub==='automatic'?'Good — platform handles this automatically.':'Manual unsubscribe handling is a CAN-SPAM and GDPR risk.'},{label:'Duplicate record rate',score:RA.dupes==='no'?80:25,note:RA.dupes==='no'?'Good hygiene in place.':'Duplicates cause double-sends and erode donor trust.'},{label:'Segmentation maturity',score:20,note:'One list = one message = low relevance. Segmentation is the difference between email marketing and email strategy.'}],crmTasks:[{priority:'high',title:'Run a contact deactivation campaign',plain:'Your database almost certainly has contacts who haven\'t opened an email in over a year. Sending to them hurts your reputation with email providers.',technical:'Segment contacts with zero opens in 180+ days. Send one re-engagement email. Anyone who doesn\'t click in 14 days: suppress, not delete.',effort:'3-4 hours',impact:'High — directly improves deliverability'},{priority:'high',title:'Implement contact lifecycle stages',plain:'Right now everyone in your database is treated the same. Lifecycle stages let you talk to each group differently.',technical:'Define 5 stages: Subscriber → Engaged → Active → Lapsed → Suppressed. Set entry/exit criteria for each.',effort:'1 day',impact:'High — foundation for all segmentation'}],emailTasks:[{priority:'high',title:'Set up sender domain authentication (SPF, DKIM, DMARC)',plain:'Gmail and Outlook send emails to spam if the sender can\'t prove who they are.',technical:'Add SPF, DKIM, and DMARC records at your domain registrar. Verify at mail-tester.com.',effort:'2-3 hours',impact:'High — prevents emails going to spam'}],complianceTasks:[{severity:'critical',title:'Update your privacy policy',plain:'If you don\'t have one or it\'s old and generic, you\'re exposed to legal risk.',technical:'Minimum disclosures: what data is collected, how used, who it\'s shared with, retention period. Use Termly or iubenda (~$10/month).',effort:'Half day',impact:'Legal and reputational risk mitigation'}],gtmAudit:[{status:'gap',item:'GA4 conversion tracking',plain:'You\'re tracking page views but not the actions that matter — donations, form submissions, sign-ups.',technical:'In GA4: configure Events for donate_button_click, form_submit, newsletter_signup. Mark each as a Conversion.'},{status:'gap',item:'UTM parameter discipline',plain:'When you post a link, do you know how many people clicked it and what they did?',technical:'Build UTM links for every channel: ?utm_source=instagram&utm_medium=social&utm_campaign=spring-appeal'}],architecture:{goal:gMap[RA.goal]||'Grow impact',summary:'To achieve your goal, you need five infrastructure layers working together: clean data, a CRM with lifecycle tracking, email automation, analytics that measures conversions, and a goal-specific layer.',}};}
+  catch(e){
+    pf.style.width='100%';
+    document.getElementById('ro-out').innerHTML=errHtml(e);
+    roShow('ro-out-screen');
+    return;
+  }
   pf.style.width='100%';
   document.getElementById('ro-out').innerHTML=renderRevOps(data);
   roShow('ro-out-screen');
@@ -898,7 +928,7 @@ async function runGrants(){
   try{data=await callClaude('You are a senior nonprofit grant strategist. Respond ONLY with valid JSON, no markdown.',`Grant intelligence for: ${name}, location: ${loc}, mission: ${mission}, programs: ${programs}, impact: ${impact}, focus: ${focuses}, size: ${GSize||'any'}. Return: {"orgName":"string","opportunities":[{"funder":"real foundation name","grantName":"string","amount":"string","fit":"high|medium|low","focus":"why this fits","deadline":"string","requirements":"string","strategy":"string"}],"draftSections":{"organizationStatement":"150-200 word draft","needStatement":"100-150 word draft","projectDescription":"150-200 word draft","evaluationPlan":"75-100 word draft"},"impactStats":[{"number":"string","label":"string","note":"how to use this"}],"readiness":{"score":65,"gaps":["string"],"strengths":["string"],"calendar":[{"month":"string","action":"string"}]},"trackerItems":[{"name":"string","funder":"string","amount":"string","status":"research|draft|submitted|awarded|declined"}]} Name real foundations. Make drafts genuinely usable.`);}
   catch(e){
     pf.style.width='100%';
-    document.getElementById('gr-out').innerHTML='<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">⚠</div><div style="font-size:14px;font-weight:500;margin-bottom:.4rem;color:var(--text)">Generation failed</div><div style="font-size:13px">Unable to connect to the AI. Please check your connection and try again.</div></div>';
+    document.getElementById('gr-out').innerHTML=errHtml(e);
     grShow('gr-out-screen');
     return;
   }
@@ -926,6 +956,9 @@ function renderGrants(d){
 // INIT — pre-populate from hub storage
 // ============================================================
 (async function init(){
+  // Pre-fill API key field if already saved
+  const savedKey=localStorage.getItem('accel_api_key')||'';
+  if(savedKey&&document.getElementById('h-apikey'))document.getElementById('h-apikey').value=savedKey;
   await hLoad();
   if(HP.name){
     document.getElementById('h-name').value=HP.name||'';
