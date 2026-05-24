@@ -201,12 +201,7 @@ input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
         <button class="pill" data-goal="launch" onclick="this.classList.toggle('sel')">Launch a program / product</button>
       </div>
       <div class="lbl">Mission in one sentence</div><input type="text" id="h-mission" placeholder="e.g. We provide free legal services to low-income families in our community.">
-      <div style="border-top:0.5px solid var(--border);margin-top:1.25rem;padding-top:1.25rem">
-        <div class="lbl" style="display:flex;align-items:center;gap:6px"><i class="ti ti-key" style="font-size:13px"></i> Anthropic API key</div>
-        <input type="password" id="h-apikey" placeholder="sk-ant-..." style="margin-bottom:.4rem" oninput="localStorage.setItem('accel_api_key',this.value.trim())">
-        <div style="font-size:11px;color:var(--text3);line-height:1.5;margin-bottom:1rem">Required to run the AI tools. Get a free key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--blue)">console.anthropic.com</a>. Your key is stored only in your browser and never sent anywhere except directly to Anthropic.</div>
-      </div>
-      <div style="display:flex;justify-content:flex-end"><button class="btn btn-blue" onclick="hSave()">Enter the hub →</button></div>
+      <div style="display:flex;justify-content:flex-end;margin-top:.5rem"><button class="btn btn-blue" onclick="hSave()">Enter the hub →</button></div>
     </div>
   </div>
   <div class="screen" id="hub-main">
@@ -610,19 +605,14 @@ function setSt(id,state){
   el.innerHTML=state==='running'?'<span class="pulse"></span> Running...':state==='done'?'<i class="ti ti-check" style="font-size:11px"></i> Complete':'<span class="pulse"></span> Waiting';
 }
 
-function errHtml(e,outId){
-  const noKey=e&&(e.message==='NO_KEY'||e.message?.includes('NO_KEY'));
-  const msg=noKey
-    ? `<strong>API key required.</strong> Add your Anthropic API key in the Hub to use this tool. <a href="#" onclick="sw('hub');return false;" style="color:var(--blue)">Go to Hub →</a>`
-    : `Unable to connect to the AI. Check your API key and connection, then try again.${e?.message?' <span style="color:var(--text3);font-size:11px">('+e.message+')</span>':''}`;
-  return `<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">${noKey?'🔑':'⚠'}</div><div style="font-size:14px;font-weight:500;margin-bottom:.5rem;color:var(--text)">${noKey?'API key needed':'Generation failed'}</div><div style="font-size:13px;line-height:1.6">${msg}</div></div>`;
+function errHtml(e){
+  const msg=`Something went wrong generating your results. Please try again.${e?.message?' <span style="color:var(--text3);font-size:11px">('+e.message+')</span>':''}`;
+  return `<div style="padding:2rem;text-align:center;color:var(--text2)"><div style="font-size:22px;margin-bottom:.75rem">⚠</div><div style="font-size:14px;font-weight:500;margin-bottom:.5rem;color:var(--text)">Generation failed</div><div style="font-size:13px;line-height:1.6">${msg}</div></div>`;
 }
 
 async function callClaude(sys,prompt){
-  const key=(localStorage.getItem('accel_api_key')||'').trim();
-  if(!key)throw new Error('NO_KEY');
-  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify({model:'claude-sonnet-4-5',max_tokens:4000,system:sys,messages:[{role:'user',content:prompt}]})});
-  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e?.error?.message||`API error ${res.status}`);}
+  const res=await fetch('/.netlify/functions/claude',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({system:sys,prompt})});
+  if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e?.error||`Server error ${res.status}`);}
   const data=await res.json();
   const txt=data.content.map(b=>b.text||'').join('');
   return JSON.parse(txt.replace(/```json\n?|```/g,'').trim());
@@ -956,9 +946,6 @@ function renderGrants(d){
 // INIT — pre-populate from hub storage
 // ============================================================
 (async function init(){
-  // Pre-fill API key field if already saved
-  const savedKey=localStorage.getItem('accel_api_key')||'';
-  if(savedKey&&document.getElementById('h-apikey'))document.getElementById('h-apikey').value=savedKey;
   await hLoad();
   if(HP.name){
     document.getElementById('h-name').value=HP.name||'';
