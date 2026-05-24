@@ -4,7 +4,7 @@ exports.handler = async function(event) {
     return { statusCode: 405, body: 'Method Not Allowed' };
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return {
       statusCode: 500,
@@ -25,18 +25,22 @@ exports.handler = async function(event) {
   }
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-5',
-        max_tokens: 4000,
-        system,
-        messages: [{ role: 'user', content: prompt }]
+        system_instruction: {
+          parts: [{ text: system }]
+        },
+        contents: [
+          { role: 'user', parts: [{ text: prompt }] }
+        ],
+        generationConfig: {
+          maxOutputTokens: 4000,
+          temperature: 0.7
+        }
       })
     });
 
@@ -45,15 +49,19 @@ exports.handler = async function(event) {
     if (!response.ok) {
       return {
         statusCode: response.status,
-        body: JSON.stringify({ error: data?.error?.message || 'Anthropic API error' })
+        body: JSON.stringify({ error: data?.error?.message || 'Gemini API error' })
       };
     }
 
+    // Normalize Gemini response to match the shape the frontend expects:
+    // { content: [{ text: "..." }] }
+    const text = data?.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
     return {
       statusCode: 200,
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ content: [{ text }] })
     };
+
   } catch (err) {
     return {
       statusCode: 500,
