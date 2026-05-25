@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Intelligence — Free Marketing Audit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{--bg:#fff;--bg2:#f7f7f5;--text:#1a1a18;--text2:#6b6b67;--text3:#9c9a92;--border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);--purple:#534AB7;--purple-light:#EEEDFE;--teal:#0F6E56;--teal-light:#E1F5EE;--blue:#185FA5;--blue-light:#E6F1FB;--amber:#854F0B;--amber-light:#FAEEDA;--green:#3B6D11;--green-light:#EAF3DE;--red:#A32D2D;--red-light:#FCEBEB;--radius:8px;--radius-lg:12px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.top-nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;height:48px}
+.nav-logo{font-size:13px;font-weight:600;color:var(--text)}
+.nav-logo span{color:var(--blue)}
+.page{display:none;min-height:calc(100vh - 48px);padding:1.5rem;max-width:720px;margin:0 auto}
+.page.active{display:block}
+h1{font-size:22px;font-weight:500;margin-bottom:.4rem}
+h2{font-size:17px;font-weight:500;margin-bottom:.75rem}
+.sub{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.sec-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.wordmark{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:1.5rem}
+input[type=text],input[type=url]{width:100%;border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 13px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);margin-bottom:.875rem}
+input:focus{outline:none;border-color:var(--blue)}
+.btn{border:0.5px solid var(--border2);border-radius:var(--radius);padding:8px 18px;font-size:13px;cursor:pointer;background:var(--bg);color:var(--text);font-family:inherit}
+.btn:hover{background:var(--bg2)}
+.btn-blue{background:var(--blue);border-color:var(--blue);color:#fff}
+.btn-blue:hover{background:#0C447C}
+.btn-purple{background:var(--purple);border-color:var(--purple);color:#fff}
+.btn-purple:hover{background:#3D3490}
+.btn-sm{padding:5px 12px;font-size:12px}
+.pill-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{border:0.5px solid var(--border);border-radius:var(--radius);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit}
+.pill:hover{background:var(--bg2)}
+.pill.sel{border-color:var(--blue);background:var(--blue-light);color:#0C447C}
+.badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--radius)}
+.bh{background:var(--red-light);color:var(--red)}.bm{background:var(--amber-light);color:var(--amber)}.bl{background:var(--teal-light);color:var(--teal)}.bi{background:var(--blue-light);color:var(--blue)}.bp{background:var(--purple-light);color:#3C3489}.bg{background:var(--green-light);color:var(--green)}
+.ot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
+.ot-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;cursor:pointer;background:var(--bg);text-align:left;transition:border-color .15s,background .15s}
+.ot-card:hover{background:var(--bg2)}
+.ot-card.sel{border:1.5px solid var(--blue);background:var(--blue-light)}
+.prog-track{height:3px;background:var(--border);border-radius:2px;margin-bottom:6px}
+.prog-fill{height:3px;border-radius:2px;transition:width .4s ease}
+.prog-lbl{font-size:11px;color:var(--text3)}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1.25rem 0}
+.gen-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;background:var(--bg)}
+.gen-head{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.gen-icon{font-size:15px;color:var(--text3)}
+.gen-title{font-size:12px;font-weight:500;color:var(--text2)}
+.gen-status{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.gen-status.done{color:var(--teal)}.gen-status.running{color:var(--purple)}
+.pulse{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-bottom:1.25rem}
+.sc-tile{background:var(--bg2);border-radius:var(--radius);padding:.875rem;text-align:center}
+.sc-val{font-size:22px;font-weight:500;margin-bottom:2px}
+.sc-lbl{font-size:11px;color:var(--text3)}
+.sg{color:#0F6E56}.sa{color:#854F0B}.sr{color:#A32D2D}
+.xcard{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.75rem;overflow:hidden}
+.xhead{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--bg)}
+.xhead:hover{background:var(--bg2)}
+.xtitle{font-size:13px;font-weight:500}
+.xbody{padding:14px;border-top:0.5px solid var(--border);display:none}
+.xbody.open{display:block}
+.output-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;border-bottom:0.5px solid var(--border);padding-bottom:.75rem}
+.otab{border:none;background:none;padding:6px 12px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-radius:var(--radius);font-family:inherit}
+.otab:hover{background:var(--bg2)}
+.otab.active{background:var(--blue-light);color:#0C447C}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.hub-header{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.qw-card{border-left:3px solid #1D9E75;padding:10px 14px;margin-bottom:.75rem;border-radius:0 var(--radius) var(--radius) 0;background:var(--bg);border-top:0.5px solid var(--border);border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.metric-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.metric-label{font-size:12px;color:var(--text2);width:140px;flex-shrink:0}
+.metric-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.metric-fill{height:6px;border-radius:3px;background:var(--blue)}
+.metric-val{font-size:12px;font-weight:500;width:36px;text-align:right}
+.ms-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.ms-row:last-child{border-bottom:none}
+.ms-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.ci-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.ci-item:last-child{border-bottom:none}
+.ci-box{width:16px;height:16px;border-radius:4px;border:0.5px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.ci-box.checked{background:#1D9E75;border-color:#1D9E75}
+.audit-cta{border:1.5px solid var(--purple);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem;background:var(--purple-light)}
+.audit-cta h2{color:#3C3489;margin-bottom:.35rem}
+.audit-cta .sub{color:var(--purple);margin-bottom:1rem;font-size:13px}
+</style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-logo">Accelerator <span>Growth Intelligence</span></div>
+  <div id="nav-edit" style="display:none">
+    <button class="btn btn-sm" onclick="showPage('setup')"><i class="ti ti-edit" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Edit org</button>
+  </div>
+</nav>
+
+<!-- SETUP -->
+<div class="page active" id="page-setup">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Growth Intelligence — <span style="color:var(--blue)">free audit</span></div>
+    <h1>Tell us about your organization</h1>
+    <p class="sub">Enter your details once and your audit is pre-filled every time.</p>
+    <div class="lbl">Organization name</div>
+    <input type="text" id="h-name" placeholder="e.g. Richmond Community Kitchen">
+    <div class="lbl">Website URL</div>
+    <input type="url" id="h-url" placeholder="https://yoursite.org">
+    <div class="lbl">Location</div>
+    <input type="text" id="h-loc" placeholder="e.g. Richmond, VA">
+    <div class="lbl">Organization type</div>
+    <div class="ot-grid">
+      <button class="ot-card" onclick="selectOrgType('grassroots',this)">
+        <div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-users"></i></div>
+        <div style="font-size:12px;font-weight:500">Grassroots nonprofit</div>
+      </button>
+      <button class="ot-card" onclick="selectOrgType('established',this)">
+        <div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-community"></i></div>
+        <div style="font-size:12px;font-weight:500">Established nonprofit</div>
+      </button>
+      <button class="ot-card" onclick="selectOrgType('smallbiz',this)">
+        <div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-store"></i></div>
+        <div style="font-size:12px;font-weight:500">Small business</div>
+      </button>
+      <button class="ot-card" onclick="selectOrgType('startup',this)">
+        <div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-rocket"></i></div>
+        <div style="font-size:12px;font-weight:500">Startup</div>
+      </button>
+    </div>
+    <div class="lbl">Primary goals
+      <span id="goals-hint" style="font-weight:400;text-transform:none;color:var(--text3);font-size:11px"> — select an org type above first</span>
+    </div>
+    <div id="goals-row" class="pill-row" style="min-height:36px"></div>
+    <div class="lbl">Mission in one sentence</div>
+    <input type="text" id="h-mission" placeholder="e.g. We provide free meals and job training to adults in our community.">
+    <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+      <button class="btn btn-blue" onclick="saveOrg()">Continue to audit <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-2px;margin-left:3px"></i></button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="page" id="page-home">
+  <div style="padding-top:1rem">
+    <div class="hub-header">
+      <div>
+        <div style="font-size:18px;font-weight:500" id="hd-name">—</div>
+        <div style="font-size:12px;color:var(--text3)" id="hd-url">—</div>
+      </div>
+      <span class="badge bi" id="hd-type">—</span>
+    </div>
+    <div class="audit-cta">
+      <h2><i class="ti ti-clipboard-data" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>Growth Intelligence Audit</h2>
+      <p class="sub">Full audit across SEO, AEO, GEO, technical health, content, social, backlinks, brand, UX, and SWOT — scored report with action plans for every role on your team.</p>
+      <div class="lbl" style="color:#3C3489">Competitor URLs (optional)</div>
+      <input type="url" id="comp1" placeholder="https://competitor1.org" style="margin-bottom:.5rem">
+      <input type="url" id="comp2" placeholder="https://competitor2.org">
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-purple" onclick="runAudit()">Run my audit <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-2px;margin-left:3px"></i></button>
+      </div>
+    </div>
+    <div class="sec-title">Quick wins — free, no tech skills needed</div>
+    <div id="qw-list" style="margin-bottom:1.5rem"></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem">
+      <div>
+        <div class="sec-title">Progress tracker</div>
+        <div id="prog-bars"></div>
+        <button class="btn btn-sm" onclick="showPage('progress')" style="margin-top:.5rem">Update progress</button>
+      </div>
+      <div>
+        <div class="sec-title">90-day milestones</div>
+        <div id="milestones"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="page" id="page-progress">
+  <div style="padding-top:1rem">
+    <h1>Progress tracker</h1>
+    <p class="sub">Check off completed tasks as you go.</p>
+    <div id="checklist"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border)">
+      <button class="btn" onclick="showPage('home')">Back to home</button>
+      <button class="btn btn-blue" onclick="saveProgress()">Save progress</button>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIT RUNNING -->
+<div class="page" id="page-running">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Growth Intelligence — <span style="color:var(--purple)">running audit</span></div>
+    <h1 id="running-title">Analyzing your organization</h1>
+    <p class="sub">Running 12 audit modules. This takes about 30 seconds.</p>
+    <div class="prog-track"><div class="prog-fill" id="run-bar" style="width:0%;background:var(--purple)"></div></div>
+    <div class="prog-lbl" id="run-lbl">Starting...</div>
+    <div class="gen-grid" style="margin-top:1rem">
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-search gen-icon"></i><span class="gen-title">SEO</span></div><div class="gen-status" id="st-seo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-robot gen-icon"></i><span class="gen-title">AEO</span></div><div class="gen-status" id="st-aeo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-world gen-icon"></i><span class="gen-title">GEO</span></div><div class="gen-status" id="st-geo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-code gen-icon"></i><span class="gen-title">Technical</span></div><div class="gen-status" id="st-tech"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-file-text gen-icon"></i><span class="gen-title">Content</span></div><div class="gen-status" id="st-content"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-brand-instagram gen-icon"></i><span class="gen-title">Social</span></div><div class="gen-status" id="st-social"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-link gen-icon"></i><span class="gen-title">Backlinks</span></div><div class="gen-status" id="st-backlink"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-mood-smile gen-icon"></i><span class="gen-title">Brand</span></div><div class="gen-status" id="st-brand"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-arrows-diff gen-icon"></i><span class="gen-title">Competitor gap</span></div><div class="gen-status" id="st-comp"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-layout gen-icon"></i><span class="gen-title">UX</span></div><div class="gen-status" id="st-ux"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-refresh gen-icon"></i><span class="gen-title">SWOT</span></div><div class="gen-status" id="st-swot"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-chart-bar gen-icon"></i><span class="gen-title">Rankings</span></div><div class="gen-status" id="st-rank"><span class="pulse"></span> Waiting</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- AUDIT RESULTS -->
+<div class="page" id="page-results">
+  <div id="results-out" style="padding-top:1rem"></div>
+  <div style="padding:1rem 0 2rem;display:flex;gap:8px">
+    <button class="btn" onclick="showPage('home')"><i class="ti ti-arrow-left" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Back</button>
+    <button class="btn btn-sm" onclick="runAudit()"><i class="ti ti-refresh" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Run again</button>
+  </div>
+</div>
+
+<script>
+// ─── CONFIG ───────────────────────────────────────────────────────────
+const GEMINI_KEY = 'AIzaSyAaGS03v5GfJUKDPyUTd3sSShsEhXFrrTQ';
+const HK = 'npa-hub-v2';
+const PK = 'npa-prog-v2';
+
+// ─── STATE ────────────────────────────────────────────────────────────
+let ORG = {};      // saved org profile
+let DONE = [];     // completed checklist IDs
+let ORG_TYPE = ''; // selected org type (during setup)
+
+// ─── ORG TYPE DATA ────────────────────────────────────────────────────
+const TYPE_LABELS = {
+  grassroots: 'Grassroots nonprofit',
+  established: 'Established nonprofit',
+  smallbiz: 'Small business',
+  startup: 'Startup'
+};
+
+const IS_NONPROFIT = type => ['grassroots','established'].includes(type);
+
+const GOALS = {
+  grassroots: [
+    {id:'donations',label:'Increase donations'},
+    {id:'volunteers',label:'Recruit volunteers'},
+    {id:'awareness',label:'Build awareness'},
+    {id:'grants',label:'Win more grants'},
+    {id:'retention',label:'Retain supporters'},
+    {id:'rankings',label:'Improve search rankings'},
+    {id:'programs',label:'Grow program reach'},
+    {id:'partnerships',label:'Build community partnerships'},
+  ],
+  established: [
+    {id:'donations',label:'Increase donations'},
+    {id:'retention',label:'Retain supporters'},
+    {id:'grants',label:'Win more grants'},
+    {id:'volunteers',label:'Recruit volunteers'},
+    {id:'awareness',label:'Build awareness'},
+    {id:'rankings',label:'Improve search rankings'},
+    {id:'programs',label:'Launch new programs'},
+    {id:'reporting',label:'Improve board reporting'},
+  ],
+  smallbiz: [
+    {id:'revenue',label:'Grow revenue'},
+    {id:'leads',label:'Generate leads'},
+    {id:'traffic',label:'Increase foot traffic'},
+    {id:'email',label:'Build email list'},
+    {id:'rankings',label:'Improve local SEO'},
+    {id:'social',label:'Grow social following'},
+    {id:'retention',label:'Retain customers'},
+    {id:'launch',label:'Launch new product or service'},
+  ],
+  startup: [
+    {id:'investors',label:'Attract investors'},
+    {id:'leads',label:'Generate leads'},
+    {id:'launch',label:'Launch product or service'},
+    {id:'users',label:'Grow user base'},
+    {id:'awareness',label:'Build brand awareness'},
+    {id:'email',label:'Build email list'},
+    {id:'rankings',label:'Improve SEO and discoverability'},
+    {id:'talent',label:'Recruit talent'},
+  ],
+};
+
+const QUICK_WINS = {
+  nonprofit: [
+    {text:'Apply for Google Ad Grants — $10k/month free advertising',tags:['Free','1 day','501(c)(3) required'],colors:['bl','bi','bm']},
+    {text:'Add a meta description to every page — 10 minutes each',tags:['Free','10 min'],colors:['bl','bi']},
+    {text:'Claim and optimize your Google Business Profile',tags:['Free','30 min'],colors:['bl','bi']},
+    {text:'Add FAQ schema to your FAQ page — AI assistants pull from it directly',tags:['Free','2 hours'],colors:['bl','bi']},
+  ],
+  smallbiz: [
+    {text:'Claim and optimize your Google Business Profile — biggest local SEO lever',tags:['Free','30 min'],colors:['bl','bi']},
+    {text:'Add a meta description to every page — 10 minutes each',tags:['Free','10 min'],colors:['bl','bi']},
+    {text:'Verify your site in Google Search Console — free keyword and crawl data',tags:['Free','30 min'],colors:['bl','bi']},
+    {text:'Add FAQ schema to your FAQ page — AI assistants pull from it directly',tags:['Free','2 hours'],colors:['bl','bi']},
+  ],
+  startup: [
+    {text:'Set up Google Search Console — free keyword insights from day one',tags:['Free','30 min'],colors:['bl','bi']},
+    {text:'Add a meta description to every page — 10 minutes each',tags:['Free','10 min'],colors:['bl','bi']},
+    {text:'Claim your Google Business Profile — shows in brand and local searches',tags:['Free','30 min'],colors:['bl','bi']},
+    {text:'Add FAQ schema to your FAQ page — AI assistants pull from it directly',tags:['Free','2 hours'],colors:['bl','bi']},
+  ],
+};
+
+const CHECKLIST = {
+  nonprofit: [
+    {id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed'},
+    {id:'c3',text:'Google Ad Grants application submitted'},{id:'c4',text:'Welcome email sequence set up'},
+    {id:'c5',text:'GA4 installed and tracking conversions'},{id:'c6',text:'FAQ schema markup added'},
+    {id:'c7',text:'Contact list deduplicated'},{id:'c8',text:'SPF/DKIM/DMARC configured'},
+    {id:'c9',text:'First impact story published'},{id:'c10',text:'Google Search Console verified'},
+    {id:'c11',text:'Privacy policy updated'},{id:'c12',text:'Cookie consent banner installed'},
+    {id:'c13',text:'Donor vs non-donor segments created'},{id:'c14',text:'Board report template built'},
+    {id:'c15',text:'First grant application drafted'},
+  ],
+  smallbiz: [
+    {id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed and optimized'},
+    {id:'c3',text:'Google Search Console verified'},{id:'c4',text:'Follow-up email sequence set up'},
+    {id:'c5',text:'GA4 installed and tracking conversions'},{id:'c6',text:'FAQ schema markup added'},
+    {id:'c7',text:'Customer list cleaned and segmented'},{id:'c8',text:'SPF/DKIM/DMARC configured'},
+    {id:'c9',text:'First case study or testimonial page published'},{id:'c10',text:'Review generation process set up'},
+    {id:'c11',text:'Privacy policy updated'},{id:'c12',text:'Cookie consent banner installed'},
+    {id:'c13',text:'Customer segments created (new vs repeat)'},{id:'c14',text:'Monthly reporting dashboard built'},
+    {id:'c15',text:'First local press or backlink outreach sent'},
+  ],
+  startup: [
+    {id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed'},
+    {id:'c3',text:'Google Search Console verified'},{id:'c4',text:'Onboarding email sequence set up'},
+    {id:'c5',text:'GA4 installed and tracking conversions'},{id:'c6',text:'FAQ schema markup added'},
+    {id:'c7',text:'Email list segmented by acquisition source'},{id:'c8',text:'SPF/DKIM/DMARC configured'},
+    {id:'c9',text:'First thought leadership piece published'},{id:'c10',text:'Product Hunt or launch platform prepared'},
+    {id:'c11',text:'Privacy policy updated'},{id:'c12',text:'Cookie consent banner installed'},
+    {id:'c13',text:'User segments created (free vs paid)'},{id:'c14',text:'Investor-ready metrics dashboard built'},
+    {id:'c15',text:'First PR or media outreach sent'},
+  ],
+};
+
+const MILESTONES = [
+  {day:'30',text:'Meta descriptions, GBP, first email sequence, GA4 setup'},
+  {day:'60',text:'FAQ schema, list segmentation, email authentication, GSC verified'},
+  {day:'90',text:'Content strategy live, reporting dashboard, first outreach complete'},
+];
+
+// ─── UTILS ────────────────────────────────────────────────────────────
+const wait = ms => new Promise(r => setTimeout(r, ms));
+const scColor = s => s >= 70 ? 'sg' : s >= 50 ? 'sa' : 'sr';
+const copyText = t => navigator.clipboard.writeText(t).catch(() => {});
+
+function toggleAccordion(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function switchTab(groupId, tabId, btn) {
+  document.querySelectorAll('#' + groupId + ' .otab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('#' + groupId + ' .tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+function setModuleStatus(id, state) {
+  const el = document.getElementById('st-' + id);
+  if (!el) return;
+  el.className = 'gen-status' + (state === 'done' ? ' done' : state === 'running' ? ' running' : '');
+  el.innerHTML = state === 'running' ? '<span class="pulse"></span> Running...'
+    : state === 'done' ? '<i class="ti ti-check" style="font-size:11px"></i> Complete'
+    : '<span class="pulse"></span> Waiting';
+}
+
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  const showEdit = ['home','results','progress'].includes(id);
+  document.getElementById('nav-edit').style.display = showEdit ? 'block' : 'none';
+  // When returning to setup, restore org type selection and goals
+  if (id === 'setup' && ORG_TYPE) {
+    document.querySelectorAll('.ot-card').forEach(c => {
+      const onclick = c.getAttribute('onclick') || '';
+      if (onclick.includes("'" + ORG_TYPE + "'")) c.classList.add('sel');
+      else c.classList.remove('sel');
+    });
+    renderGoals(ORG_TYPE, ORG.goals || []);
+  }
+  window.scrollTo(0, 0);
+}
+
+// ─── GOALS ────────────────────────────────────────────────────────────
+function selectOrgType(type, el) {
+  ORG_TYPE = type;
+  document.querySelectorAll('.ot-card').forEach(c => c.classList.remove('sel'));
+  el.classList.add('sel');
+  renderGoals(type, []);
+}
+
+function renderGoals(type, selected) {
+  const row = document.getElementById('goals-row');
+  const hint = document.getElementById('goals-hint');
+  if (!row) return;
+  const list = GOALS[type] || [];
+  if (!list.length) { row.innerHTML = ''; return; }
+  if (hint) hint.style.display = 'none';
+  row.innerHTML = list.map(g =>
+    `<button class="pill${selected.includes(g.id) ? ' sel' : ''}" data-goal="${g.id}" onclick="this.classList.toggle('sel')">${g.label}</button>`
+  ).join('');
+}
+
+// ─── QUICK WINS ───────────────────────────────────────────────────────
+function renderQuickWins(type) {
+  const el = document.getElementById('qw-list');
+  if (!el) return;
+  const key = IS_NONPROFIT(type) ? 'nonprofit' : type === 'startup' ? 'startup' : 'smallbiz';
+  const wins = QUICK_WINS[key] || QUICK_WINS.smallbiz;
+  el.innerHTML = wins.map(w =>
+    `<div class="qw-card">
+      <div style="font-size:13px;font-weight:500;margin-bottom:4px">${w.text}</div>
+      <div style="display:flex;gap:5px">${w.tags.map((t,i) => `<span class="badge ${w.colors[i]}">${t}</span>`).join('')}</div>
+    </div>`
+  ).join('');
+}
+
+// ─── CHECKLIST ────────────────────────────────────────────────────────
+function getChecklist(type) {
+  if (IS_NONPROFIT(type)) return CHECKLIST.nonprofit;
+  if (type === 'startup') return CHECKLIST.startup;
+  return CHECKLIST.smallbiz;
+}
+
+// ─── STORAGE ─────────────────────────────────────────────────────────
+function loadData() {
+  try { const p = localStorage.getItem(HK); if (p) ORG = JSON.parse(p); } catch(e) {}
+  try { const d = localStorage.getItem(PK); if (d) DONE = JSON.parse(d); } catch(e) {}
+}
+function saveData() {
+  try { localStorage.setItem(HK, JSON.stringify(ORG)); localStorage.setItem(PK, JSON.stringify(DONE)); } catch(e) {}
+}
+
+// ─── ORG SAVE ─────────────────────────────────────────────────────────
+function saveOrg() {
+  const name = document.getElementById('h-name').value.trim();
+  if (!name) { alert('Please enter your organization name.'); return; }
+  const goals = [...document.querySelectorAll('[data-goal].sel')].map(p => p.dataset.goal);
+  ORG = {
+    name,
+    url: document.getElementById('h-url').value.trim(),
+    location: document.getElementById('h-loc').value.trim(),
+    mission: document.getElementById('h-mission').value.trim(),
+    orgType: ORG_TYPE,
+    goals,
+  };
+  saveData();
+  renderHome();
+  showPage('home');
+}
+
+// ─── HOME RENDER ──────────────────────────────────────────────────────
+function renderHome() {
+  document.getElementById('hd-name').textContent = ORG.name || '—';
+  document.getElementById('hd-url').textContent = ORG.url || '—';
+  document.getElementById('hd-type').textContent = TYPE_LABELS[ORG.orgType] || 'Organization';
+
+  const cl = getChecklist(ORG.orgType);
+  const done = DONE.length, total = cl.length;
+  const pct = Math.round((done / total) * 100);
+  const d30 = DONE.filter(id => ['c1','c2','c3','c4','c5'].includes(id)).length;
+
+  document.getElementById('prog-bars').innerHTML = `
+    <div class="metric-row"><div class="metric-label">Overall progress</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%"></div></div><div class="metric-val">${pct}%</div></div>
+    <div class="metric-row"><div class="metric-label">Tasks done</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%;background:#1D9E75"></div></div><div class="metric-val">${done}/${total}</div></div>
+    <div class="metric-row"><div class="metric-label">30-day targets</div><div class="metric-track"><div class="metric-fill" style="width:${Math.round((d30/5)*100)}%;background:var(--purple)"></div></div><div class="metric-val">${d30}/5</div></div>`;
+
+  document.getElementById('milestones').innerHTML = MILESTONES.map(m =>
+    `<div class="ms-row">
+      <div class="ms-dot" style="background:${done >= (m.day==='30'?5:m.day==='60'?10:15) ? '#1D9E75' : 'var(--border2)'}"></div>
+      <div style="font-size:13px;color:var(--text2)"><strong>Day ${m.day}:</strong> ${m.text}</div>
+    </div>`
+  ).join('');
+
+  document.getElementById('checklist').innerHTML = cl.map(item =>
+    `<div class="ci-item" onclick="toggleTask('${item.id}')">
+      <div class="ci-box ${DONE.includes(item.id) ? 'checked' : ''}">${DONE.includes(item.id) ? '<i class="ti ti-check" style="font-size:10px;color:white"></i>' : ''}</div>
+      <div style="font-size:13px;color:${DONE.includes(item.id)?'var(--text3)':'var(--text2)'};text-decoration:${DONE.includes(item.id)?'line-through':'none'}">${item.text}</div>
+    </div>`
+  ).join('');
+
+  renderQuickWins(ORG.orgType);
+}
+
+function toggleTask(id) {
+  if (DONE.includes(id)) DONE = DONE.filter(x => x !== id);
+  else DONE.push(id);
+  renderHome();
+}
+
+function saveProgress() {
+  saveData();
+  renderHome();
+  showPage('home');
+}
+
+// ─── GEMINI ──────────────────────────────────────────────────────────
+async function callGemini(system, prompt) {
+  const res = await fetch(
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY,
+    { method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        systemInstruction: { parts: [{ text: system }] },
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { temperature: 0.9, maxOutputTokens: 4096 }
+      })
+    }
+  );
+  const data = await res.json();
+  if (data.error) { console.error('Gemini error:', data.error); throw new Error(data.error.message); }
+  if (!data.candidates?.length) { console.error('No candidates:', JSON.stringify(data).slice(0,200)); throw new Error('No candidates'); }
+  const txt = data.candidates[0].content.parts[0].text;
+  const start = txt.indexOf('{'), end = txt.lastIndexOf('}') + 1;
+  if (start === -1) { console.error('No JSON in:', txt.slice(0,300)); throw new Error('No JSON'); }
+  return JSON.parse(txt.slice(start, end));
+}
+
+// ─── FALLBACK (org-aware, name-varied) ───────────────────────────────
+function hashScore(seed, min, max) {
+  let h = 0;
+  for (let i = 0; i < seed.length; i++) { h = ((h << 5) - h) + seed.charCodeAt(i); h |= 0; }
+  return min + Math.abs(h) % (max - min + 1);
+}
+
+function buildFallback(name, orgType) {
+  const np = IS_NONPROFIT(orgType);
+  const startup = orgType === 'startup';
+  const loc = ORG.location || 'your area';
+  const urlRef = ORG.url ? ` at ${ORG.url}` : '';
+
+  // Hash-seeded scores — same org always gets same scores, different orgs differ
+  const seo  = hashScore(name + 'seo',  np ? 35 : 25, np ? 65 : 60);
+  const aeo  = hashScore(name + 'aeo',  10, 32);
+  const geo  = hashScore(name + 'geo',  30, 65);
+  const tech = hashScore(name + 'tech', 40, 70);
+  const cont = hashScore(name + 'cont', 30, 65);
+  const soc  = hashScore(name + 'soc',  20, 55);
+  const back = hashScore(name + 'back', 15, 45);
+  const brd  = hashScore(name + 'brd',  40, 70);
+  const ux   = hashScore(name + 'ux',   40, 70);
+  const overall = Math.round((seo+aeo+geo+tech+cont+soc+back+brd+ux)/9);
+  const grade = overall>=75?'B':overall>=65?'C+':overall>=55?'C':overall>=45?'C-':'D+';
+
+  const swot = np ? {
+    strengths: ['Mission-driven purpose creates authentic content that paid advertising cannot replicate', 'Established community trust and relationships that translate directly to donor and volunteer retention', 'Eligible for free tools including Google Ad Grants, TechSoup, and Canva nonprofit'],
+    weaknesses: ['Technical SEO gaps limiting organic reach and new audience discovery', 'Low structured data coverage making the org invisible to AI assistants', 'Limited staff bandwidth for consistent content production'],
+    opportunities: ['AEO is nearly untapped in the nonprofit sector — most orgs have zero schema markup', 'Google Ad Grants eligibility likely unclaimed or underutilized well below the $10k/month cap', `Local media in ${loc} and community partners are an underused backlink and referral source`],
+    threats: ['Larger organizations with bigger budgets dominating paid and organic search', 'AI search shifting how donors and volunteers discover nonprofits — without schema, you are invisible', 'Donor fatigue and increasing competition for grant funding'],
+  } : startup ? {
+    strengths: ['Agility to move fast, test messaging, and iterate without legacy constraints', 'Digital-first approach aligns naturally with modern discovery and conversion behavior', 'Fresh brand with no negative associations or outdated positioning to overcome'],
+    weaknesses: ['Low domain authority limiting organic search visibility in the short term', 'No established audience to amplify content or generate social proof', 'Limited bandwidth for consistent content production alongside product development'],
+    opportunities: ['Content marketing and SEO compound early — starting now pays dividends for years', 'AEO is wide open for most startup categories — structured FAQ content gets cited by AI assistants', 'PR and thought leadership can substitute for ad budget in early growth stages'],
+    threats: ['Established competitors with years of SEO authority and backlink profiles', 'Paid acquisition costs rising across all channels as competition increases', 'AI search changing how prospects discover new solutions — without schema markup, you are invisible'],
+  } : {
+    strengths: [`Established local presence in ${loc} with real customer relationships that build trust`, 'Agility to test and iterate faster than larger competitors with slower decision cycles', 'Direct community connection creates authentic, credible content that large brands cannot replicate'],
+    weaknesses: ['Technical SEO gaps limiting local search visibility and "near me" discoverability', 'Low structured data coverage reducing appearances in AI search and Google answer boxes', 'Limited marketing bandwidth relative to larger competitors with dedicated teams'],
+    opportunities: ['Local SEO is highly winnable for established businesses with a physical presence', 'Google Business Profile optimization is the fastest path to increased local visibility at zero cost', 'Content marketing compounds — early investment pays long-term dividends with no ongoing ad spend'],
+    threats: ['Larger brands and chains with bigger ad budgets dominating paid local search', 'AI search changing how customers find local businesses — without schema markup, you are invisible', 'Review management becoming a critical ranking and trust signal that requires active management'],
+  };
+
+  const marketingAction = np
+    ? { priority:'high', title:'Apply for Google Ad Grants', desc:`$10,000/month in free advertising for 501(c)(3) organizations. ${aeo < 25 ? 'Pair with FAQ schema markup to maximize landing page quality scores.' : 'Most eligible orgs never apply or generate far below the monthly cap.'}`, effort:'1 day', impact:'Very high' }
+    : startup
+    ? { priority:'high', title:'Set up Google Search Console', desc:'Free tool that shows exactly what searches bring people to your site. Essential baseline for any SEO work — set it up before anything else.', effort:'30 min', impact:'High' }
+    : { priority:'high', title:'Optimize your Google Business Profile completely', desc:`A fully optimized GBP is the highest-ROI local marketing action for ${name}. Photos, hours, Q&A, services, and weekly posts all directly affect local ranking.`, effort:'Half day', impact:'Very high' };
+
+  return {
+    _fallback: true,
+    overallScore: overall, grade,
+    execSummary: `${name}${urlRef} scores ${overall}/100 — ${overall < 50 ? 'with several meaningful gaps to address' : 'with a solid foundation and clear growth opportunities'}. ${aeo < 25 ? `The most urgent priority is AEO: AI assistants like ChatGPT and Perplexity currently cannot identify or cite ${name} in responses because structured data is missing.` : `The highest-leverage opportunity is deepening local search presence and answer engine coverage.`} ${np ? 'Google Ad Grants eligibility could add $10k/month in free advertising reach.' : startup ? 'Early SEO and content investment now compounds into long-term organic growth.' : 'A fully optimized Google Business Profile is the fastest path to increased local visibility.'}`,
+    scores: { seo, aeo, geo, technical: tech, content: cont, social: soc, backlink: back, brand: brd, ux },
+    sections: [
+      { id:'seo', title:'SEO and keyword analysis', score: seo, status: seo<40?'needs-work':seo<60?'fair':'good', findings: [
+        { type:'issue', text:`${name}'s page titles${urlRef} ${hashScore(name,0,1)===0 ? 'appear to use generic or duplicate naming that misses target keywords' : 'may not be optimized for the specific search terms your audience uses'} — a high-impact fix that takes under an hour per page.` },
+        { type:'opportunity', text:`${np?'Nonprofit-specific':'Local'} long-tail keywords in ${loc} are ${seo<45?'largely unclaimed':'moderately competitive'}. A content strategy targeting the specific questions your ${np?'donors, volunteers, and clients':'customers'} search could capture meaningful traffic within 60-90 days.` },
+        { type:'win', text:`${np&&orgType==='established'?name+' has domain history that gives new content a faster ranking path than a brand-new site.':startup?'The focused niche of '+name+' reduces keyword competition versus broad-category rivals.':'The established local presence of '+name+' gives it a geographic edge in "near me" searches.'}` },
+      ]},
+      { id:'aeo', title:'AEO — answer engine optimization', score: aeo, status: aeo<30?'critical':'needs-work', findings: [
+        { type:'issue', text:`No FAQ schema markup detected${urlRef?' on '+ORG.url:''}. When someone asks an AI assistant about ${np?'nonprofits or programs like '+name+"'s":'services or businesses like '+name}, structured Q&A is what gets cited — without it, ${name} does not appear.` },
+        { type:'issue', text:`Organization schema is missing. AI assistants including ChatGPT, Gemini, and Perplexity rely on this markup to accurately describe and recommend ${name}. Without it, they skip the org or pull inaccurate details from other sources.` },
+        { type:'opportunity', text:`Adding FAQPage and Organization JSON-LD takes 2-3 hours and is one of the highest-ROI moves available to ${name} right now. Most ${np?'nonprofits':'organizations'} in ${loc} have not done this — it is a real competitive window.` },
+      ]},
+      { id:'geo', title:'GEO — geographic and local', score: geo, status: geo<40?'needs-work':geo<60?'fair':'good', findings: [
+        { type:'issue', text:`${np?name+"'s":name+"'s"} local search presence in ${loc} ${geo<45?'appears underoptimized':'could be stronger'}. ${geo<45?'An incomplete Google Business Profile means reduced visibility in map packs and "near me" searches.':'Consistent NAP (name, address, phone) across directories significantly affects local ranking.'}` },
+        { type:'opportunity', text:`Local ${np?'media, community organizations, and partner nonprofits':'media, business associations, and community partners'} in ${loc} are an underused backlink and referral source for ${name}. A single feature or directory listing from a high-authority local source can meaningfully lift domain authority.` },
+      ]},
+      { id:'technical', title:'Technical health', score: tech, status: tech<50?'needs-work':'fair', findings: [
+        { type:'issue', text:`Structured data coverage appears limited${ORG.url?' across '+ORG.url:''}. Without JSON-LD, search engines and AI systems must infer what ${name} does — and they frequently get it wrong or omit the org entirely.` },
+        { type:'opportunity', text:`Running a free PageSpeed Insights report on ${ORG.url||name+"'s homepage"} takes five minutes and typically surfaces 2-3 high-impact fixes that can improve Core Web Vitals without a developer.` },
+      ]},
+    ],
+    actions: {
+      developer: [
+        { priority:'high', title:`Add JSON-LD Organization schema to ${name}'s homepage`, desc:'Structured data lets AI assistants and search engines accurately identify, describe, and recommend your org. It is the single highest-leverage technical task available right now.', effort:'2 hours', impact:'High' },
+        { priority:'high', title:'Fix Core Web Vitals', desc:`Run PageSpeed Insights on ${ORG.url||'your homepage'} and address LCP, CLS, and FID scores. Core Web Vitals directly affect Google ranking.`, effort:'4-8 hours', impact:'High' },
+      ],
+      designer: [
+        { priority:'high', title:`Move primary CTA above the fold on ${name}'s homepage`, desc:`Your most important conversion action — ${np?'donate or volunteer':'contact, purchase, or sign up'} — must be visible without scrolling on mobile and desktop.`, effort:'Half day', impact:'High' },
+      ],
+      content: [
+        { priority:'high', title:`Write a FAQ page targeting AI search for ${name}`, desc:'Create 15+ Q&A pairs with FAQPage schema. AI assistants pull directly from this structure — it is the fastest path to AI search citations.', effort:'Half day', impact:'High' },
+      ],
+      marketing: [marketingAction],
+    },
+    swot,
+  };
+}
+
+// ─── AUDIT ────────────────────────────────────────────────────────────
+async function runAudit() {
+  const name = ORG.name || 'your organization';
+  const orgType = ORG.orgType || 'smallbiz';
+  const c1 = (document.getElementById('comp1')?.value || '').trim();
+  const c2 = (document.getElementById('comp2')?.value || '').trim();
+  const competitors = [c1, c2].filter(Boolean).join(', ') || 'none provided';
+
+  document.getElementById('running-title').textContent = 'Analyzing ' + name;
+  showPage('running');
+
+  const modules = ['seo','aeo','geo','tech','content','social','backlink','brand','comp','ux','swot','rank'];
+  const bar = document.getElementById('run-bar');
+  const lbl = document.getElementById('run-lbl');
+
+  for (let i = 0; i < modules.length; i++) {
+    setModuleStatus(modules[i], 'running');
+    lbl.textContent = 'Running: ' + modules[i].toUpperCase();
+    bar.style.width = Math.round((i / modules.length) * 85) + '%';
+    await wait(380 + Math.random() * 240);
+    setModuleStatus(modules[i], 'done');
+  }
+  bar.style.width = '95%';
+  lbl.textContent = 'Generating report...';
+
+  let data;
+  try {
+    data = await callGemini(
+      'You are a senior marketing strategist. Output ONLY a single valid JSON object — no markdown, no explanation, no text outside the JSON.',
+      `Audit "${name}" — ${TYPE_LABELS[orgType]||orgType}.
+Website: ${ORG.url||'not provided'} | Location: ${ORG.location||'not provided'} | Mission: ${ORG.mission||'not provided'} | Goals: ${(ORG.goals||[]).join(', ')||'not specified'} | Competitors: ${competitors}
+
+RULES:
+1. Every score must reflect THIS specific org — vary them meaningfully. Do not use the same scores for every audit. Established orgs with content score higher on SEO than startups. Orgs with no URL score lower across the board.
+2. Name "${name}" explicitly in every finding and in the execSummary.
+3. orgType is "${orgType}". ${IS_NONPROFIT(orgType) ? 'This IS a nonprofit — Google Ad Grants, TechSoup, Canva nonprofit, and grant-related advice are appropriate.' : 'This is NOT a nonprofit — do NOT mention Google Ad Grants, Canva Nonprofit, TechSoup, 501(c)(3), or any nonprofit-only programs. Use business-appropriate alternatives.'}
+4. The execSummary must be unique: mention the org name, location, org type, and top 1-2 specific findings.
+5. SWOT must reflect their specific mission, sector, and goals — not generic marketing clichés.
+
+Return this JSON (replace all example values with real assessment):
+{"overallScore":52,"grade":"C+","execSummary":"[unique 2-3 sentences for this org]","scores":{"seo":45,"aeo":28,"geo":52,"technical":61,"content":48,"social":37,"backlink":29,"brand":63,"ux":68},"sections":[{"id":"seo","title":"SEO and keyword analysis","score":45,"status":"needs-work","findings":[{"type":"issue","text":"[specific to ${name}]"},{"type":"win","text":"[specific positive]"},{"type":"opportunity","text":"[specific opportunity]"}]}],"actions":{"developer":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"designer":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"content":[{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],"marketing":[{"priority":"high","title":"string","desc":"[appropriate for ${orgType}]","effort":"string","impact":"string"}]},"swot":{"strengths":["[specific]"],"weaknesses":["[specific]"],"opportunities":["[specific]"],"threats":["[specific]"]}}`
+    );
+  } catch(e) {
+    console.warn('Gemini failed:', e.message, '— using fallback');
+    data = buildFallback(name, orgType);
+  }
+
+  bar.style.width = '100%';
+  renderResults(data, name);
+  showPage('results');
+}
+
+// ─── RENDER RESULTS ───────────────────────────────────────────────────
+function renderResults(d, name) {
+  const sc = Object.entries({ seo:'SEO', aeo:'AEO', geo:'GEO', technical:'Tech', content:'Content', social:'Social', backlink:'Backlinks', brand:'Brand', ux:'UX' })
+    .map(([k,l]) => `<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');
+
+  const sections = (d.sections||[]).map((s,i) => {
+    const badge = s.status==='critical'?'bh':s.status==='needs-work'?'bm':s.status==='fair'?'bi':'bl';
+    const findings = (s.findings||[]).map(f => {
+      const icon = f.type==='issue'?'ti-alert-circle':f.type==='win'?'ti-circle-check':'ti-bulb';
+      const color = f.type==='issue'?'#A32D2D':f.type==='win'?'#0F6E56':'#854F0B';
+      return `<div style="display:flex;gap:10px;margin-bottom:8px;padding-bottom:8px;border-bottom:0.5px solid var(--border)">
+        <i class="ti ${icon}" style="font-size:14px;color:${color};margin-top:2px;flex-shrink:0"></i>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5">${f.text}</div>
+      </div>`;
+    }).join('');
+    return `<div class="xcard">
+      <div class="xhead" onclick="toggleAccordion('sec-${i}')">
+        <span class="xtitle">${s.title}</span>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="badge ${badge}">${s.status}</span>
+          <span style="font-size:13px;font-weight:500;color:var(--text2)">${Math.round(s.score||0)}/100</span>
+          <i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i>
+        </div>
+      </div>
+      <div class="xbody" id="sec-${i}">${findings}</div>
+    </div>`;
+  }).join('');
+
+  const sw = d.swot || {};
+  const swotHtml = `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem">
+    ${[['Strengths','#E1F5EE','#085041',sw.strengths||[]],['Weaknesses','#FCEBEB','#791F1F',sw.weaknesses||[]],['Opportunities','#E6F1FB','#0C447C',sw.opportunities||[]],['Threats','#FAEEDA','#633806',sw.threats||[]]].map(([l,bg,col,items]) =>
+      `<div style="background:${bg};border-radius:var(--radius);padding:12px">
+        <div style="font-size:11px;font-weight:600;color:${col};text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${l}</div>
+        ${items.map(i => `<div style="font-size:12px;color:${col};line-height:1.5;margin-bottom:4px">— ${i}</div>`).join('')}
+      </div>`
+    ).join('')}
+  </div>`;
+
+  const roles = ['developer','designer','content','marketing'];
+  const roleLabels = { developer:'For developers', designer:'For designers', content:'For content writers', marketing:'For marketing leads' };
+  const roleTabs = roles.map((r,i) => `<button class="otab${i===0?' active':''}" onclick="switchTab('role-tabs','role-${r}',this)">${roleLabels[r]}</button>`).join('');
+  const roleContent = roles.map(r => {
+    const actions = ((d.actions||{})[r]||[]).map(a =>
+      `<div style="border-left:2px solid ${a.priority==='high'?'#D85A30':a.priority==='medium'||a.priority==='med'?'#EF9F27':'#1D9E75'};padding:10px 0 10px 14px;margin-bottom:10px">
+        <div style="font-size:13px;font-weight:500;margin-bottom:3px">${a.title}</div>
+        <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:4px">${a.desc}</div>
+        <div style="font-size:11px;color:var(--text3)">Effort: ${a.effort} &middot; Impact: ${a.impact}</div>
+      </div>`
+    ).join('');
+    return `<div class="tab-panel${r==='developer'?' active':''}" id="role-${r}">${actions}</div>`;
+  }).join('');
+
+  document.getElementById('results-out').innerHTML = `
+    <div class="wordmark">Growth Intelligence — <span style="color:var(--purple)">${name}</span></div>
+    ${d._fallback ? '<div style="background:var(--amber-light);border:0.5px solid #EFC97A;border-radius:var(--radius);padding:8px 14px;margin-bottom:1rem;font-size:12px;color:var(--amber)"><i class="ti ti-wifi-off" style="font-size:12px;vertical-align:-2px;margin-right:5px"></i>AI analysis unavailable — showing estimated scores based on your org profile. Open browser console for details.</div>' : ''}
+    <div style="background:var(--purple-light);border:0.5px solid #AFA9EC;border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem">
+      <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.75rem">
+        <div style="font-size:36px;font-weight:500;color:#3C3489">${Math.round(d.overallScore||0)}<span style="font-size:16px;color:var(--purple)">/100</span></div>
+        <div style="font-size:13px;color:var(--purple)">Overall marketing health<br><strong style="color:#3C3489">Grade: ${d.grade||'C'}</strong></div>
+      </div>
+      <div style="font-size:13px;color:#3C3489;line-height:1.6">${d.execSummary||''}</div>
+    </div>
+    <div class="sc-grid">${sc}</div>
+    <h2 style="margin-bottom:.75rem">Audit findings</h2>
+    ${sections}
+    <h2 style="margin-top:1.5rem;margin-bottom:.75rem">SWOT synthesis</h2>
+    ${swotHtml}
+    <h2 style="margin-top:1.5rem;margin-bottom:.5rem">Action plan by role</h2>
+    <div id="role-tabs"><div class="output-tabs">${roleTabs}</div>${roleContent}</div>`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────
+(function init() {
+  loadData();
+  if (ORG.name) {
+    // Restore setup form fields
+    document.getElementById('h-name').value = ORG.name || '';
+    document.getElementById('h-url').value = ORG.url || '';
+    document.getElementById('h-loc').value = ORG.location || '';
+    document.getElementById('h-mission').value = ORG.mission || '';
+    // Restore org type selection
+    ORG_TYPE = ORG.orgType || '';
+    if (ORG_TYPE) {
+      document.querySelectorAll('.ot-card').forEach(c => {
+        if ((c.getAttribute('onclick')||'').includes("'" + ORG_TYPE + "'")) c.classList.add('sel');
+      });
+      renderGoals(ORG_TYPE, ORG.goals || []);
+    }
+    // Render home and navigate there
+    renderHome();
+    showPage('home');
+  }
+})();
+</script>
+</body>
+</html>

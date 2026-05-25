@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Intelligence — Free Marketing Audit</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+:root{
+  --bg:#ffffff;--bg2:#f7f7f5;--bg3:#f0eeea;--text:#1a1a18;--text2:#6b6b67;--text3:#9c9a92;
+  --border:rgba(0,0,0,0.12);--border2:rgba(0,0,0,0.22);
+  --purple:#534AB7;--purple-light:#EEEDFE;--teal:#0F6E56;--teal-light:#E1F5EE;
+  --coral:#D85A30;--coral-light:#FAECE7;--pink:#993556;--pink-light:#FBEAF0;
+  --blue:#185FA5;--blue-light:#E6F1FB;--amber:#854F0B;--amber-light:#FAEEDA;
+  --green:#3B6D11;--green-light:#EAF3DE;--red:#A32D2D;--red-light:#FCEBEB;
+  --radius:8px;--radius-lg:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text)}
+.top-nav{background:var(--bg);border-bottom:0.5px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;height:48px}
+.nav-logo{font-size:13px;font-weight:600;color:var(--text)}
+.nav-logo span{color:var(--blue)}
+.nav-right{display:flex;align-items:center;gap:8px}
+.page{display:none;min-height:calc(100vh - 48px);padding:1.5rem;max-width:720px;margin:0 auto}
+.page.active{display:block}
+h1{font-size:22px;font-weight:500;color:var(--text);margin-bottom:.4rem}
+h2{font-size:17px;font-weight:500;color:var(--text);margin-bottom:.75rem}
+.sub{font-size:14px;color:var(--text2);line-height:1.6;margin-bottom:1.5rem}
+.lbl{font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.sec-title{font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.wordmark{font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--text3);text-transform:uppercase;margin-bottom:1.5rem}
+input[type=text],input[type=url],textarea,select{width:100%;border:0.5px solid var(--border);border-radius:var(--radius);padding:9px 13px;font-size:13px;font-family:inherit;color:var(--text);background:var(--bg);margin-bottom:.875rem}
+textarea{resize:vertical;min-height:70px}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--blue)}
+.btn{border:0.5px solid var(--border2);border-radius:var(--radius);padding:8px 18px;font-size:13px;cursor:pointer;background:var(--bg);color:var(--text);font-family:inherit}
+.btn:hover{background:var(--bg2)}
+.btn-blue{background:var(--blue);border-color:var(--blue);color:white}
+.btn-blue:hover{background:#0C447C}
+.btn-purple{background:var(--purple);border-color:var(--purple);color:white}
+.btn-purple:hover{background:#3D3490}
+.btn-sm{padding:5px 12px;font-size:12px}
+.pill-row{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:1rem}
+.pill{border:0.5px solid var(--border);border-radius:var(--radius);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit}
+.pill:hover{background:var(--bg2)}
+.pill.sel{border-color:var(--blue);background:var(--blue-light);color:#0C447C}
+.badge{font-size:10px;font-weight:500;padding:2px 8px;border-radius:var(--radius)}
+.bh{background:var(--red-light);color:var(--red)}
+.bm{background:var(--amber-light);color:var(--amber)}
+.bl{background:var(--teal-light);color:var(--teal)}
+.bi{background:var(--blue-light);color:var(--blue)}
+.bp{background:var(--purple-light);color:#3C3489}
+.bg{background:var(--green-light);color:var(--green)}
+.eb{font-size:10px;color:var(--text3);border:0.5px solid var(--border);padding:2px 7px;border-radius:var(--radius)}
+.ot-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.25rem}
+.ot-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:12px;cursor:pointer;background:var(--bg);text-align:left;transition:border-color .15s,background .15s}
+.ot-card:hover{background:var(--bg2)}
+.ot-card.sel{border:1.5px solid var(--blue);background:var(--blue-light)}
+.prog-track{height:3px;background:var(--border);border-radius:2px;margin-bottom:6px}
+.prog-fill{height:3px;border-radius:2px;transition:width .4s ease}
+.prog-lbl{font-size:11px;color:var(--text3)}
+.gen-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:1.25rem 0}
+.gen-card{border:0.5px solid var(--border);border-radius:var(--radius-lg);padding:13px;background:var(--bg)}
+.gen-head{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.gen-icon{font-size:15px;color:var(--text3)}
+.gen-title{font-size:12px;font-weight:500;color:var(--text2)}
+.gen-status{font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px}
+.gen-status.done{color:var(--teal)}
+.gen-status.running{color:var(--purple)}
+.pulse{display:inline-block;width:5px;height:5px;border-radius:50%;background:currentColor;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.3}50%{opacity:1}}
+.sc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:8px;margin-bottom:1.25rem}
+.sc-tile{background:var(--bg2);border-radius:var(--radius);padding:.875rem;text-align:center}
+.sc-val{font-size:22px;font-weight:500;margin-bottom:2px}
+.sc-lbl{font-size:11px;color:var(--text3)}
+.sg{color:#0F6E56}.sa{color:#854F0B}.sr{color:#A32D2D}
+.xcard{border:0.5px solid var(--border);border-radius:var(--radius-lg);margin-bottom:.75rem;overflow:hidden}
+.xhead{padding:11px 14px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;background:var(--bg)}
+.xhead:hover{background:var(--bg2)}
+.xtitle{font-size:13px;font-weight:500;color:var(--text)}
+.xbody{padding:14px;border-top:0.5px solid var(--border);display:none}
+.xbody.open{display:block}
+.xbody p{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:.75rem}
+.xbody p:last-child{margin-bottom:0}
+.xbody strong{color:var(--text);font-weight:500}
+.output-tabs{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap;border-bottom:0.5px solid var(--border);padding-bottom:.75rem}
+.otab{border:none;background:none;padding:6px 12px;font-size:12px;font-weight:500;color:var(--text3);cursor:pointer;border-radius:var(--radius);font-family:inherit}
+.otab:hover{background:var(--bg2)}
+.otab.active{background:var(--blue-light);color:#0C447C}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+.copy-btn{border:0.5px solid var(--border);border-radius:var(--radius);padding:4px 10px;font-size:11px;cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit}
+.copy-btn:hover{background:var(--bg2)}
+.hub-header{background:var(--bg2);border-radius:var(--radius-lg);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.qw-card{border-left:3px solid #1D9E75;padding:10px 14px;margin-bottom:.75rem;border-radius:0 var(--radius) var(--radius) 0;background:var(--bg);border-top:0.5px solid var(--border);border-right:0.5px solid var(--border);border-bottom:0.5px solid var(--border)}
+.metric-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.metric-label{font-size:12px;color:var(--text2);width:140px;flex-shrink:0}
+.metric-track{flex:1;height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.metric-fill{height:6px;border-radius:3px;background:var(--blue)}
+.metric-val{font-size:12px;font-weight:500;width:36px;text-align:right}
+.ms-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border)}
+.ms-row:last-child{border-bottom:none}
+.ms-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;margin-top:3px}
+.ci-item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:0.5px solid var(--border);cursor:pointer}
+.ci-item:last-child{border-bottom:none}
+.ci-box{width:16px;height:16px;border-radius:4px;border:0.5px solid var(--border2);flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center}
+.ci-box.checked{background:#1D9E75;border-color:#1D9E75}
+.audit-cta{border:1.5px solid var(--purple);border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem;background:var(--purple-light)}
+.audit-cta h2{color:#3C3489;margin-bottom:.35rem}
+.audit-cta .sub{color:var(--purple);margin-bottom:1rem;font-size:13px}
+</style>
+</head>
+<body>
+<nav class="top-nav">
+  <div class="nav-logo">Accelerator <span>Growth Intelligence</span></div>
+  <div class="nav-right" id="nav-right" style="display:none">
+    <button class="btn btn-sm" onclick="showPage('setup')"><i class="ti ti-edit" style="font-size:12px;vertical-align:-1px;margin-right:3px"></i>Edit org</button>
+  </div>
+</nav>
+<div class="page active" id="page-setup">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Growth Intelligence — <span style="color:var(--blue)">free audit</span></div>
+    <h1>Tell us about your organization</h1>
+    <p class="sub">Enter your details once and your audit is pre-filled every time.</p>
+    <div class="lbl">Organization name</div>
+    <input type="text" id="h-name" placeholder="e.g. City Arts Council">
+    <div class="lbl">Website URL</div>
+    <input type="url" id="h-url" placeholder="https://yoursite.org">
+    <div class="lbl">Location</div>
+    <input type="text" id="h-loc" placeholder="e.g. Richmond, VA">
+    <div class="lbl">Organization type</div>
+    <div class="ot-grid">
+      <button class="ot-card" onclick="hSelType('grassroots',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-users"></i></div><div style="font-size:12px;font-weight:500">Grassroots nonprofit</div></button>
+      <button class="ot-card" onclick="hSelType('established',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-community"></i></div><div style="font-size:12px;font-weight:500">Established nonprofit</div></button>
+      <button class="ot-card" onclick="hSelType('smallbiz',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-building-store"></i></div><div style="font-size:12px;font-weight:500">Small business</div></button>
+      <button class="ot-card" onclick="hSelType('startup',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-rocket"></i></div><div style="font-size:12px;font-weight:500">Startup</div></button>
+      <button class="ot-card" onclick="hSelType('arts',this)"><div style="font-size:18px;color:var(--text3);margin-bottom:6px"><i class="ti ti-palette"></i></div><div style="font-size:12px;font-weight:500">Arts / cultural org</div></button>
+    </div>
+    <div class="lbl">Primary goals <span id="h-goals-hint" style="font-weight:400;text-transform:none;color:var(--text3);font-size:11px">— select an org type above first</span></div>
+    <div id="h-goals-row" class="pill-row" style="min-height:36px"></div>
+    <div class="lbl">Mission in one sentence</div>
+    <input type="text" id="h-mission" placeholder="e.g. We provide free job training and placement services to adults in our region.">
+    <div style="display:flex;justify-content:flex-end;margin-top:.5rem">
+      <button class="btn btn-blue" onclick="hSave()">Continue to audit <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-2px;margin-left:3px"></i></button>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-home">
+  <div style="padding-top:1rem">
+    <div class="hub-header">
+      <div>
+        <div style="font-size:18px;font-weight:500" id="hd-name">—</div>
+        <div style="font-size:12px;color:var(--text3)" id="hd-url">—</div>
+      </div>
+      <span class="badge bi" id="hd-type">—</span>
+    </div>
+    <div class="audit-cta">
+      <h2><i class="ti ti-clipboard-data" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>Growth Intelligence Audit</h2>
+      <p class="sub">Full audit across SEO, AEO, GEO, technical health, content, social, backlinks, brand, UX, and SWOT — scored report with action plans for every role on your team.</p>
+      <div class="lbl" style="color:#3C3489">Competitor URLs (optional)</div>
+      <input type="url" id="a-c1" placeholder="https://competitor1.org" style="margin-bottom:.5rem">
+      <input type="url" id="a-c2" placeholder="https://competitor2.org">
+      <div style="display:flex;justify-content:flex-end">
+        <button class="btn btn-purple" onclick="runAudit()">Run my audit <i class="ti ti-arrow-right" style="font-size:13px;vertical-align:-2px;margin-left:3px"></i></button>
+      </div>
+    </div>
+    <div class="sec-title">Quick wins — free, no tech skills needed</div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:4px">Apply for Google Ad Grants — $10k/month free advertising</div><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">1 day</span><span class="badge bm">501(c)(3) required</span></div></div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:4px">Add a meta description to every page — 10 minutes each</div><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">10 min</span></div></div>
+    <div class="qw-card"><div style="font-size:13px;font-weight:500;margin-bottom:4px">Claim and optimize your Google Business Profile</div><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">30 min</span></div></div>
+    <div class="qw-card" style="margin-bottom:1.5rem"><div style="font-size:13px;font-weight:500;margin-bottom:4px">Add FAQ schema to your FAQ page — AI assistants pull from it directly</div><div style="display:flex;gap:5px"><span class="badge bl">Free</span><span class="badge bi">2 hours</span></div></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:1.5rem">
+      <div>
+        <div class="sec-title">Progress tracker</div>
+        <div id="h-prog-bars"></div>
+        <button class="btn btn-sm" onclick="showPage('progress')" style="margin-top:.5rem">Update progress</button>
+      </div>
+      <div>
+        <div class="sec-title">90-day milestones</div>
+        <div id="h-milestones"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-progress">
+  <div style="padding-top:1rem">
+    <h1>Progress tracker</h1>
+    <p class="sub">Check off completed tasks as you go.</p>
+    <div id="h-checklist"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1.25rem;padding-top:1rem;border-top:0.5px solid var(--border)">
+      <button class="btn" onclick="showPage('home')">Back to home</button>
+      <button class="btn btn-blue" onclick="hSaveProgress()">Save progress</button>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-audit-running">
+  <div style="padding-top:1rem">
+    <div class="wordmark">Growth Intelligence — <span style="color:var(--purple)">running audit</span></div>
+    <h1 id="audit-running-name">Analyzing your organization</h1>
+    <p class="sub">Running 12 audit modules. This takes about 30 seconds.</p>
+    <div class="prog-track"><div class="prog-fill" id="a-pf" style="width:0%;background:var(--purple)"></div></div>
+    <div class="prog-lbl" id="a-pl">Starting...</div>
+    <div class="gen-grid" style="margin-top:1rem">
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-search gen-icon"></i><span class="gen-title">SEO</span></div><div class="gen-status" id="ast-seo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-robot gen-icon"></i><span class="gen-title">AEO</span></div><div class="gen-status" id="ast-aeo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-world gen-icon"></i><span class="gen-title">GEO</span></div><div class="gen-status" id="ast-geo"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-code gen-icon"></i><span class="gen-title">Technical</span></div><div class="gen-status" id="ast-tech"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-file-text gen-icon"></i><span class="gen-title">Content</span></div><div class="gen-status" id="ast-content"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-brand-instagram gen-icon"></i><span class="gen-title">Social</span></div><div class="gen-status" id="ast-social"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-link gen-icon"></i><span class="gen-title">Backlinks</span></div><div class="gen-status" id="ast-backlink"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-mood-smile gen-icon"></i><span class="gen-title">Brand</span></div><div class="gen-status" id="ast-brand"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-arrows-diff gen-icon"></i><span class="gen-title">Competitor gap</span></div><div class="gen-status" id="ast-comp"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-layout gen-icon"></i><span class="gen-title">UX</span></div><div class="gen-status" id="ast-ux"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-refresh gen-icon"></i><span class="gen-title">SWOT</span></div><div class="gen-status" id="ast-swot"><span class="pulse"></span> Waiting</div></div>
+      <div class="gen-card"><div class="gen-head"><i class="ti ti-chart-bar gen-icon"></i><span class="gen-title">Rankings</span></div><div class="gen-status" id="ast-rank"><span class="pulse"></span> Waiting</div></div>
+    </div>
+  </div>
+</div>
+<div class="page" id="page-audit-out">
+  <div id="a-out" style="padding-top:1rem"></div>
+  <div style="padding:1rem 0 2rem">
+    <button class="btn" onclick="showPage('home')"><i class="ti ti-arrow-left" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Back to home</button>
+    <button class="btn btn-sm" onclick="runAudit()" style="margin-left:8px"><i class="ti ti-refresh" style="font-size:12px;vertical-align:-1px;margin-right:4px"></i>Run again</button>
+  </div>
+</div>
+<script>
+const GEMINI_API_KEY='AIzaSyAaGS03v5GfJUKDPyUTd3sSShsEhXFrrTQ';
+const delay=ms=>new Promise(r=>setTimeout(r,ms));
+function scColor(s){return s>=70?'sg':s>=50?'sa':'sr'}
+function copyText(t){navigator.clipboard.writeText(t).catch(()=>{})}
+function toggleX(id){const el=document.getElementById(id);if(el)el.classList.toggle('open')}
+function switchTab(panelId,tabId,el){document.querySelectorAll('#'+panelId+' .otab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#'+panelId+' .tab-panel').forEach(p=>p.classList.remove('active'));el.classList.add('active');document.getElementById(tabId).classList.add('active');}
+function setSt(id,state){const el=document.getElementById(id);if(!el)return;el.className='gen-status '+(state==='done'?'done':state==='running'?'running':'');el.innerHTML=state==='running'?'<span class="pulse"></span> Running...':state==='done'?'<i class="ti ti-check" style="font-size:11px"></i> Complete':'<span class="pulse"></span> Waiting';}
+function showPage(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+id).classList.add('active');document.getElementById('nav-right').style.display=(id==='home'||id==='audit-out'||id==='progress')?'flex':'none';window.scrollTo(0,0);}
+async function callGemini(sys,prompt){const res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+GEMINI_API_KEY,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({systemInstruction:{parts:[{text:sys}]},contents:[{parts:[{text:prompt}]}],generationConfig:{temperature:0.7,maxOutputTokens:2048}})});const data=await res.json();if(data.error)throw new Error(data.error.message);const txt=data.candidates[0].content.parts[0].text;const start=txt.indexOf('{'),end=txt.lastIndexOf('}')+1;if(start===-1)throw new Error('No JSON');return JSON.parse(txt.slice(start,end));}
+const HK='npa-hub-v2',HPK='npa-prog-v2';
+let HP={},HC=[],HOT='';
+function hLoad(){try{const p=localStorage.getItem(HK);if(p)HP=JSON.parse(p);}catch(e){}try{const r=localStorage.getItem(HPK);if(r)HC=JSON.parse(r);}catch(e){}}
+function hPersist(){try{localStorage.setItem(HK,JSON.stringify(HP));localStorage.setItem(HPK,JSON.stringify(HC));}catch(e){}}
+const typeLabels={grassroots:'Grassroots nonprofit',established:'Established nonprofit',smallbiz:'Small business',startup:'Startup',arts:'Arts / cultural org'};
+const GOALS_BY_TYPE={grassroots:[{id:'donations',label:'Increase donations'},{id:'volunteers',label:'Recruit volunteers'},{id:'awareness',label:'Build awareness'},{id:'grants',label:'Win more grants'},{id:'retention',label:'Retain supporters'},{id:'rankings',label:'Improve search rankings'},{id:'programs',label:'Grow program reach'},{id:'partnerships',label:'Build community partnerships'}],established:[{id:'donations',label:'Increase donations'},{id:'retention',label:'Retain supporters'},{id:'grants',label:'Win more grants'},{id:'volunteers',label:'Recruit volunteers'},{id:'awareness',label:'Build awareness'},{id:'rankings',label:'Improve search rankings'},{id:'programs',label:'Launch new programs'},{id:'reporting',label:'Improve board reporting'}],smallbiz:[{id:'revenue',label:'Grow revenue'},{id:'leads',label:'Generate leads'},{id:'traffic',label:'Increase foot traffic'},{id:'email',label:'Build email list'},{id:'rankings',label:'Improve local SEO'},{id:'social',label:'Grow social following'},{id:'retention',label:'Retain customers'},{id:'launch',label:'Launch new product or service'}],startup:[{id:'investors',label:'Attract investors'},{id:'leads',label:'Generate leads'},{id:'launch',label:'Launch product or service'},{id:'users',label:'Grow user base'},{id:'awareness',label:'Build brand awareness'},{id:'email',label:'Build email list'},{id:'rankings',label:'Improve SEO and discoverability'},{id:'talent',label:'Recruit talent'}],arts:[{id:'attendance',label:'Drive ticket sales and attendance'},{id:'membership',label:'Build membership'},{id:'donations',label:'Increase donations'},{id:'grants',label:'Win more grants'},{id:'awareness',label:'Build awareness'},{id:'email',label:'Grow email list'},{id:'volunteers',label:'Recruit volunteers'},{id:'partnerships',label:'Build community partnerships'}]};
+function renderGoals(type,selected=[]){const row=document.getElementById('h-goals-row');const hint=document.getElementById('h-goals-hint');if(!row)return;const goals=GOALS_BY_TYPE[type]||[];if(!goals.length){row.innerHTML='';return;}if(hint)hint.style.display='none';row.innerHTML=goals.map(g=>`<button class="pill${selected.includes(g.id)?' sel':''}" data-goal="${g.id}" onclick="this.classList.toggle('sel')">${g.label}</button>`).join('');}
+function hSelType(v,el){HOT=v;document.querySelectorAll('.ot-card').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');renderGoals(v);}
+function hSave(){const name=document.getElementById('h-name').value.trim();if(!name){alert('Please enter your organization name.');return;}const goals=[...document.querySelectorAll('[data-goal].sel')].map(p=>p.dataset.goal);HP={name,url:document.getElementById('h-url').value.trim(),location:document.getElementById('h-loc').value.trim(),mission:document.getElementById('h-mission').value.trim(),orgType:HOT,goals,updatedAt:Date.now()};hPersist();hRender();showPage('home');}
+const CHECKLIST=[{id:'c1',text:'Homepage meta description added'},{id:'c2',text:'Google Business Profile claimed'},{id:'c3',text:'Google Ad Grants application submitted'},{id:'c4',text:'Welcome email sequence set up'},{id:'c5',text:'GA4 installed and tracking conversions'},{id:'c6',text:'FAQ schema markup added'},{id:'c7',text:'Contact list deduplicated'},{id:'c8',text:'SPF/DKIM/DMARC configured'},{id:'c9',text:'First impact story page published'},{id:'c10',text:'Google Search Console verified'},{id:'c11',text:'Privacy policy updated'},{id:'c12',text:'Cookie consent banner installed'},{id:'c13',text:'Supporter segments created'},{id:'c14',text:'Board report template built'},{id:'c15',text:'First grant application drafted'}];
+const MILESTONES=[{day:'30',text:'Meta descriptions, GBP, Ad Grants application, welcome email, GA4'},{day:'60',text:'FAQ schema, list deduplication, email auth, impact story, GSC'},{day:'90',text:'Ad Grants live, board reporting, benchmarking, grant research'}];
+function hRender(){document.getElementById('hd-name').textContent=HP.name||'—';document.getElementById('hd-url').textContent=HP.url||'—';document.getElementById('hd-type').textContent=typeLabels[HP.orgType]||'Organization';const done=HC.length,total=CHECKLIST.length,pct=Math.round((done/total)*100);const d30=HC.filter(c=>['c1','c2','c3','c4','c5'].includes(c)).length;document.getElementById('h-prog-bars').innerHTML=`<div class="metric-row"><div class="metric-label">Overall progress</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%"></div></div><div class="metric-val">${pct}%</div></div><div class="metric-row"><div class="metric-label">Tasks done</div><div class="metric-track"><div class="metric-fill" style="width:${pct}%;background:#1D9E75"></div></div><div class="metric-val">${done}/${total}</div></div><div class="metric-row"><div class="metric-label">30-day targets</div><div class="metric-track"><div class="metric-fill" style="width:${Math.round((d30/5)*100)}%;background:var(--purple)"></div></div><div class="metric-val">${d30}/5</div></div>`;document.getElementById('h-milestones').innerHTML=MILESTONES.map(m=>`<div class="ms-row"><div class="ms-dot" style="background:${HC.length>=(m.day==='30'?5:m.day==='60'?10:15)?'#1D9E75':'var(--border2)'}"></div><div style="font-size:13px;color:var(--text2)"><strong>Day ${m.day}:</strong> ${m.text}</div></div>`).join('');document.getElementById('h-checklist').innerHTML=CHECKLIST.map(item=>`<div class="ci-item" onclick="hToggle('${item.id}')"><div class="ci-box ${HC.includes(item.id)?'checked':''}">${HC.includes(item.id)?'<i class="ti ti-check" style="font-size:10px;color:white"></i>':''}</div><div style="font-size:13px;color:${HC.includes(item.id)?'var(--text3)':'var(--text2)'};text-decoration:${HC.includes(item.id)?'line-through':'none'}">${item.text}</div></div>`).join('');}
+function hToggle(id){if(HC.includes(id))HC=HC.filter(c=>c!==id);else HC.push(id);hRender();}
+function hSaveProgress(){hPersist();hRender();showPage('home');}
+async function runAudit(){const name=HP.name||'your organization';const url=HP.url||'';const orgType=HP.orgType||'nonprofit';const c1=document.getElementById('a-c1').value.trim();const c2=document.getElementById('a-c2').value.trim();const competitors=[c1,c2].filter(Boolean).join(', ')||'none provided';document.getElementById('audit-running-name').textContent='Analyzing '+name;showPage('audit-running');const mods=['seo','aeo','geo','tech','content','social','backlink','brand','comp','ux','swot','rank'];const pf=document.getElementById('a-pf'),pl=document.getElementById('a-pl');for(let i=0;i<mods.length;i++){setSt('ast-'+mods[i],'running');pl.textContent='Running: '+mods[i].toUpperCase();pf.style.width=Math.round((i/mods.length)*85)+'%';await delay(400+Math.random()*250);setSt('ast-'+mods[i],'done');}pf.style.width='95%';pl.textContent='Generating report...';let data;try{data=await callGemini('You are a senior marketing strategist. Respond ONLY with a single valid JSON object. No markdown, no explanation, no text before or after the JSON.',`Marketing audit for "${name}" at ${url||'no URL provided'}, org type: ${orgType}, competitors: ${competitors}, mission: ${HP.mission||'not provided'}, goals: ${(HP.goals||[]).join(', ')||'not specified'}.\n\nReturn exactly this JSON structure:\n{\n  "overallScore": 52,\n  "grade": "C+",\n  "execSummary": "2-3 sentence summary of marketing health and top opportunity",\n  "scores": {"seo":45,"aeo":30,"geo":55,"technical":60,"content":50,"social":40,"backlink":35,"brand":65,"ux":70},\n  "sections": [\n    {\n      "id": "seo",\n      "title": "SEO and keyword analysis",\n      "score": 45,\n      "status": "needs-work",\n      "findings": [\n        {"type": "issue", "text": "specific finding"},\n        {"type": "win", "text": "specific positive"},\n        {"type": "opportunity", "text": "specific opportunity"}\n      ]\n    }\n  ],\n  "actions": {\n    "developer": [{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],\n    "designer": [{"priority":"med","title":"string","desc":"string","effort":"string","impact":"string"}],\n    "content": [{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}],\n    "marketing": [{"priority":"high","title":"string","desc":"string","effort":"string","impact":"string"}]\n  },\n  "swot": {\n    "strengths": ["specific strength"],\n    "weaknesses": ["specific weakness"],\n    "opportunities": ["specific opportunity"],\n    "threats": ["specific threat"]\n  }\n}\n\nInclude sections for SEO, AEO, GEO, Technical, Content, Social, Backlinks, Brand, UX. Make findings specific to this organization.`);}catch(e){data={overallScore:48,grade:'C',execSummary:`${name} has an established web presence with significant untapped opportunity. The highest-impact quick win is improving structured data and AEO to capture AI-driven search traffic. Several fixes require no technical skills or budget.`,scores:{seo:42,aeo:25,geo:50,technical:60,content:45,social:38,backlink:30,brand:60,ux:65},sections:[{id:'seo',title:'SEO and keyword analysis',score:42,status:'needs-work',findings:[{type:'issue',text:'Title tags are missing or duplicated on key pages — Google writes its own when yours are absent, and it rarely gets them right.'},{type:'opportunity',text:'Long-tail local keywords are likely unclaimed. A content cluster strategy could own these within 90 days.'},{type:'win',text:'Domain appears established with some organic presence to build on.'}]},{id:'aeo',title:'AEO — answer engine optimization',score:25,status:'critical',findings:[{type:'issue',text:'No FAQ schema markup detected. AI assistants like ChatGPT and Perplexity cannot pull structured answers from your site.'},{type:'issue',text:'Organization schema is missing. AI assistants cannot reliably identify, describe, or cite your organization.'},{type:'opportunity',text:'Adding FAQPage and Organization schema takes 2-3 hours and immediately improves AI search visibility.'}]},{id:'geo',title:'GEO — geographic and local',score:50,status:'fair',findings:[{type:'issue',text:'Google Business Profile optimization status unclear. An unoptimized profile means missing from map searches entirely.'},{type:'opportunity',text:'Local news mentions and community partner backlinks are a high-value, low-cost link-building strategy.'}]},{id:'technical',title:'Technical health',score:60,status:'fair',findings:[{type:'issue',text:'No structured data detected on any page.'},{type:'opportunity',text:'JSON-LD schema implementation takes under 3 hours and has outsized impact on both search and AI visibility.'}]}],actions:{developer:[{priority:'high',title:'Add JSON-LD Organization schema to homepage',desc:'Add structured data so AI assistants can identify and cite your org accurately.',effort:'2 hours',impact:'High'},{priority:'high',title:'Fix Core Web Vitals',desc:'Run PageSpeed Insights and address LCP, CLS, and FID issues.',effort:'4-8 hours',impact:'High'}],designer:[{priority:'high',title:'Primary CTA above the fold',desc:'Your most important action must be visible without scrolling on all devices.',effort:'Half day',impact:'High'}],content:[{priority:'high',title:'Write a FAQ page targeting AI search',desc:'Create 15+ Q&A pairs with FAQPage schema. AI assistants pull directly from structured FAQ content.',effort:'Half day',impact:'High'}],marketing:[{priority:'high',title:'Apply for Google Ad Grants',desc:'$10,000/month in free advertising for 501(c)(3) organizations. Most eligible orgs never apply.',effort:'1 day',impact:'Very high'}]},swot:{strengths:['Mission-driven purpose creates authentic compelling content','Existing community trust to leverage across channels','Eligible for free tools including Google Ad Grants and Canva nonprofit'],weaknesses:['Technical SEO gaps limiting organic reach','Low structured data coverage reducing AI visibility','Limited staff bandwidth for consistent content production'],opportunities:['AEO is wide open — most organizations ignore it entirely','Google Ad Grants likely unclaimed or underused','Local media and partners as link-building allies'],threats:['Larger organizations dominating local search results','AI search changing how people find services','Algorithm changes affecting organic reach without paid backup']}};}pf.style.width='100%';renderAudit(data,name);showPage('audit-out');}
+function renderAudit(d,name){const sc=Object.entries({seo:'SEO',aeo:'AEO',geo:'GEO',technical:'Tech',content:'Content',social:'Social',backlink:'Backlinks',brand:'Brand',ux:'UX'}).map(([k,l])=>`<div class="sc-tile"><div class="sc-val ${scColor((d.scores||{})[k]||0)}">${Math.round((d.scores||{})[k]||0)}</div><div class="sc-lbl">${l}</div></div>`).join('');const secs=(d.sections||[]).map((s,i)=>{const sb=s.status==='critical'?'bh':s.status==='needs-work'?'bm':s.status==='fair'?'bi':'bl';const fi=(s.findings||[]).map(f=>{const ic=f.type==='issue'?'ti-alert-circle':f.type==='win'?'ti-circle-check':'ti-bulb';const col=f.type==='issue'?'#A32D2D':f.type==='win'?'#0F6E56':'#854F0B';return `<div style="display:flex;gap:10px;margin-bottom:8px;padding-bottom:8px;border-bottom:0.5px solid var(--border)"><i class="ti ${ic}" style="font-size:14px;color:${col};margin-top:2px;flex-shrink:0"></i><div style="font-size:13px;color:var(--text2);line-height:1.5">${f.text}</div></div>`;}).join('');return `<div class="xcard"><div class="xhead" onclick="toggleX('ab-${i}')"><span class="xtitle">${s.title}</span><div style="display:flex;align-items:center;gap:8px"><span class="badge ${sb}">${s.status}</span><span style="font-size:13px;font-weight:500;color:var(--text2)">${Math.round(s.score||0)}/100</span><i class="ti ti-chevron-down" style="font-size:13px;color:var(--text3)"></i></div></div><div class="xbody" id="ab-${i}">${fi}</div></div>`;}).join('');const swot=d.swot||{};const sw2=`<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem">${[['Strengths','#E1F5EE','#085041',swot.strengths||[]],['Weaknesses','#FCEBEB','#791F1F',swot.weaknesses||[]],['Opportunities','#E6F1FB','#0C447C',swot.opportunities||[]],['Threats','#FAEEDA','#633806',swot.threats||[]]].map(([l,bg,col,items])=>`<div style="background:${bg};border-radius:var(--radius);padding:12px"><div style="font-size:11px;font-weight:600;color:${col};text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px">${l}</div>${items.map(i=>`<div style="font-size:12px;color:${col};line-height:1.5;margin-bottom:4px">— ${i}</div>`).join('')}</div>`).join('')}</div>`;const roles=['developer','designer','content','marketing'];const rLbls={developer:'For developers',designer:'For designers',content:'For content writers',marketing:'For marketing leads'};const rTabs=roles.map((r,i)=>`<button class="otab${i===0?' active':''}" onclick="switchTab('a-acts','a-role-${r}',this)">${rLbls[r]}</button>`).join('');const rContent=roles.map(r=>{const acts=((d.actions||{})[r]||[]).map(a=>`<div style="border-left:2px solid ${a.priority==='high'?'#D85A30':a.priority==='medium'||a.priority==='med'?'#EF9F27':'#1D9E75'};padding:10px 0 10px 14px;margin-bottom:10px"><div style="font-size:13px;font-weight:500;margin-bottom:3px">${a.title}</div><div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:4px">${a.desc}</div><div style="font-size:11px;color:var(--text3)">Effort: ${a.effort} &middot; Impact: ${a.impact}</div></div>`).join('');return `<div class="tab-panel${r==='developer'?' active':''}" id="a-role-${r}">${acts}</div>`;}).join('');document.getElementById('a-out').innerHTML=`<div class="wordmark">Growth Intelligence — <span style="color:var(--purple)">${name}</span></div><div style="background:var(--purple-light);border:0.5px solid #AFA9EC;border-radius:var(--radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem"><div style="display:flex;align-items:center;gap:1rem;margin-bottom:.75rem"><div style="font-size:36px;font-weight:500;color:#3C3489">${Math.round(d.overallScore||0)}<span style="font-size:16px;color:var(--purple)">/100</span></div><div style="font-size:13px;color:var(--purple)">Overall marketing health<br><strong style="color:#3C3489">Grade: ${d.grade||'C'}</strong></div></div><div style="font-size:13px;color:#3C3489;line-height:1.6">${d.execSummary||''}</div></div><div class="sc-grid">${sc}</div><h2 style="margin-bottom:.75rem">Audit findings</h2>${secs}<h2 style="margin-top:1.5rem;margin-bottom:.75rem">SWOT synthesis</h2>${sw2}<h2 style="margin-top:1.5rem;margin-bottom:.5rem">Action plan by role</h2><div id="a-acts"><div class="output-tabs">${rTabs}</div>${rContent}</div>`;}
+(function init(){hLoad();if(HP.name){document.getElementById('h-name').value=HP.name||'';document.getElementById('h-url').value=HP.url||'';document.getElementById('h-loc').value=HP.location||'';document.getElementById('h-mission').value=HP.mission||'';HOT=HP.orgType||'';if(HOT){document.querySelectorAll('.ot-card').forEach(c=>{if(c.getAttribute('onclick')?.includes("'"+HOT+"'"))c.classList.add('sel');});renderGoals(HOT,HP.goals||[]);}hRender();showPage('home');}})();
+</script>
+</body>
+</html>
