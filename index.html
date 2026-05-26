@@ -506,7 +506,7 @@ function saveProgress() {
 }
 
 // ─── GEMINI ──────────────────────────────────────────────────────────
-async function callGemini(system, prompt) {
+async function callGeminiOnce(system, prompt) {
   const res = await fetch(
     'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY,
     { method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -524,6 +524,22 @@ async function callGemini(system, prompt) {
   const start = txt.indexOf('{'), end = txt.lastIndexOf('}') + 1;
   if (start === -1) { console.error('No JSON in:', txt.slice(0,300)); throw new Error('No JSON'); }
   return JSON.parse(txt.slice(start, end));
+}
+
+async function callGemini(system, prompt) {
+  try {
+    return await callGeminiOnce(system, prompt);
+  } catch(e) {
+    if (e.message?.includes('quota') || e.message?.includes('RESOURCE_EXHAUSTED')) {
+      console.warn('Rate limited — waiting 45s and retrying...');
+      const lbl = document.getElementById('run-lbl');
+      if (lbl) lbl.textContent = 'Rate limit hit — retrying in 45 seconds...';
+      await wait(45000);
+      if (lbl) lbl.textContent = 'Retrying...';
+      return await callGeminiOnce(system, prompt);
+    }
+    throw e;
+  }
 }
 
 // ─── FALLBACK (org-aware, name-varied) ───────────────────────────────
