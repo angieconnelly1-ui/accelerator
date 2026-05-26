@@ -227,7 +227,7 @@ input:focus{outline:none;border-color:var(--blue)}
 
 <script>
 // ─── CONFIG ───────────────────────────────────────────────────────────
-const GEMINI_KEY = 'AIzaSyAaGS03v5GfJUKDPyUTd3sSShsEhXFrrTQ';
+const GEMINI_KEY = 'AIzaSyDzWSurvc6Wmk03ipV3B5HQM55uGn6FW58';
 const HK = 'npa-hub-v2';
 const PK = 'npa-prog-v2';
 
@@ -508,7 +508,7 @@ function saveProgress() {
 // ─── GEMINI ──────────────────────────────────────────────────────────
 async function callGemini(system, prompt) {
   const res = await fetch(
-    'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=' + GEMINI_KEY,
+    'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=' + GEMINI_KEY,
     { method: 'POST', headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         systemInstruction: { parts: [{ text: system }] },
